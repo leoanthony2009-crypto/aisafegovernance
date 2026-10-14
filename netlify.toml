@@ -1,0 +1,11 @@
+# AISG — AI Safeguarding and the 4Cs micro-course (AISG-MC-4CS-01 v1.3)
+# Drag-and-drop Netlify site: the course is index.html, fully self-contained.
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "no-referrer"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Cache-Control = "public, max-age=3600, must-revalidate"
