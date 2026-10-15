@@ -148,6 +148,15 @@ main.pane{min-width:0}
 .mini .eyebrow{display:block;margin-bottom:4px}
 .say{border-left:4px solid var(--gold);background:#FBF7EC;border-radius:0 9px 9px 0;padding:10px 14px;margin:0 0 10px;list-style:none}
 .say li{margin:2px 0}
+.facts{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px;padding:0;list-style:none}
+.facts li{font:600 .74rem var(--disp);letter-spacing:.04em;background:var(--surface-200);color:var(--navy);border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.route4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0 6px}
+.route4 .r4s{background:var(--paper);border:1px solid var(--line);border-top:4px solid var(--gold-deep);border-radius:10px;padding:10px 12px}
+.route4 .n{display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--navy);color:#fff;font:700 .78rem var(--disp);align-items:center;justify-content:center;margin-bottom:6px}
+.route4 h3{font-size:.92rem;margin:0 0 3px}
+.route4 p{font-size:.8rem;color:var(--muted);margin:0}
+@media(max-width:700px){.route4{grid-template-columns:1fr 1fr}}
+@media(max-width:380px){.route4{grid-template-columns:1fr}}
 
 /* scenarios + quiz */
 .opt{display:block;width:100%;text-align:left;background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;margin:0 0 9px;color:var(--ink)}
@@ -256,7 +265,7 @@ footer.ft{border-top:1px solid var(--line);background:var(--paper)}
 <footer class="ft">
   <div class="ft-in">
     <span>AISG — AI Safeguarding &amp; Governance · <a href="https://aisafegovernance.co.uk/" target="_blank" rel="noopener noreferrer">aisafegovernance.co.uk</a> · © 2026</span>
-    <span>Course AISG-MC-4CS-01 v1.5 · Content checked October 2026 · Review each term</span>
+    <span>Course AISG-MC-4CS-01 v1.6 · Content checked October 2026 · Review each term</span>
   </div>
 </footer>
 
@@ -325,7 +334,11 @@ L.push({m:0,min:3,t:'The 4Cs after KCSIE 2026',able:'place an AI incident under 
  TAKE('You don’t need to classify an incident before acting. If a child may be at risk, it goes to the DSL — the 4Cs help the DSL, not the first responder.')});
 L.push({m:1,min:2,t:'AI-made nudes and semi-nudes',able:'treat an AI-made image of a pupil exactly as seriously as a real one',h:
  '<div class="card"><p>Staff are now meeting images that were never taken: a pupil’s face on an AI-generated body, a “nudified” photo from a school event, or an image someone threatens to make. KCSIE 2026 and the UKCIS guidance <em>Sharing nudes and semi-nudes</em> (updated March 2024) treat these within the same category as real imagery.</p>'+
- '<ul><li><strong>“It’s fake” changes nothing.</strong> The harm, the law and your response route are the same.</li><li>It is a crime to make, possess or share sexual imagery of a child — AI-generated included. That is for the DSL and police to handle, not for staff to investigate.</li><li>An image <em>threatened</em> but not yet shared is still a safeguarding concern.</li><li>A pupil who received or forwarded another child’s image also needs a safeguarding response, not an automatic behaviour one.</li></ul></div>'+
+ '<table class="ctb"><caption class="vh">Common misconceptions about AI-made imagery, and the reality</caption><tr><th scope="col">If you hear…</th><th scope="col">The reality</th></tr>'+
+ '<tr><th scope="row">“It’s fake, so it’s less serious”</th><td>The harm, the law and your response route are exactly the same as for a real image.</td></tr>'+
+ '<tr><th scope="row">“No one has actually shared it yet”</th><td>An image <em>threatened</em> but not yet shared is still a safeguarding concern — act now.</td></tr>'+
+ '<tr><th scope="row">“Let’s find out who made it”</th><td>Making, possessing or sharing sexual imagery of a child — AI-generated included — is a crime. That is for the DSL and police to handle, <span class="never">never</span> for staff to investigate.</td></tr>'+
+ '<tr><th scope="row">“The pupil who forwarded it is just an offender”</th><td>A pupil who received or forwarded another child’s image also needs a safeguarding response, not an automatic behaviour one.</td></tr></table></div>'+
  '<div class="card"><h3 style="font-size:1rem;margin-bottom:6px">If the image is of a member of staff</h3><p style="margin:0">AI-made sexual imagery of a staff member or volunteer is an allegation-level concern. It goes to the <strong>headteacher</strong>, not to the person shown; if it concerns the headteacher, to the <strong>chair of governors</strong>.</p></div>'+
  TAKE('Treat every nude or sexual image of a pupil — real, altered or entirely AI-made — the same way: never view, never copy, tell the DSL.')});
 L.push({m:1,min:3,t:'Companion apps and chatbot disclosures',able:'spot dependency and secrecy patterns, and treat a disclosure to a chatbot as a disclosure',h:
@@ -341,7 +354,11 @@ L.push({m:1,min:3,t:'Companion apps and chatbot disclosures',able:'spot dependen
 L.push({m:2,min:2,t:'The first five minutes',able:'respond to a disclosure calmly, without promising secrecy',h:
  '<div class="card"><p>How the first adult responds shapes everything that follows. Stay calm, slow down, and let the pupil talk.</p>'+
  '<ul class="say"><li>“Thank you for telling me.”</li><li>“You are not in trouble.”</li><li>“This is not your fault.”</li><li>“We will get help.”</li></ul>'+
- '<ul><li><strong>Do not promise to keep it secret.</strong> Say who you will tell and why: “I need to share this with [the DSL] because their job is to keep you safe.”</li><li>Don’t react with shock or anger — the pupil is watching your face.</li><li>Don’t ask leading questions or interview. Let them use their own words.</li><li>Reassure them that telling you was the right thing to do.</li></ul></div>'+
+ '<table class="ctb"><caption class="vh">First five minutes: what to do and what never to do</caption><tr><th scope="col">Do</th><th scope="col">Never</th></tr>'+
+ '<tr><td>Say who you will tell and why: “I need to share this with [the DSL] because their job is to keep you safe.”</td><td><span class="never">Never</span> promise to keep it secret.</td></tr>'+
+ '<tr><td>Stay calm — the pupil is watching your face.</td><td>React with shock or anger.</td></tr>'+
+ '<tr><td>Let them use their own words, at their own pace.</td><td>Ask leading questions, or interview.</td></tr>'+
+ '<tr><td>Reassure them that telling you was the right thing to do.</td><td>Send them away unsure of what happens next.</td></tr></table></div>'+
  TAKE('Listen, reassure, and be honest about what happens next. The pupil needs to leave the conversation feeling believed, not interrogated.')});
 L.push({m:2,min:3,t:'Images and devices: the never list',able:'handle an incident without viewing, copying or investigating',h:
  '<div class="card"><p>With imagery, well-meaning staff cause the most harm by trying to check or evidence things themselves.</p>'+
@@ -354,7 +371,10 @@ L.push({m:2,min:3,t:'Images and devices: the never list',able:'handle an inciden
  TAKE('Your job is the child in front of you, not the evidence. Securing, viewing and deciding are the DSL’s job and the police’s.')});
 L.push({m:2,min:2,t:'Report, record, refer',able:'record the right facts and use the right route, even when the DSL is out',h:
  '<div class="grid2"><div class="card" style="margin:0"><h3 style="font-size:1rem;margin-bottom:6px">Report and record</h3>'+
- '<ul><li>Tell the DSL <strong>the same day</strong>, in person or by phone — not by email alone.</li><li>Record factually: date, time, the pupil’s own words, the app or platform, usernames — <strong>never a copy of the image</strong>, never your speculation.</li><li>Record on your school’s safeguarding system the same day.</li><li>For threats or demands for money (sextortion): go to the DSL <strong>before the pupil goes home</strong>. Advise the pupil to stop replying and not to pay or send more; don’t delete messages or accounts yet.</li></ul></div>'+
+ '<table class="ctb"><caption class="vh">Report and record: each step, its deadline and how to do it</caption><tr><th scope="col">Step</th><th scope="col">Deadline</th><th scope="col">How</th></tr>'+
+ '<tr><th scope="row">Tell the DSL</th><td><strong>Same day</strong></td><td>In person or by phone — not by email alone.</td></tr>'+
+ '<tr><th scope="row">Record the facts</th><td><strong>Same day</strong></td><td>Date, time, the pupil’s own words, the app or platform, usernames — on your school’s safeguarding system. <span class="never">Never</span> a copy of the image, never your speculation.</td></tr>'+
+ '<tr><th scope="row">Sextortion — threats or demands for money</th><td><strong>Before the pupil goes home</strong></td><td>Go to the DSL at once. Advise the pupil to stop replying and not to pay or send more; don’t delete messages or accounts yet.</td></tr></table></div>'+
  '<div class="card" style="margin:0"><h3 style="font-size:1rem;margin-bottom:6px">Refer — and the back-up route</h3>'+
  '<p style="font-size:.88rem;margin:0 0 6px">The DSL leads referral decisions; UKCIS advises immediate referral to police and/or children’s social care where, for example, an adult is involved, there is coercion or blackmail, or a child is at immediate risk.</p>'+
  '<table class="ctb"><caption class="vh">Who to go to, by situation</caption><tr><th scope="col">Situation</th><th scope="col">Route</th></tr>'+
@@ -366,22 +386,22 @@ L.push({m:2,min:2,t:'Report, record, refer',able:'record the right facts and use
  TAKE('Same day, in person, facts only. Safeguarding never waits for the DSL to be back in the building.')});
 
 /* scenarios */
-function scen(id,label,setting,q,opts){ return {m:3,min:3,t:label,able:'choose the safest first action and explain why',type:'scen',id:id,h:'',setting:setting,q:q,opts:opts}; }
+function scen(id,label,setting,q,opts,facts){ return {m:3,min:3,t:label,able:'choose the safest first action and explain why',type:'scen',id:id,h:'',setting:setting,q:q,opts:opts,facts:facts||[]}; }
 L.push(scen('A','Scenario A: the AI-made image','A Year 9 pupil tells you, at the end of your lesson, that a manipulated sexual image that looks like them is circulating in a group chat. They are tearful and say “everyone has seen it”.','What should you do first?',[
  {t:'Ask the pupil to show you the image so you can confirm what is circulating.',fb:'No. Staff never view the imagery — you don’t need to see it to act, and viewing or copying can itself cause harm and legal risk.'},
  {t:'Listen and reassure the pupil, don’t ask to see anything, and tell the DSL before the end of the day.',best:1,fb:'Best first action. Reassure (“you are not in trouble, this is not your fault”), don’t view or copy, note their words, and go to the DSL the same day — in person or by phone.'},
  {t:'Message the group chat members telling them to delete the image immediately.',fb:'No. Don’t investigate or confront — and never order deletion: if police become involved, deleted material matters. Who is contacted, and when, is the DSL’s decision.'},
- {t:'Email the DSL so there is a written record, and wait for them to pick it up.',fb:'Not safe enough. An email can sit unread while the image spreads and the pupil is at risk. Tell the DSL in person or by phone today; the written record follows on the safeguarding system.'}]));
+ {t:'Email the DSL so there is a written record, and wait for them to pick it up.',fb:'Not safe enough. An email can sit unread while the image spreads and the pupil is at risk. Tell the DSL in person or by phone today; the written record follows on the safeguarding system.'}],['Year 9 pupil','End of your lesson','AI-made sexual image circulating']));
 L.push(scen('B','Scenario B: the AI companion','A Year 8 pupil tells you they talk to an AI companion app “all the time”, that it is “the only one who gets them”, and that it told them to keep the conversations secret from their parents.','How should you respond?',[
  {t:'Reassure them it is just an app and nothing to worry about.',fb:'No. Dependency plus encouraged secrecy and distance from trusted adults is a safeguarding pattern, whatever the source. Minimising it closes the door they just opened.'},
  {t:'Tell them AI apps are banned and they must delete it tonight.',fb:'No. A ban-and-delete response punishes the disclosure, pushes the behaviour underground, and loses the relationship. It also isn’t your decision to make alone.'},
  {t:'Listen without judgement, thank them for telling you, and pass it to the DSL the same day as a safeguarding concern.',best:1,fb:'Best response. Take it seriously, don’t shame them, note what they said in their words, and let the DSL assess the pattern — dependency, secrecy, isolation — and involve parents where safe.'},
- {t:'Ask them to show you the chat history so you can judge how serious it is.',fb:'Not your role. You don’t need to read the conversations to refer the concern — describe what the pupil told you and let the DSL decide what, if anything, needs examining.'}]));
+ {t:'Ask them to show you the chat history so you can judge how serious it is.',fb:'Not your role. You don’t need to read the conversations to refer the concern — describe what the pupil told you and let the DSL decide what, if anything, needs examining.'}],['Year 8 pupil','Tells you directly','AI companion — dependency and secrecy']));
 L.push(scen('C','Scenario C: the chatbot disclosure','A Year 10 pupil stays behind after class and says that last night they told an AI chatbot they had been having thoughts of hurting themselves. They say the chatbot “sort of helped”.','What immediate safeguarding action is needed?',[
  {t:'Treat it as a disclosure of self-harm thoughts: listen, don’t promise secrecy, and tell the DSL immediately — today, before the pupil goes home.',best:1,fb:'Correct. The chatbot is incidental: a pupil has told you about thoughts of self-harm. That goes to the DSL at once, and the pupil shouldn’t be left feeling alone with it. If you believe there is immediate danger, call 999.'},
  {t:'Since the chatbot helped, note it in your planner and mention it at the next staff meeting.',fb:'No. A chatbot cannot assess risk and may have responded harmfully. Thoughts of self-harm always go to the DSL the same day — never wait for a convenient moment.'},
  {t:'Ask the pupil detailed questions about what methods they discussed with the chatbot.',fb:'No. Don’t interview or press for detail — that is for trained colleagues. Listen to what they offer, reassure them, and take it straight to the DSL.'},
- {t:'Advise them to use a better-known wellbeing app instead.',fb:'No. Recommending a different app leaves the risk unassessed and suggests tools can replace people. This needs the DSL and, through them, real support for the pupil.'}]));
+ {t:'Advise them to use a better-known wellbeing app instead.',fb:'No. Recommending a different app leaves the risk unassessed and suggests tools can replace people. This needs the DSL and, through them, real support for the pupil.'}],['Year 10 pupil','Stays behind after class','Self-harm thoughts disclosed to a chatbot']));
 
 /* quiz */
 var QUIZ=[
@@ -566,7 +586,8 @@ function nav(i){
 }
 function renderScen(l,i){
   var ans=st.scen[l.id];
-  var s='<div class="scene"><span class="eyebrow">Practice scenario · choose one</span><p style="margin:0">'+esc(l.setting)+'</p></div><h3 style="margin-bottom:10px">'+esc(l.q)+'</h3>';
+  var fx=(l.facts||[]).map(function(f){return '<li>'+esc(f)+'</li>';}).join('');
+  var s='<div class="scene"><span class="eyebrow">Practice scenario · choose one</span>'+(fx?'<ul class="facts" aria-label="Scenario at a glance">'+fx+'</ul>':'')+'<p style="margin:0">'+esc(l.setting)+'</p></div><h3 style="margin-bottom:10px">'+esc(l.q)+'</h3>';
   l.opts.forEach(function(o,oi){
     var state = ans!=null ? (o.best?'best':(oi===ans?'no':'')) : '';
     s+='<button class="opt" data-opt="'+oi+'"'+(state?' data-state="'+state+'"':'')+(ans!=null?' aria-disabled="true"':'')+'>'+
@@ -616,6 +637,8 @@ function renderEnd(){
     var fu=L.findIndex(function(l,i){return !st.seen[i]&&l.type!=='end';});
     s+='<div class="card"><h3 style="margin-bottom:6px">Almost there</h3><p>Your completion note appears here once every lesson has been visited and the knowledge check is complete.</p>'+(fu>-1?'<button class="btn" data-go="'+fu+'">Go to your next unfinished lesson</button>':'')+'</div>';
   }
+  var R4=[['Recognise','Any of the 4Cs — content, contact, conduct, commerce. AI changes what they look like, not the route.'],['Respond','Listen and reassure. Never view, copy or investigate. No promises of secrecy.'],['Record','Same day, facts only: their words, the platform, usernames — never the image.'],['Refer','DSL today, in person or by phone. 999 if immediate danger. About staff → headteacher; about the head → chair of governors.']];
+  s+='<h2 style="font-size:1.25rem;margin:18px 0 6px">The route — one last look</h2><div class="route4">'+R4.map(function(r,ri){return '<div class="r4s"><span class="n" aria-hidden="true">'+(ri+1)+'</span><h3>'+r[0]+'</h3><p>'+r[1]+'</p></div>';}).join('')+'</div>';
   s+='<h2 style="font-size:1.25rem;margin:18px 0 10px">Free take-away resources</h2><div class="res">';
   RES.forEach(function(r,ri){ s+='<div class="card"><h3>'+esc(r.n)+'</h3><p>'+esc(r.d)+'</p><button class="btn ghost" data-res="'+ri+'">Download</button></div>'; });
   s+='</div><p class="note" style="margin:10px 0 18px">Each file is self-contained, prints on one A4 page, and is an independent AISG educational resource — not an official NSPCC, Childline or IWF publication. Verified links: childline.org.uk · iwf.org.uk · ceop.police.uk · gov.uk (KCSIE and UKCIS <em>Sharing nudes and semi-nudes</em>).</p>';
