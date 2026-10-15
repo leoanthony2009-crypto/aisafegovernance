@@ -1,0 +1,72 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://purl.imsglobal.org/spec/ob/v3p0/context-3.0.3.json"
+  ],
+  "id": "https://teal-selkie-a05a25.netlify.app/badges/aisg-mc-4cs-01.json",
+  "type": [
+    "Achievement"
+  ],
+  "achievementType": "CertificateOfCompletion",
+  "name": "AI Safeguarding and the 4Cs — CPD update after KCSIE 2026",
+  "humanCode": "AISG-MC-4CS-01",
+  "version": "1.6",
+  "inLanguage": "en-GB",
+  "description": "A 30-minute self-paced CPD update for DSLs and whole-school staff in England on AI safeguarding and the 4Cs of online safety after Keeping Children Safe in Education 2026. 30 minutes (0.5 CPD hours).",
+  "criteria": {
+    "narrative": "Visit every lesson of the five modules (including three practice scenarios) and answer all five knowledge-check questions correctly. Learning outcomes: 1. Explain what KCSIE 2026 adds about AI within the 4Cs: content, contact, conduct and commerce. 2. Recognise AI-related risks: AI-generated nudes and semi-nudes, companion apps and chatbot disclosures. 3. Respond to a disclosure safely: no promise of secrecy, and never view, copy or investigate imagery. 4. Record the facts the same day and refer to the DSL, using back-up routes if the DSL is unavailable. 5. Signpost Report Remove, CEOP, Childline and the NSPCC Helpline appropriately."
+  },
+  "image": {
+    "id": "https://teal-selkie-a05a25.netlify.app/badges/aisg-mc-4cs-01.png",
+    "type": "Image",
+    "caption": "AISG digital badge: AI Safeguarding and the 4Cs, CPD completed, KCSIE 2026 update"
+  },
+  "fieldOfStudy": "Safeguarding and child protection",
+  "tag": [
+    "safeguarding",
+    "online safety",
+    "AI",
+    "KCSIE 2026",
+    "CPD",
+    "DSL"
+  ],
+  "alignment": [
+    {
+      "type": [
+        "Alignment"
+      ],
+      "targetName": "Keeping children safe in education 2026",
+      "targetUrl": "https://www.gov.uk/government/publications/keeping-children-safe-in-education--2",
+      "targetDescription": "Statutory guidance for schools and colleges in England: online safety and the 4Cs."
+    },
+    {
+      "type": [
+        "Alignment"
+      ],
+      "targetName": "UKCIS: Sharing nudes and semi-nudes",
+      "targetUrl": "https://www.gov.uk/government/publications/sharing-nudes-and-semi-nudes-advice-for-education-settings-working-with-children-and-young-people",
+      "targetDescription": "Advice for education settings working with children and young people."
+    }
+  ],
+  "resultDescription": [
+    {
+      "id": "urn:aisg:aisg-mc-4cs-01:knowledge-check",
+      "type": [
+        "ResultDescription"
+      ],
+      "name": "Knowledge check: questions right first time",
+      "resultType": "RawScore",
+      "valueMin": "0",
+      "valueMax": "5"
+    }
+  ],
+  "creator": {
+    "id": "https://teal-selkie-a05a25.netlify.app/badges/issuer.json",
+    "type": [
+      "Profile"
+    ],
+    "name": "AISG — AI Safeguarding & Governance",
+    "url": "https://aisafegovernance.co.uk/",
+    "description": "Independent AI safeguarding and governance training and resources for schools in England."
+  }
+}

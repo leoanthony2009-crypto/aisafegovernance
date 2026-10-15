@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Staff quick reference: nude, semi-nude or sexual image of a pupil</title>
+<style>
+/* Staff quick reference, v1.4 design system.
+   One A4 page, read in the order you act: danger, tell, four steps, special cases, Report Remove, DSL, contacts.
+   One typeface, one card system, one accent (the school colour). Colour is never the only signal: every panel has
+   a heading and a border, so it survives a black-and-white photocopier. Dashed boxes are the school's own details. */
+:root{
+  --brand:#1F3A5F; --brand-tint:#EAF0F6; --band:#1F3A5F; --on-band:#FFFFFF; --on-band-muted:#C9D6E6;
+  --ink:#1A1F24; --muted:#4B5661; --line:#D3D9DF; --paper:#FFFFFF; --surface:#F4F6F8;
+  --danger:#B42318; --danger-ink:#9A1C12; --danger-tint:#FDEEEC; --danger-line:#F0B9B2;
+  --edit:#B7791F; --radius:8px;
+  --font:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Inter,Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --brand:#9DB8DA; --brand-tint:#1A2533; --band:#162235; --on-band:#F2F5F8; --on-band-muted:#AFC0D4;
+  --ink:#E7EAEE; --muted:#AEB8C2; --line:#36404B; --paper:#11151A; --surface:#181D23;
+  --danger:#C8372B; --danger-ink:#F4A69D; --danger-tint:#2E1A18; --danger-line:#6B2C25; --edit:#E8B866; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --brand:#9DB8DA; --brand-tint:#1A2533; --band:#162235; --on-band:#F2F5F8; --on-band-muted:#AFC0D4;
+  --ink:#E7EAEE; --muted:#AEB8C2; --line:#36404B; --paper:#11151A; --surface:#181D23;
+  --danger:#C8372B; --danger-ink:#F4A69D; --danger-tint:#2E1A18; --danger-line:#6B2C25; --edit:#E8B866; color-scheme:dark }
+
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink)}
+body{font:15px/1.5 var(--font);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{max-width:880px;margin:0 auto;padding:0 20px 32px;display:flex;flex-direction:column;gap:12px}
+h1,h2,h3{margin:0;line-height:1.2;font-weight:700;text-wrap:balance}
+p,ul,ol{margin:0}
+a{color:inherit;text-decoration-thickness:1px;text-underline-offset:2px}
+html{scroll-padding-top:7rem}
+a:focus-visible,button:focus-visible{outline:3px solid transparent;background:#FFBF47;color:#0B0C0C;box-shadow:0 -2px #FFBF47,0 4px #0B0C0C;text-decoration:none}
+.num{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fill{display:inline-block;min-width:10em;border-bottom:1px solid currentColor;height:1.05em;vertical-align:baseline;opacity:.7}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ico{width:1.15em;height:1.15em;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* editing bar (screen only) */
+.toolbar{position:sticky;top:0;z-index:5;margin:0 -20px;background:var(--paper);border-bottom:1px solid var(--line);
+  padding:10px 20px;display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;font-size:.9rem}
+.toolbar p{flex:1 1 300px;color:var(--muted)} .toolbar p strong{color:var(--ink)}
+.toolbar button{font:600 .9rem var(--font);min-height:40px;padding:8px 16px;border-radius:6px;border:1px solid var(--brand);
+  background:var(--brand);color:var(--paper);cursor:pointer}
+.toolbar button.ghost{background:transparent;color:var(--brand);border-color:var(--line)}
+.toolbar button.ghost:hover{border-color:var(--brand)}
+.toolbar .status{flex-basis:100%;font-size:.84rem;min-height:1.2em}
+[contenteditable]{outline:2px dashed var(--edit);outline-offset:2px;cursor:text;border-radius:3px}
+[contenteditable]:focus{outline-style:solid;background:var(--paper);color:var(--ink)}
+
+/* masthead: the school colour carries the identity */
+.masthead{margin:14px 0 0}
+.band{background:var(--band);color:var(--on-band);border-radius:var(--radius);padding:16px 20px 18px;display:flex;gap:16px;align-items:center}
+.band-text{flex:1;min-width:0}
+.school{display:inline-block;font-weight:600;font-size:.95rem;color:var(--on-band-muted)}
+.band h1{font-size:1.75rem;letter-spacing:-.01em;margin-top:2px;color:var(--on-band)}
+.doc{flex:none;text-align:right;font-size:.85rem;line-height:1.35;color:var(--on-band-muted);align-self:flex-start;padding-top:2px}
+.doc strong{display:block;color:var(--on-band);font-weight:600}
+.crest-tile{flex:none;background:#fff;border-radius:6px;padding:5px;display:grid;place-items:center}
+.crest{display:block;width:44px;height:auto}
+.sub{padding:9px 2px 0;color:var(--muted);font-size:.92rem}
+
+/* urgent row */
+.urgent{display:grid;grid-template-columns:1fr 1.9fr;gap:10px}
+.u{border-radius:var(--radius);padding:12px 16px;display:flex;gap:12px;align-items:center}
+.u .ico{width:28px;height:28px}
+.u .k,.rr h3,.c b{font-size:.82rem;font-weight:600}
+.u .v{display:block;font-weight:700;font-size:1.65rem;line-height:1.15;letter-spacing:-.01em}
+.u.danger{background:var(--danger);color:#fff}
+.u.danger a{color:inherit;text-decoration:none}
+.u.tell{background:var(--brand-tint);border:1px solid var(--line);box-shadow:inset 6px 0 0 var(--brand);padding-left:22px}
+.u.tell .ico{color:var(--brand)}
+.u.tell .k{color:var(--muted)}
+.u.tell .v{font-size:1.35rem;color:var(--ink);margin-top:4px}
+.u.tell p{font-size:.88rem;margin-top:2px;color:var(--muted)}
+
+/* four steps: a real sequence, so numbered and joined */
+.steps{list-style:none;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;counter-reset:s}
+.steps>li{position:relative;counter-increment:s;min-width:0;margin-top:34px;padding:11px 12px 12px;background:var(--surface);border-radius:var(--radius)}
+.steps>li::before{content:counter(s);position:absolute;top:-34px;left:0;width:26px;height:26px;border-radius:50%;
+  background:var(--brand);color:var(--paper);font-weight:700;font-size:.9rem;display:grid;place-items:center}
+.steps>li:not(:last-child)::after{content:"";position:absolute;top:-22px;left:32px;right:-6px;height:2px;background:var(--brand);opacity:.45}
+.steps h3{font-size:1rem;color:var(--ink)}
+.steps p{font-size:.86rem;margin-top:6px}
+.say{list-style:none;padding:0 0 0 9px;border-left:3px solid var(--brand);font-size:.86rem;margin-top:6px}
+.never{color:var(--danger-ink);font-weight:700}
+
+/* panels: one card system, two variants */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{border:1px solid var(--line);border-radius:var(--radius);padding:11px 14px}
+.card h2{font-size:1rem;color:var(--ink);margin-bottom:6px;display:flex;gap:8px;align-items:center}
+.card ul{padding-left:18px;font-size:.88rem}
+.card li{margin-bottom:3px} .card li::marker{color:var(--muted)}
+.card.warn{background:var(--danger-tint);border-color:var(--danger-line);box-shadow:inset 6px 0 0 var(--danger);padding-left:20px}
+.card.warn h2{color:var(--danger-ink)}
+.card.key{border:1.5px solid var(--brand)}
+.card.key h2,.card.rr h2{color:var(--brand)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .card.key h2,:root:not([data-theme="light"]) .card.rr h2{color:var(--brand)}}
+
+.rr-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:18px}
+.rr-grid p,.rr-grid li{font-size:.86rem}
+.rr-grid p+p{margin-top:6px}
+.rr-grid ul{padding-left:18px}
+.rr h3{color:var(--muted);margin-bottom:4px}
+.rr-grid>div+div{border-left:1px solid var(--line);padding-left:18px}
+
+.key .lead{font-size:.88rem;color:var(--muted);margin-bottom:6px}
+.key ol{display:grid;grid-template-columns:1fr 1fr;grid-auto-flow:column;grid-template-rows:repeat(3,auto);gap:3px 24px;padding-left:20px;font-size:.88rem}
+.key ol li::marker{font-weight:700;color:var(--brand)}
+.key .after{font-size:.86rem;margin-top:8px;border-top:1px solid var(--line);padding-top:7px}
+
+/* contacts */
+.contacts{list-style:none;padding:0;display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.c{padding:8px 12px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-size:.86rem;min-width:0}
+.c:nth-child(3n){border-right:0}
+.c:nth-last-child(-n+3){border-bottom:0}
+.c b{display:block;color:var(--muted);margin-bottom:1px}
+.c .url{overflow-wrap:anywhere}
+
+footer{font-size:.76rem;color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 18px;border-top:1px solid var(--line);padding-top:8px}
+footer a{color:var(--muted)}
+
+@media (max-width:760px){
+  .urgent,.cols,.rr-grid{grid-template-columns:1fr}
+  .rr-grid>div+div{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:10px}
+  .key ol{grid-template-columns:1fr;grid-auto-flow:row;grid-template-rows:none}
+  .steps{grid-template-columns:1fr 1fr}
+  .steps>li::after{display:none}
+  .contacts{grid-template-columns:1fr 1fr}
+  .c:nth-child(3n){border-right:1px solid var(--line)} .c:nth-child(2n){border-right:0}
+  .c:nth-last-child(-n+3){border-bottom:1px solid var(--line)} .c:nth-last-child(-n+2){border-bottom:0}
+  .band{flex-wrap:wrap} .doc{text-align:left;flex-basis:100%;order:3} .band h1{font-size:1.45rem}
+}
+@media (max-width:760px){ .toolbar{position:static} .c a.num,.u.tell a.num{display:inline-block;padding:8px 2px;margin:-8px 0} }
+@media (max-width:420px){
+  .doc{display:none}
+  .steps>li{margin-top:0;padding:12px 12px 12px 48px}
+  .steps>li::before{top:12px;left:12px}
+  .steps,.contacts{grid-template-columns:1fr} .c{border-right:0!important;border-bottom:1px solid var(--line)!important} .c:last-child{border-bottom:0!important} }
+
+@media print{
+  :root,:root:not([data-theme="light"]),:root[data-theme="dark"]{
+    --brand:#1F3A5F;--brand-tint:#EEF2F7;--band:#1F3A5F;--on-band:#fff;--on-band-muted:#D5DEEA;
+    --ink:#000;--muted:#3A444E;--line:#AEB7C0;--paper:#fff;--surface:#E6EBEF;
+    --danger:#B42318;--danger-ink:#8E1A10;--danger-tint:#FDF1EF;--danger-line:#E3A39B}
+  @page{size:A4 portrait;margin:8mm}
+  .toolbar{display:none!important}
+  [contenteditable]{outline:none!important}
+  body{font-size:8.7pt;line-height:1.28;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .sheet{max-width:none;padding:0;gap:4.6pt}
+  .masthead{margin:0}
+  .band{padding:6pt 10pt 7pt;gap:10pt;border-radius:5pt}
+  .school{font-size:9pt} .band h1{font-size:16pt} .doc{font-size:8pt}
+  .crest{width:30pt} .crest-tile{padding:3pt;border-radius:4pt}
+  .sub{padding:3pt 0 0;font-size:8.5pt}
+  .urgent,.steps,.cols{gap:5pt}
+  .u{padding:5pt 10pt;gap:8pt;border-radius:5pt} .u.danger{box-shadow:0 0 0 1.5pt #5A0F09} .u.tell{padding-left:13pt;box-shadow:inset 4pt 0 0 var(--brand)} .card.warn{padding-left:12pt;box-shadow:inset 4pt 0 0 var(--danger)} .u .ico{width:17pt;height:17pt}
+  .u .k,.rr h3,.c b{font-size:7.8pt} .u .v{font-size:17pt} .u.tell .v{font-size:13.5pt;margin-top:0} .u.tell p{font-size:8.5pt;margin-top:0}
+  .steps>li{margin-top:20pt;padding:5pt 7pt 6pt;border-radius:5pt}
+  .steps>li::before{top:-20pt;width:17pt;height:17pt;font-size:8.6pt}
+  .steps>li:not(:last-child)::after{top:-12pt;left:21pt;right:-3pt;height:1pt;opacity:1}
+  .steps h3{font-size:10pt} .steps p,.say{font-size:8.5pt;margin-top:3pt}
+  .card{padding:5pt 9pt;border-radius:5pt} .card h2{font-size:10pt;margin-bottom:3pt;gap:5pt}
+  .card ul,.key ol,.key .lead,.key .after{font-size:8.5pt} .card li{margin-bottom:1pt}
+  .rr-grid{gap:8pt} .rr-grid>div+div{padding-left:8pt} .rr-grid p,.rr-grid li{font-size:8.5pt} .rr-grid p+p{margin-top:3pt} .rr h3{margin-bottom:1pt}
+  .key .lead{margin-bottom:2pt} .key ol{gap:1pt 14pt} .key .after{margin-top:4pt;padding-top:3pt}
+  .contacts{border-radius:5pt} .c{padding:3pt 7pt;font-size:8.5pt} .c b{margin-bottom:0}
+  footer{font-size:7.6pt;gap:1pt 10pt;padding-top:3pt}
+  a{text-decoration:none}
+  .urgent,.steps,.cols,.key,.contacts,.rr{break-inside:avoid}
+}
+
+/* editor */
+[hidden]{display:none!important}
+.toolbar{flex-direction:column;align-items:stretch;gap:8px}
+.tb-row{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;justify-content:space-between}
+.toolbar .tb-title{flex:1 1 300px}
+.tb-actions,.tb-group{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center}
+.tb-group .lbl{font-size:.84rem;font-weight:600;color:var(--ink);margin-right:2px}
+.toolbar .swatch{width:30px;height:30px;min-height:0;padding:0;border-radius:50%;border:2px solid var(--paper);box-shadow:0 0 0 1px var(--line);cursor:pointer}
+.toolbar .swatch[aria-pressed="true"]{box-shadow:0 0 0 2px var(--ink)}
+.pick{display:inline-flex;gap:6px;align-items:center;font-size:.84rem;color:var(--muted);margin-left:4px}
+.pick input{width:38px;height:30px;padding:0 2px;border:1px solid var(--line);border-radius:6px;background:var(--paper);cursor:pointer}
+.toolbar .tb-note{font-size:.8rem;flex:none}
+.toolbar .status{color:var(--ink);font-weight:600}
+[contenteditable]{outline:1px dashed transparent}
+.editing [contenteditable]{outline:1px dashed rgba(183,121,31,.5)}
+.editing [contenteditable]:hover{outline:1px dashed var(--edit)}
+.editing [contenteditable]:focus{outline:2px solid var(--edit)}
+.band [contenteditable]:focus{background:transparent;color:inherit;outline-color:#FFBF47}
+.u.danger [contenteditable]:focus{background:transparent;color:#fff;outline-color:#fff}
+@media (max-width:420px){ .tb-actions button{flex:1 1 auto} }
+</style>
+</head>
+<body>
+<main class="sheet" data-store="aisg-sqr-any" data-color="">
+  <header class="masthead">
+    <div class="band">
+      <div class="crest-tile" hidden><img class="crest" alt=""></div>
+      <div class="band-text">
+        <span class="school">[Your school name]</span>
+        <h1>Nude, semi-nude or sexual image of a pupil: what to do</h1>
+      </div>
+      <p class="doc"><strong>Staff quick reference</strong><span>October 2026</span></p>
+    </div>
+    <p class="sub">For all staff, supply staff and volunteers. DSL means Designated Safeguarding Lead.</p>
+  </header>
+
+  <section class="urgent" aria-label="Urgent action">
+    <div class="u danger"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+      <div><h2 class="k">Child in immediate danger</h2><a class="v" href="tel:999">Call 999</a></div></div>
+    <div class="u tell"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <div><h2 class="k">Every other concern, straight away</h2>
+      <span class="v">Tell the DSL on [school office number]</span>
+      <p>Deputy DSL: <span>[name and phone]</span></p></div></div>
+  </section>
+
+  <h2 class="vh">What to do: four steps</h2>
+  <ol class="steps" role="list" aria-label="Four steps">
+    <li><h3>Listen and reassure</h3>
+      <ul class="say" role="list"><li>“Thank you for telling me.”</li><li>“You are not in trouble.”</li><li>“This is not your fault.”</li><li>“We will get help.”</li></ul>
+      <p>Do not promise to keep it secret.</p></li>
+    <li><h3>Don’t look, don’t copy</h3>
+      <p>If shown an image, look away. If handed a device, don’t look at it: keep it secure for the DSL. <span class="never">Never</span> ask for, forward, save or screenshot it. On your own device? Don’t open, share or delete it.</p>
+      <p>Don’t confront anyone, investigate or contact parents.</p></li>
+    <li><h3>Note what you heard</h3>
+      <p>The child’s own words, usernames and the app or website, without looking at the device.</p>
+      <p><strong>Never a copy of the image.</strong></p></li>
+    <li><h3>Tell the DSL</h3>
+      <p>Now, in person or by phone, not by email. Record it the same day on the safeguarding system.</p>
+      <p>Can’t reach the DSL or deputy and a child is at risk? Call children’s social care (below) or the police.</p></li>
+  </ol>
+
+  <section class="cols">
+    <div class="card warn"><h2><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"/></svg><span class="t">Threats or demands for money</span></h2>
+      <ul><li>This may be sextortion. Advise the child to stop replying, and not to pay or send anything more.</li>
+        <li>Tell them not to delete messages or accounts yet. You do not collect or screenshot anything.</li>
+        <li>Go to the DSL before the child goes home. Risk of self-harm: call 999.</li></ul></div>
+    <div class="card"><h2><span class="t">Treat these just as seriously</span></h2>
+      <ul><li>AI-made or altered images, of pupils or staff, even “as a joke”.</li>
+        <li>A pupil who has received or forwarded another child’s image, or an image threatened but not yet shared.</li>
+        <li><strong>About a staff member or volunteer?</strong> Tell the headteacher, not the person. About the headteacher: the chair of governors.</li></ul></div>
+  </section>
+
+  <section class="card rr" aria-labelledby="rr-h">
+    <h2 id="rr-h"><span class="t">Report Remove: a pupil can ask for an image to be removed</span></h2>
+    <div class="rr-grid">
+      <div>
+        <p>A Childline and Internet Watch Foundation (IWF) service for young people <strong>under 18 in the UK</strong>. It covers nude or sexual images and videos of them online, including AI fakes.</p>
+        <p>The pupil goes to <a class="url" href="https://www.childline.org.uk/info-advice/bullying-abuse-safety/online-mobile-safety/report-remove/" target="_blank" rel="noopener noreferrer">childline.org.uk (search “Report Remove”)</a>, signs in or creates a Childline account, follows the steps and gets updates in their Childline locker.</p>
+        <p><strong>Not guaranteed.</strong> Timing varies, and the IWF cannot remove images from encrypted apps such as WhatsApp, or ones saved only on a phone or computer.</p>
+      </div>
+      <div>
+        <h3>Your role</h3>
+        <ul>
+          <li><strong>Tell the DSL first.</strong> The DSL decides with the pupil, and a parent or carer where safe, whether and when to use it.</li>
+          <li>The pupil reports on their own device. A younger child will need an adult’s support, but the adult never looks at the image.</li>
+          <li><span class="never">Never</span> view, handle, upload or report the image for them, or use a school device or account.</li>
+          <li>Removal is not the whole safeguarding response. Record that Report Remove was discussed.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="card key" aria-labelledby="dsl-h">
+    <h2 id="dsl-h"><span class="t">For the DSL: refer immediately to the police and/or children’s social care if</span></h2>
+    <p class="lead">UKCIS points for immediate referral. Decide from what you know; do not view imagery to decide.</p>
+    <ol>
+      <li>An adult is involved.</li>
+      <li>There is coercion, blackmail or grooming, or concern about capacity to consent.</li>
+      <li>The acts are unusual for the child’s developmental stage, or violent.</li>
+      <li>It involves sexual acts and any child in it is under 13.</li>
+      <li>The child is at immediate risk of harm, for example self-harm.</li>
+    </ol>
+    <p class="after">If none applies, the DSL decides the response using the UKCIS advice and records the reasons. If in doubt, seek advice. Tell parents early unless that would put a child at risk. Never delete imagery if police are, or may become, involved.</p>
+  </section>
+
+  <h2 class="vh">Contacts</h2>
+  <ul class="contacts" role="list" aria-label="Contacts">
+    <li class="c"><b>Police</b><a class="num" href="tel:999">999</a> emergency, <a class="num" href="tel:101">101</a> non-emergency</li>
+    <li class="c"><b>Children’s social care (daytime)</b><span>[local number]</span></li>
+    <li class="c"><b>Out of hours (emergency duty team)</b><span>[local number]</span></li>
+    <li class="c"><b>Online abuse (CEOP)</b>The DSL, pupil or parent reports at <a class="url" href="https://www.ceop.police.uk/ceop-reporting/" target="_blank" rel="noopener noreferrer">ceop.police.uk</a></li>
+    <li class="c"><b>Advice for adults</b>NSPCC Helpline <a class="num" href="tel:08088005000">0808 800 5000</a> (weekdays 10am–4pm)</li>
+    <li class="c"><b>Support for the pupil</b>Childline <a class="num" href="tel:08001111">0800 1111</a>, free and confidential</li>
+  </ul>
+
+  <footer>
+    <span class="src">Based on UKCIS <em>Sharing nudes and semi-nudes</em> (updated March 2024) and <em>Keeping Children Safe in Education 2026</em>. Supports, and does not replace, our child protection policy and the DSL’s judgement. Links and numbers checked October 2026.</span>
+    <span><span class="ver">Version 1.5. Review yearly; check links each term.</span> <span class="credit">© 2026 Created by <a href="https://aisafegovernance.co.uk/" target="_blank" rel="noopener noreferrer">aisafegovernance.co.uk</a></span></span>
+  </footer>
+</main>
+
+</body>
+</html>
