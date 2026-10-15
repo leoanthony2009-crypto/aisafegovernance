@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data: blob:; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Verify an AISG CPD certificate or digital badge | AISG</title>
+<meta name="description" content="Check that the name, completion date and credential ID on an AISG CPD certificate belong together, or read the credential inside an AISG digital badge.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%231F3A5F' d='M12 2l8 3v6c0 5-3.4 9.3-8 11-4.6-1.7-8-6-8-11V5z'/%3E%3Cpath fill='%23B08D2E' d='M12 5.1l5 1.9v4c0 3.4-2 6.4-5 7.8z'/%3E%3C/svg%3E">
+<style>
+:root{--navy:#1F3A5F;--ink:#163047;--gold:#B08D2E;--gold-deep:#7E6318;--bg:#F2F4F8;--line:#D6DCE4;--muted:#51606F;--good:#1D6A34;--good-pale:#EAF3EC;--bad:#8E2424;--bad-pale:#F9EEEC}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif}
+h1,h2{line-height:1.2;margin:0;color:var(--navy)}
+a{color:var(--navy)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.hero{background:var(--navy);color:#fff;padding:32px 20px}
+.hero h1{color:#fff;font-size:1.8rem;margin:6px 0 8px}
+.hero p{color:#D9E2EE;margin:0;max-width:60ch}
+.eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#DDBB66}
+.wrap{max-width:820px;margin:0 auto;padding:24px 20px 60px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin:0 0 16px}
+.card h2{font-size:1.15rem;margin-bottom:10px}
+.grid{display:grid;grid-template-columns:2fr 1fr 1.4fr;gap:12px}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+label{display:block;font-weight:600;margin-bottom:6px}
+input{font:inherit;width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
+.btn{display:inline-block;background:var(--navy);color:#fff;border:2px solid var(--navy);border-radius:8px;padding:10px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:14px}
+.note{font-size:.9rem;color:var(--muted)}
+.result{border-radius:10px;padding:14px 16px;margin-top:14px;border:1.5px solid}
+.result.ok{background:var(--good-pale);border-color:var(--good)}
+.result.no{background:var(--bad-pale);border-color:var(--bad)}
+.result h3{margin:0 0 4px;font-size:1.02rem}
+.result.ok h3{color:var(--good)}.result.no h3{color:var(--bad)}
+.result p{margin:4px 0 0}
+dl.cred{display:grid;grid-template-columns:max-content 1fr;gap:6px 16px;margin:10px 0 0}
+dl.cred dt{font-weight:600;color:var(--muted)}
+dl.cred dd{margin:0}
+.badge-row{display:flex;gap:16px;align-items:center;margin-top:12px}
+.badge-row img{width:96px;height:96px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div style="max-width:820px;margin:0 auto">
+    <span class="eyebrow">AISG · AI Safeguarding &amp; Governance</span>
+    <h1>Verify a CPD certificate or digital badge</h1>
+    <p>For the AISG course <em>AI Safeguarding and the 4Cs: Staff and DSL Update After KCSIE 2026</em> (AISG-MC-4CS-01).</p>
+  </div>
+</header>
+<main class="wrap">
+  <section class="card" aria-labelledby="h-cert">
+    <h2 id="h-cert">Check the details on a certificate</h2>
+    <p class="note">Type the name, completion date and credential ID exactly as printed on the certificate.</p>
+    <form id="f" novalidate>
+      <div class="grid">
+        <div><label for="n">Name</label><input id="n" autocomplete="off" maxlength="60"></div>
+        <div><label for="d">Date completed</label><input id="d" type="date"></div>
+        <div><label for="id">Credential ID</label><input id="id" autocomplete="off" placeholder="AISG-4CS-XXXX-XXXX" maxlength="24" spellcheck="false"></div>
+      </div>
+      <button class="btn" type="submit">Check</button>
+    </form>
+    <div id="out" role="status" aria-live="polite"></div>
+  </section>
+
+  <section class="card" aria-labelledby="h-badge">
+    <h2 id="h-badge">Read a digital badge</h2>
+    <p class="note">Choose an AISG badge image (PNG). The Open Badges 3.0 credential inside it is read on this device; the file is not uploaded.</p>
+    <label for="png">Badge file</label>
+    <input id="png" type="file" accept="image/png">
+    <div id="bout" role="status" aria-live="polite"></div>
+  </section>
+
+  <section class="card" aria-labelledby="h-what">
+    <h2 id="h-what">What a match tells you</h2>
+    <p>The credential ID is worked out from the course, the learner’s name and the completion date. A match shows the three printed details belong together and have not been edited apart. It is a consistency check, not a cryptographic signature, and it does not confirm the learner’s identity: AISG does not store learners’ details, because the course keeps everything in the learner’s own browser.</p>
+    <p class="note" style="margin:0">The course is a CPD record of completion, not an accredited or regulated qualification. Questions: <a href="https://aisafegovernance.co.uk/" target="_blank" rel="noopener noreferrer">aisafegovernance.co.uk</a></p>
+  </section>
+</main>
+<script>
+'use strict';
+/* Must match credCode() in index.html. */
+var COURSE='AISG-MC-4CS-01';
+function sha256(str){
+  var b=new TextEncoder().encode(str), K=[], H=[], i, j;
+  function frac(x){ return (x-Math.floor(x))*4294967296|0; }
+  for(var n=2,c=0;c<64;n++){ for(j=2;j*j<=n;j++) if(n%j===0) break; if(j*j>n){ if(c<8) H[c]=frac(Math.sqrt(n)); K[c++]=frac(Math.cbrt(n)); } }
+  var l=b.length, m=new Uint8Array(((l+9+63)>>6)<<6); m.set(b); m[l]=0x80;
+  var dv=new DataView(m.buffer); dv.setUint32(m.length-4,l*8); dv.setUint32(m.length-8,Math.floor(l/536870912));
+  function r(x,k){ return (x>>>k)|(x<<(32-k)); }
+  for(i=0;i<m.length;i+=64){
+    var w=[], a=H.slice();
+    for(j=0;j<64;j++){
+      if(j<16) w[j]=dv.getUint32(i+j*4);
+      else { var s0=r(w[j-15],7)^r(w[j-15],18)^(w[j-15]>>>3), s1=r(w[j-2],17)^r(w[j-2],19)^(w[j-2]>>>10); w[j]=(w[j-16]+s0+w[j-7]+s1)|0; }
+      var t1=(a[7]+(r(a[4],6)^r(a[4],11)^r(a[4],25))+((a[4]&a[5])^(~a[4]&a[6]))+K[j]+w[j])|0;
+      var t2=((r(a[0],2)^r(a[0],13)^r(a[0],22))+((a[0]&a[1])^(a[0]&a[2])^(a[1]&a[2])))|0;
+      a.unshift((t1+t2)|0); a[4]=(a[4]+t1)|0; a.pop();
+    }
+    for(j=0;j<8;j++) H[j]=(H[j]+a[j])|0;
+  }
+  return H.map(function(h){ return ('0000000'+(h>>>0).toString(16)).slice(-8); }).join('');
+}
+function normName(n){ return String(n||'').normalize('NFC').trim().replace(/\s+/g,' ').toLowerCase(); }
+function credCode(name,day){
+  var h=sha256(COURSE+'|'+normName(name)+'|'+day), A='0123456789ABCDEFGHJKMNPQRSTVWXYZ', bits='', s='';
+  for(var i=0;i<10;i++) bits+=('000'+parseInt(h[i],16).toString(2)).slice(-4);
+  for(i=0;i<40;i+=5) s+=A[parseInt(bits.substr(i,5),2)];
+  return 'AISG-4CS-'+s.slice(0,4)+'-'+s.slice(4);
+}
+/* Crockford base32 reads O as 0, I and L as 1; accept IDs typed with spaces or lower case. */
+function cleanId(v){ return String(v||'').toUpperCase().replace(/\s+/g,'').replace(/O/g,'0').replace(/[IL]/g,'1').replace(/^A1SG/,'AISG'); }
+function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function longDate(day){ var p=day.split('-'); return new Date(+p[0],+p[1]-1,+p[2]).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}); }
+
+function check(){
+  var n=document.getElementById('n').value, d=document.getElementById('d').value, id=cleanId(document.getElementById('id').value), out=document.getElementById('out');
+  if(!n.trim()||!d||!id){ out.innerHTML='<div class="result no"><h3>Fill in all three details</h3><p>Name, date completed and credential ID are all needed for the check.</p></div>'; return; }
+  var ok=credCode(n,d)===id;
+  out.innerHTML=ok
+    ? '<div class="result ok"><h3>✓ These details match</h3><p>Credential '+esc(id)+' belongs to <strong>'+esc(n.trim())+'</strong>, who completed AISG-MC-4CS-01 (30 minutes, 0.5 CPD hours) on '+esc(longDate(d))+'.</p></div>'
+    : '<div class="result no"><h3>✗ These details do not match</h3><p>Check the name is spelled exactly as printed (accents included) and the date is the completion date on the certificate. If they still do not match, the certificate may have been altered.</p></div>';
+}
+document.getElementById('f').addEventListener('submit',function(e){ e.preventDefault(); check(); });
+
+/* Details passed in the link fragment (never sent to a server): #id=…&d=YYYY-MM-DD&n=… */
+(function(){
+  var h=location.hash.replace(/^#/,''); if(!h) return;
+  var q={}; h.split('&').forEach(function(kv){ var i=kv.indexOf('='); if(i>0){ try{ q[kv.slice(0,i)]=decodeURIComponent(kv.slice(i+1)); }catch(e){} } });
+  if(q.n) document.getElementById('n').value=q.n.slice(0,60);
+  if(/^\d{4}-\d{2}-\d{2}$/.test(q.d||'')) document.getElementById('d').value=q.d;
+  if(q.id) document.getElementById('id').value=q.id.slice(0,24);
+  if(q.n&&q.d&&q.id) check();
+})();
+
+/* Read the iTXt chunk keyed "openbadgecredential" (Open Badges 3.0 baking). */
+function readBaked(buf){
+  var b=new Uint8Array(buf), dv=new DataView(buf), sig=[137,80,78,71,13,10,26,10];
+  for(var k=0;k<8;k++) if(b[k]!==sig[k]) throw new Error('not a PNG');
+  var i=8, dec=new TextDecoder();
+  while(i+8<=b.length){
+    var len=dv.getUint32(i), type=String.fromCharCode(b[i+4],b[i+5],b[i+6],b[i+7]);
+    if(type==='iTXt'){
+      var d=b.subarray(i+8,i+8+len), z=d.indexOf(0);
+      if(dec.decode(d.subarray(0,z))==='openbadgecredential'){
+        if(d[z+1]!==0) throw new Error('compressed credential');
+        var p=z+3; p=d.indexOf(0,p)+1; p=d.indexOf(0,p)+1;
+        return dec.decode(d.subarray(p));
+      }
+    }
+    if(type==='IEND') break;
+    i+=12+len;
+  }
+  return null;
+}
+document.getElementById('png').addEventListener('change',function(){
+  var f=this.files&&this.files[0], out=document.getElementById('bout');
+  if(!f) return;
+  f.arrayBuffer().then(function(buf){
+    var txt=readBaked(buf);
+    if(!txt){ out.innerHTML='<div class="result no"><h3>No credential found</h3><p>This image does not contain an Open Badges credential. Use the badge downloaded from the course, not a screenshot.</p></div>'; return; }
+    var c=JSON.parse(txt), s=c.credentialSubject||{}, a=s.achievement||{}, who=((s.identifier||[])[0]||{}).identityHash||'';
+    var day=String(s.activityEndDate||c.validFrom||'').slice(0,10);
+    var m=JSON.stringify(c.evidence||[]).match(/AISG-4CS-[0-9A-Z]{4}-[0-9A-Z]{4}/), id=m?m[0]:'';
+    var issuedDay=day;
+    /* The ID is built from the learner's local completion day; the timestamp is UTC, so allow the day either side. */
+    var near=[-1,0,1].map(function(o){ var t=new Date(day+'T12:00:00Z'); t.setUTCDate(t.getUTCDate()+o); return t.toISOString().slice(0,10); });
+    near.forEach(function(dd){ if(credCode(who,dd)===id) issuedDay=dd; });
+    var ok=!!id&&a.humanCode===COURSE&&credCode(who,issuedDay)===id;
+    var r=(s.result||[])[0];
+    out.innerHTML='<div class="result '+(ok?'ok':'no')+'"><h3>'+(ok?'✓ Credential read and consistent':'✗ Credential does not check out')+'</h3>'+
+      '<div class="badge-row"><img alt="" src="'+URL.createObjectURL(f)+'"><dl class="cred">'+
+      '<dt>Learner</dt><dd>'+esc(who)+'</dd><dt>Achievement</dt><dd>'+esc(a.name||'')+' ('+esc(a.humanCode||'')+')</dd>'+
+      '<dt>Issuer</dt><dd>'+esc((c.issuer&&c.issuer.name)||'')+'</dd><dt>Completed</dt><dd>'+(issuedDay?esc(longDate(issuedDay)):'')+'</dd>'+
+      (r?'<dt>Knowledge check</dt><dd>'+esc(r.value)+' of 5 right first time; all 5 answered correctly</dd>':'')+
+      '<dt>Credential ID</dt><dd>'+esc(id||'missing')+'</dd></dl></div>'+
+      '<p class="note">'+(ok?'The name, date and ID inside the badge belong together.':'The details inside the badge do not match its credential ID, or it is not an AISG-MC-4CS-01 badge.')+' The credential is unsigned, so treat this as a consistency check.</p></div>';
+  }).catch(function(){ out.innerHTML='<div class="result no"><h3>Could not read this file</h3><p>Choose the PNG badge downloaded from the course.</p></div>'; });
+});
+</script>
+</body>
+</html>

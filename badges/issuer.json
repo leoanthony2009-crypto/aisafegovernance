@@ -1,0 +1,13 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://purl.imsglobal.org/spec/ob/v3p0/context-3.0.3.json"
+  ],
+  "id": "https://teal-selkie-a05a25.netlify.app/badges/issuer.json",
+  "type": [
+    "Profile"
+  ],
+  "name": "AISG — AI Safeguarding & Governance",
+  "url": "https://aisafegovernance.co.uk/",
+  "description": "Independent AI safeguarding and governance training and resources for schools in England."
+}
