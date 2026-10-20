@@ -4,7 +4,9 @@
 
      npm i --prefix /tmp/aisg-pdf playwright-core@1 pdf-lib@1.17.1 @pdf-lib/fontkit@1
      npx --prefix /tmp/aisg-pdf playwright-core install chromium
-     NODE_PATH=/tmp/aisg-pdf/node_modules node tools/build-downloads.cjs
+     NODE_PATH=/tmp/aisg-pdf/node_modules node tools/build-downloads.cjs [source.html ...]
+
+   Name one or more sources to rebuild only those PDFs (the badge files are then left alone).
 
    Each PDF is A4, one page, tagged to PDF/UA-1 (checked with veraPDF: headings, lists, tables,
    links and form fields all reach screen readers; decoration is marked as artifact),
@@ -15,7 +17,7 @@
 const fs = require('fs');
 const path = require('path');
 const { chromium } = require('playwright-core');
-const { PDFDocument, PDFName, PDFString, PDFArray, PDFDict, PDFNumber, PDFRef, PDFRawStream, rgb, decodePDFRawStream } = require('pdf-lib');
+const { PDFDocument, PDFName, PDFString, PDFArray, PDFDict, PDFNumber, PDFRef, PDFRawStream, PDFNull, rgb, decodePDFRawStream } = require('pdf-lib');
 const fontkit = require('@pdf-lib/fontkit');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -40,7 +42,12 @@ const DOCS = [
   { src: 'aisg-staff-quick-reference.html', out: 'aisg-staff-quick-reference.pdf',
     subject: 'A4 wall sheet: what staff do about a nude, semi-nude or sexual image of a pupil. Fill in your school’s details, then print.',
     keywords: ['safeguarding', 'nudes and semi-nudes', 'UKCIS', 'KCSIE 2026', 'staff quick reference'] },
+  /* Also embedded in the course (index.html) as its "safeguarding never list" PDF download. */
+  { src: 'aisg-never-list.html', out: 'AISG_Safeguarding_Never_List_v2.0_2026-10.pdf',
+    subject: 'What staff must never do with images, devices and disclosures, and what to do instead. Your job is the child in front of you, not the evidence.',
+    keywords: ['safeguarding', 'never list', 'nudes and semi-nudes', 'sextortion', 'UKCIS', 'KCSIE 2026', 'DSL'] },
 ];
+const ONLY = process.argv.slice(2);
 
 /* Static instances of the course typefaces (IBM Plex Sans, Montserrat; SIL OFL) so Chromium
    embeds them as real TrueType fonts rather than Type 3 outlines. */
@@ -188,6 +195,67 @@ function artifactPages(pdf) {
   });
 }
 
+/* Row shading and rules painted by an LI land in the LI's own marked content, which would become a
+   text-less Lbl. Turn any LI content that shows no text into an artifact instead. */
+function pageSource(ctx, pg) {
+  const c = pg.node.get(PDFName.of('Contents'));
+  return (c instanceof PDFArray ? c.asArray() : [c]).map((r) => {
+    const st = ctx.lookup(r);
+    return Buffer.from(st instanceof PDFRawStream ? decodePDFRawStream(st).decode() : st.getUnencodedContents()).toString('latin1');
+  }).join('\n');
+}
+function untagListDecoration(pdf, root) {
+  const ctx = pdf.context;
+  const nums = root.lookup(PDFName.of('ParentTree'), PDFDict).lookup(PDFName.of('Nums'));
+  const pageArr = {};
+  for (let i = 0; i < nums.size(); i += 2) pageArr[nums.get(i).asNumber()] = nums.lookup(i + 1);
+  const pages = {};
+  pdf.getPages().forEach((pg) => {
+    const src = pageSource(ctx, pg), textless = new Set(), stack = [];
+    let operands = [];
+    tokenize(src).forEach((k) => {
+      if (!k.op) { operands.push(k.v); return; }
+      const op = k.v;
+      if (op === 'BDC' || op === 'BMC') {
+        const m = op === 'BDC' ? operands.indexOf('/MCID') : -1;
+        stack.push({ mcid: m >= 0 ? Number(operands[m + 1]) : null, text: false });
+      } else if (op === 'EMC') {
+        const e = stack.pop();
+        if (e && e.mcid != null && !e.text) textless.add(e.mcid);
+        if (e && e.text && stack.length) stack[stack.length - 1].text = true;
+      } else if (['Tj', 'TJ', "'", '"'].includes(op) && stack.length) stack[stack.length - 1].text = true;
+      operands = [];
+    });
+    pages[pg.ref.toString()] = { pg, src, textless, drop: new Set() };
+  });
+  /* An element without its own Pg inherits its parent's; a one-page PDF has only one choice anyway. */
+  const only = pdf.getPageCount() === 1 ? pdf.getPage(0).ref : null;
+  const walk = (ref, inherited) => {
+    const el = ctx.lookup(ref);
+    if (!(el instanceof PDFDict)) return;
+    const k = el.get(PDFName.of('K'));
+    const kids = k instanceof PDFArray ? k.asArray() : k ? [k] : [];
+    const pgRef = el.get(PDFName.of('Pg')) || inherited || only;
+    const info = pgRef && pages[pgRef.toString()];
+    if (el.lookup(PDFName.of('S')) === PDFName.of('LI') && info) {
+      const keep = kids.filter((x) => !(x instanceof PDFNumber && info.textless.has(x.asNumber()) && info.drop.add(x.asNumber())));
+      if (keep.length !== kids.length) el.set(PDFName.of('K'), ctx.obj(keep));
+    }
+    kids.forEach((x) => { if (x instanceof PDFRef) walk(x, pgRef); });
+  };
+  walk(root.get(PDFName.of('K')));
+  Object.values(pages).forEach(({ pg, src, drop }) => {
+    if (!drop.size) return;
+    const sp = pg.node.get(PDFName.of('StructParents')), arr = sp && pageArr[sp.asNumber()];
+    let out = src;
+    drop.forEach((m) => {
+      out = out.replace(new RegExp('/[A-Za-z0-9]+\\s*<<\\s*/MCID\\s+' + m + '\\s*>>\\s*BDC'), '/Artifact BMC');
+      if (arr) arr.set(m, PDFNull);
+    });
+    pg.node.set(PDFName.of('Contents'), ctx.register(ctx.flateStream(Buffer.from(out, 'latin1'))));
+  });
+}
+
 /* Chromium puts a list item's number and its blocks straight inside LI; PDF/UA wants Lbl + LBody. */
 function fixListItems(pdf, root) {
   const ctx = pdf.context;
@@ -256,6 +324,7 @@ function accessibility(pdf, title, subject, keywords, when) {
     const rm = root.lookup(PDFName.of('RoleMap')) || ctx.obj({});
     ['Strong', 'Em', 'B', 'I', 'Mark', 'Code'].forEach((t) => rm.set(PDFName.of(t), PDFName.of('Span')));
     root.set(PDFName.of('RoleMap'), rm);
+    untagListDecoration(pdf, root);
     fixListItems(pdf, root);
   }
   artifactPages(pdf);
@@ -300,7 +369,7 @@ async function build() {
   fs.mkdirSync(OUT, { recursive: true });
   const css = brandCss();
   const browser = await chromium.launch();
-  for (const d of DOCS) {
+  for (const d of DOCS.filter((x) => !ONLY.length || ONLY.includes(x.src))) {
     const page = await browser.newPage();
     let html = fs.readFileSync(path.join(SRC, d.src), 'utf8');
     html = html.replace('</head>', css + '</head>');
@@ -351,7 +420,7 @@ async function build() {
     fs.writeFileSync(path.join(OUT, d.out), bytes);
     console.log(d.out, Math.round(bytes.length / 1024) + ' KB', boxes.map((b) => b.name).join(' | '));
   }
-  await badgeFiles(browser);
+  if (!ONLY.length) await badgeFiles(browser);
   await browser.close();
 }
 
