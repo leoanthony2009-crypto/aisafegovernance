@@ -365,7 +365,7 @@ async function badgeFiles(browser) {
   const out = await page.evaluate(async () => {
     const issuer = Object.assign({ '@context': achievementDef()['@context'] }, issuerProfile());
     return { slug: CRED.slug, achievement: JSON.stringify(achievementDef(), null, 2), issuer: JSON.stringify(issuer, null, 2),
-      png: Array.from(await badgePngBytes(800)) };
+      png: Array.from(await badgePngBytes(1200)) };
   });
   await page.close();
   fs.writeFileSync(path.join(dir, out.slug + '.json'), out.achievement + '\n');

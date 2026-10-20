@@ -25,3 +25,11 @@
 - Booking contact: w.gopaul@st-annes.bham.sch.uk (editable in the CONFIG block)
 - Homepage link to /course
 - Manual screen-reader verification pass (recommended; see QA report limitations)
+
+## v2.0.1: full-page certificate and digital badge
+
+- CPD certificate is again a real PDF built in the browser: full-page A4 landscape, two pages (certificate, then CPD record with reflection and sign-off), embedded fonts, selectable text, screen-reader tags, PDF/A and PDF/UA metadata. It replaces the print-dialog and HTML certificate.
+- Layout follows NHS and GOV.UK certificate practice: full-bleed issuer band, plain left-aligned type, clear name / course / date hierarchy, a row of key facts, learning outcomes, credential ID with a verification link, and the disclaimer in the footer.
+- Digital badge restored: Open Badges 3.0 PNG at 1200 × 1200 px with the credential baked in, plus a new full-page A4 portrait badge sheet (PDF) and an Add to LinkedIn link.
+- The completion screen shows full-page previews drawn from the same page model as the PDFs.
+- Credentials and public badge files now point to aisafegovernance.netlify.app; the badge records six knowledge-check questions; /verify reads the question count from the badge.
