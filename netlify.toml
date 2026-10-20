@@ -1,4 +1,4 @@
-# AISG — AI Safeguarding and the 4Cs micro-course (AISG-MC-4CS-01 v1.6)
+# AISG — AI Safeguarding and the 4Cs micro-course (AISG-MC-4CS-01 v1.7)
 # Static Netlify site: the course is index.html (self-contained; it builds the CPD certificate PDF and
 # digital badge in the browser). /downloads holds the take-away PDFs, /badges the public Open Badges
 # files, and /verify checks credential IDs. Regenerate PDFs and badge files with tools/build-downloads.cjs.
