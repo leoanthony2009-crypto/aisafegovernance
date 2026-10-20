@@ -1,0 +1,150 @@
+<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The safeguarding never list</title><style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font:11pt/1.36 Arial,sans-serif;color:#212B32;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+@page{size:A4;margin:0}
+.sheet{width:210mm;height:296.8mm;padding:15mm 16mm 10mm;display:flex;flex-direction:column}
+p,ul,h1,h2,h3{margin:0}
+p,li{text-wrap:pretty}
+ul{list-style:none;padding:0}
+strong{font-weight:700}
+a{color:#005EB8;text-decoration:underline}
+
+/* Header */
+.banner{background:#17324D;color:#fff;padding:3.4mm 6mm 3.6mm;border-bottom:1.6mm solid #005EB8}
+.banner .org{font-size:8.5pt;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff}
+.banner .org em{float:right;font-style:normal;font-weight:600;letter-spacing:.02em;text-transform:none;font-size:9pt;color:#DCE5EE}
+.banner .org span{color:#C9D6E3;font-weight:400;padding:0 .35em}
+.banner h1{font-size:23pt;line-height:1.08;font-weight:700;margin:1.2mm 0 1mm}
+.banner .sub{font-size:10.5pt;line-height:1.32;color:#fff}
+
+/* Key message */
+.key{margin-top:2.8mm;background:#F8FAFC;border:0.4mm solid #C9D3DD;border-left:2.4mm solid #17324D;padding:2.1mm 5mm 2.3mm}
+.key .lab{font-size:8.5pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#17324D}
+.key .msg{font-size:15pt;line-height:1.2;font-weight:700;color:#17324D;margin:0 0 .6mm}
+.key p{font-size:10.5pt}
+
+/* Urgent */
+.urgent{margin-top:2.8mm;border:0.9mm solid #B42318}
+.urgent h2{background:#B42318;color:#fff;font-size:12pt;line-height:1.2;padding:1.5mm 4mm 1.5mm 12mm;position:relative}
+.urgent h2::before{content:"";position:absolute;left:3.8mm;top:50%;width:5.6mm;height:5.6mm;margin-top:-2.8mm;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2 23 21H1z' fill='%23fff'/%3E%3Cpath d='M11 9h2v6h-2zM11 16.6h2v2.2h-2z' fill='%23B42318'/%3E%3C/svg%3E") center/contain no-repeat}
+.urgent .cols{display:grid;grid-template-columns:40fr 60fr}
+.urgent .col{padding:1.6mm 4mm 2mm}
+.urgent .col+.col{border-left:0.4mm solid #E5B5B0}
+.urgent h3{font-size:11pt;line-height:1.25;color:#B42318;margin-bottom:.6mm}
+.urgent p{font-size:10.5pt}
+
+/* Never / instead lists */
+.list{margin-top:2.8mm}
+.list h2{font-size:13pt;line-height:1.2;color:#fff;padding:1.3mm 4mm 1.3mm 12mm;position:relative;letter-spacing:.02em}
+.list h2 .note{font-size:9.5pt;font-weight:400;letter-spacing:0;padding-left:2mm}
+.list h2::before{content:"";position:absolute;left:3.6mm;top:50%;width:5.4mm;height:5.4mm;margin-top:-2.7mm;background:center/contain no-repeat}
+.never h2{background:#B42318}
+.never h2::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='12' fill='%23fff'/%3E%3Cpath d='M7.5 7.5l9 9M16.5 7.5l-9 9' stroke='%23B42318' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E")}
+.instead h2{background:#007F75}
+.instead h2::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='12' fill='%23fff'/%3E%3Cpath d='M6.5 12.5l3.6 3.6 7.4-8' stroke='%23007F75' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+.list ul{border:0.4mm solid #C9D3DD;border-top:0}
+.list li{display:grid;grid-template-columns:1fr 21mm;column-gap:3mm;align-items:start;padding:1mm 3mm 1mm 12mm;position:relative;font-size:10.5pt;line-height:1.3}
+.list li+li{border-top:0.3mm solid #DDE3E9}
+.list li:nth-child(even){background:#F8FAFC}
+.list li::before{content:"";position:absolute;left:3.8mm;top:1.2mm;width:4.6mm;height:4.6mm;background:center/contain no-repeat}
+.never li::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='12' fill='%23B42318'/%3E%3Cpath d='M7.5 7.5l9 9M16.5 7.5l-9 9' stroke='%23fff' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E")}
+.instead li::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='12' fill='%23007F75'/%3E%3Cpath d='M6.5 12.5l3.6 3.6 7.4-8' stroke='%23fff' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+.never li strong{color:#8F1C13}
+.instead li strong{color:#00645C}
+.basis{font-size:8.5pt;line-height:1.3;color:#3D4852;text-align:right;padding-top:.6mm;font-weight:600;white-space:nowrap}
+
+/* Action panel */
+.actions{margin-top:2.8mm;display:grid;grid-template-columns:33fr 34fr 33fr;align-items:stretch;column-gap:3mm}
+.act{background:#F8FAFC;border:0.4mm solid #C9D3DD;border-top:1.4mm solid #17324D;padding:1.8mm 3mm 2.2mm}
+.act h2{font-size:12pt;line-height:1.2;color:#17324D;margin-bottom:.8mm}
+.act p,.act li{font-size:10.5pt;line-height:1.3}
+.act .no{margin-top:1mm}
+.act li{padding-left:3.4mm;position:relative}
+.act li+li{margin-top:.8mm}
+.act li::before{content:"";position:absolute;left:0;top:2mm;width:1.4mm;height:1.4mm;border-radius:50%;background:#17324D}
+.act .fill{margin-top:.8mm;display:flex;gap:2mm;align-items:baseline}
+.act .fill b{color:#17324D;flex:none}
+.act .pdf-field{flex:1;width:auto!important}
+.act.esc{border-top-color:#B65F00}
+.act.esc h2{color:#8A4800}
+
+/* Sources and footer */
+.sources{margin-top:3mm;font-size:8.5pt;line-height:1.36;color:#2F3A44}
+.sources b{color:#17324D}
+.foot{margin-top:auto;border-top:0.6mm solid #17324D;padding-top:1.6mm;font-size:8.5pt;line-height:1.36;color:#2F3A44}
+.foot .row{display:flex;justify-content:space-between;align-items:baseline;gap:4mm;white-space:nowrap}
+.foot .row b{color:#17324D}
+.foot .disc{margin-top:.6mm}
+h2,.key,.urgent,.act,li{break-inside:avoid}
+</style></head><body><div class="sheet">
+
+<header class="banner">
+<p class="org">AISG<span>|</span>AI Safeguarding &amp; Governance<em>For all school staff, supply staff and volunteers in England</em></p>
+<h1>The safeguarding never list</h1>
+<p class="sub">What staff must never do with images, devices and disclosures — and what to do instead.</p>
+</header>
+
+<section class="key" aria-label="Key message">
+<p class="msg">Your job is the child in front of you, not the evidence.</p>
+<p>Securing, viewing and deciding are for the designated safeguarding lead (DSL) and the police.</p>
+</section>
+
+<section class="urgent">
+<h2>Urgent: act now, do not wait</h2>
+<div class="cols">
+<div class="col"><h3>Child in immediate danger</h3><p>Call <strong>999</strong> — including an immediate risk of self-harm. Then tell the DSL.</p></div>
+<div class="col"><h3>Sextortion: threats to share images</h3><p>Reach the DSL <strong>straight away</strong>, before the pupil goes home. Advise: do not pay, stop replying, delete nothing. Never ask to see the messages.</p></div>
+</div>
+</section>
+
+<section class="list never">
+<h2>NEVER DO THIS</h2>
+<ul>
+<li><p class="t"><strong>Never view, ask for, forward, save, screenshot, print or copy an image</strong> — real or AI-generated, not even “as evidence”. Copying it can itself be a crime.</p><p class="basis">Law · UKCIS</p></li>
+<li><p class="t"><strong>Never look through a device</strong> a pupil hands you. Keep it secure for the DSL.</p><p class="basis">UKCIS</p></li>
+<li><p class="t"><strong>Never open, share or delete an image sent to your own device.</strong></p><p class="basis">UKCIS</p></li>
+<li><p class="t"><strong>Never delete anything, or tell a pupil to.</strong> That is the DSL’s decision.</p><p class="basis">UKCIS · NCA</p></li>
+<li><p class="t"><strong>Never investigate or interview.</strong> No leading questions; do not question others, confront anyone or contact parents yourself.</p><p class="basis">UKCIS</p></li>
+<li><p class="t"><strong>Never promise to keep it secret.</strong> Say who you will tell, and why.</p><p class="basis">KCSIE</p></li>
+<li><p class="t"><strong>Never blame or shame anyone</strong> — including a pupil who forwarded an image.</p><p class="basis">UKCIS · NCA</p></li>
+<li><p class="t"><strong>Never let an AI tool decide if a child is at risk</strong>, or delay a report.</p><p class="basis">AISG</p></li>
+</ul>
+</section>
+
+<section class="list instead">
+<h2>DO THIS INSTEAD</h2>
+<ul>
+<li><p class="t"><strong>Listen calmly and reassure:</strong> “You are not in trouble. This is not your fault.”</p><p class="basis">UKCIS · NCA</p></li>
+<li><p class="t"><strong>Look away if shown an image</strong> — you do not need to see it to report it. If you saw it by accident, tell the DSL.</p><p class="basis">UKCIS</p></li>
+<li><p class="t"><strong>Tell the DSL or deputy immediately</strong>, in person or by phone — not by email alone.</p><p class="basis">KCSIE · UKCIS</p></li>
+</ul>
+</section>
+
+<div class="actions">
+<section class="act">
+<h2>Who to tell</h2>
+<p>The DSL or deputy, in person or by phone. Neither free? Do not wait: speak to a senior leader or children’s social care.</p>
+</section>
+<section class="act">
+<h2>What to record</h2>
+<p>Same day, on your school’s system: their words; date, time, place; app, usernames; what you did, who you told. <strong>Never</strong> the image or guesses.</p>
+</section>
+<section class="act esc">
+<h2>When to escalate</h2>
+<ul>
+<li><p><strong>Adult involved or coercion:</strong> the DSL tells the police.</p></li>
+<li><p><strong>About staff:</strong> the headteacher, or chair of governors if it is the head.</p></li>
+</ul>
+</section>
+</div>
+
+<p class="sources"><b>Basis key.</b> <b>Law</b>: Protection of Children Act 1978. <b>KCSIE</b>: <a href="https://www.gov.uk/government/publications/keeping-children-safe-in-education--2">Keeping children safe in education 2026</a> (DfE). <b>UKCIS</b>: <a href="https://www.gov.uk/government/publications/sharing-nudes-and-semi-nudes-advice-for-education-settings-working-with-children-and-young-people">Sharing nudes and semi-nudes</a> (UKCIS, updated March 2024). <b>NCA</b>: <a href="https://www.nationalcrimeagency.gov.uk/news/nca-issues-urgent-warning-about-sextortion">sextortion alert</a> (April 2024). <b>AISG</b>: our recommended practice.</p>
+
+<footer class="foot">
+<div class="row"><span><b>AISG — AI Safeguarding &amp; Governance</b> · aisafegovernance.co.uk</span><span><b>Page 1 of 1</b></span></div>
+<div class="row"><span><b>Published</b> October 2026 · <b>Review</b> each term, next by January 2027 · <b>Version</b> 2.0</span><span>© 2026 aisafegovernance.co.uk</span></div>
+<p class="disc">Independent educational resource; not produced, endorsed or approved by the DfE, UK Government, NHS, UKCIS, NCA, NSPCC, Childline or IWF. It supports, and does not replace, your school’s child protection policy and the DSL’s judgement.</p>
+</footer>
+
+</div></body></html>
