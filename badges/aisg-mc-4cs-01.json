@@ -3,21 +3,21 @@
     "https://www.w3.org/ns/credentials/v2",
     "https://purl.imsglobal.org/spec/ob/v3p0/context-3.0.3.json"
   ],
-  "id": "https://teal-selkie-a05a25.netlify.app/badges/aisg-mc-4cs-01.json",
+  "id": "https://aisafegovernance.netlify.app/badges/aisg-mc-4cs-01.json",
   "type": [
     "Achievement"
   ],
   "achievementType": "CertificateOfCompletion",
   "name": "AI Safeguarding and the 4Cs — CPD update after KCSIE 2026",
   "humanCode": "AISG-MC-4CS-01",
-  "version": "1.6",
+  "version": "2.0",
   "inLanguage": "en-GB",
   "description": "A 30-minute self-paced CPD update for DSLs and whole-school staff in England on AI safeguarding and the 4Cs of online safety after Keeping Children Safe in Education 2026. 30 minutes (0.5 CPD hours).",
   "criteria": {
-    "narrative": "Visit every lesson of the five modules (including three practice scenarios) and answer all five knowledge-check questions correctly. Learning outcomes: 1. Explain what KCSIE 2026 adds about AI within the 4Cs: content, contact, conduct and commerce. 2. Recognise AI-related risks: AI-generated nudes and semi-nudes, companion apps and chatbot disclosures. 3. Respond to a disclosure safely: no promise of secrecy, and never view, copy or investigate imagery. 4. Record the facts the same day and refer to the DSL, using back-up routes if the DSL is unavailable. 5. Signpost Report Remove, CEOP, Childline and the NSPCC Helpline appropriately."
+    "narrative": "Visit every lesson of the five modules (including three practice scenarios) and answer all six knowledge-check questions correctly. Learning outcomes: 1. Explain what KCSIE 2026 adds about AI within the 4Cs: content, contact, conduct and commerce. 2. Recognise AI-related risks: AI-generated nudes and semi-nudes, companion apps and chatbot disclosures. 3. Respond to a disclosure safely: no promise of secrecy, and never view, copy or investigate imagery. 4. Record the facts the same day and refer to the DSL, using back-up routes if the DSL is unavailable. 5. Signpost Report Remove, CEOP, Childline and the NSPCC Helpline appropriately."
   },
   "image": {
-    "id": "https://teal-selkie-a05a25.netlify.app/badges/aisg-mc-4cs-01.png",
+    "id": "https://aisafegovernance.netlify.app/badges/aisg-mc-4cs-01.png",
     "type": "Image",
     "caption": "AISG digital badge: AI Safeguarding and the 4Cs, CPD completed, KCSIE 2026 update"
   },
@@ -57,11 +57,11 @@
       "name": "Knowledge check: questions right first time",
       "resultType": "RawScore",
       "valueMin": "0",
-      "valueMax": "5"
+      "valueMax": "6"
     }
   ],
   "creator": {
-    "id": "https://teal-selkie-a05a25.netlify.app/badges/issuer.json",
+    "id": "https://aisafegovernance.netlify.app/badges/issuer.json",
     "type": [
       "Profile"
     ],

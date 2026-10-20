@@ -169,12 +169,12 @@ document.getElementById('png').addEventListener('change',function(){
     var near=[-1,0,1].map(function(o){ var t=new Date(day+'T12:00:00Z'); t.setUTCDate(t.getUTCDate()+o); return t.toISOString().slice(0,10); });
     near.forEach(function(dd){ if(credCode(who,dd)===id) issuedDay=dd; });
     var ok=!!id&&a.humanCode===COURSE&&credCode(who,issuedDay)===id;
-    var r=(s.result||[])[0];
+    var r=(s.result||[])[0], qn=((a.resultDescription||[])[0]||{}).valueMax||'5';
     out.innerHTML='<div class="result '+(ok?'ok':'no')+'"><h3>'+(ok?'✓ Credential read and consistent':'✗ Credential does not check out')+'</h3>'+
       '<div class="badge-row"><img alt="" src="'+URL.createObjectURL(f)+'"><dl class="cred">'+
       '<dt>Learner</dt><dd>'+esc(who)+'</dd><dt>Achievement</dt><dd>'+esc(a.name||'')+' ('+esc(a.humanCode||'')+')</dd>'+
       '<dt>Issuer</dt><dd>'+esc((c.issuer&&c.issuer.name)||'')+'</dd><dt>Completed</dt><dd>'+(issuedDay?esc(longDate(issuedDay)):'')+'</dd>'+
-      (r?'<dt>Knowledge check</dt><dd>'+esc(r.value)+' of 5 right first time; all 5 answered correctly</dd>':'')+
+      (r?'<dt>Knowledge check</dt><dd>'+esc(r.value)+' of '+esc(qn)+' right first time; all '+esc(qn)+' answered correctly</dd>':'')+
       '<dt>Credential ID</dt><dd>'+esc(id||'missing')+'</dd></dl></div>'+
       '<p class="note">'+(ok?'The name, date and ID inside the badge belong together.':'The details inside the badge do not match its credential ID, or it is not an AISG-MC-4CS-01 badge.')+' The credential is unsigned, so treat this as a consistency check.</p></div>';
   }).catch(function(){ out.innerHTML='<div class="result no"><h3>Could not read this file</h3><p>Choose the PNG badge downloaded from the course.</p></div>'; });
