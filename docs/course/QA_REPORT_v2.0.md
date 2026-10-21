@@ -1,5 +1,5 @@
 # AISG 4Cs Micro-Course — QA Report, v2.0
-**Course:** AI Safeguarding and the 4Cs (AISG-MC-4CS-01) · **Build:** v2.0, 20 October 2026 · **File:** course-ai-4cs.html (1.33 MB, self-contained)
+**Course:** AI Safeguarding and the 4Cs (AISG-MC-4CS-01) · **Build:** v2.0, 21 October 2026 · **File:** course-ai-4cs.html / index.html (1.35 MB, self-contained)
 
 ## Test environment
 Chromium (Playwright), scripted end-to-end harness (`t2.py`), axe-core WCAG 2.2 AA scans, PDF byte and raster inspection (pdfinfo/pdftoppm).
@@ -23,6 +23,8 @@ Chromium (Playwright), scripted end-to-end harness (`t2.py`), axe-core WCAG 2.2 
 | Safeguarding content | **Pass** | v1.7 content unchanged (independently reviewed, Oct 2026); all new resource documents assembled from that reviewed content; no scenario rewards investigating, viewing or copying imagery |
 | Document accuracy review (21 Oct 2026) | **Pass** | Independent expert review of all 12 refined take-away documents against KCSIE 2026/UKCIS facts, hard safeguarding constraints and GOV.UK/NHS document standards: no Critical or High findings; 7 Medium/Low precision findings (statutory wording, CEOP attribution, do/do-not pattern, roundel use, style) all applied and re-verified |
 | Page fit (shipped artifact) | **Pass** | PDFs extracted from the deployed file: ten one-pagers at exactly 1 A4 page; facilitator guidance 2 pages with no split tables; worksheets 3 pages with running heads |
+| Page fill (21 Oct 2026) | **Pass** | Per-document print scale baked in (measured per document, 1.02–1.54×): every one-pager fills its A4 sheet; applies to PDFs and printed HTML; wall sheet aligned to pack (Version 2.0, do-not phrasing) |
+| Fact freshness (21 Oct 2026) | **Pass** | Report Remove (Childline + IWF, under-18 UK, not guaranteed), NSPCC Helpline 0808 800 5000 weekdays 10am–4pm, Childline 0800 1111, CEOP — all re-checked against live sources |
 
 ## Known limitations (stated, not hidden)
 1. **Manual assistive-technology testing not performed.** Accessibility evidence is automated (axe-core) plus scripted keyboard/journey checks. A manual screen-reader pass (NVDA/VoiceOver) is recommended before describing the course as WCAG-verified.
