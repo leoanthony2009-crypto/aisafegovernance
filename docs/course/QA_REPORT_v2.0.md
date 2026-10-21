@@ -21,6 +21,8 @@ Chromium (Playwright), scripted end-to-end harness (`t2.py`), axe-core WCAG 2.2 
 | Accessibility (automated) | **Pass** | axe-core WCAG 2.2 AA: no violations on landing page or resources page; live-region announcements, focus management, aria-disabled answers, skip link retained |
 | Console errors | **Pass** | None across the full journey |
 | Safeguarding content | **Pass** | v1.7 content unchanged (independently reviewed, Oct 2026); all new resource documents assembled from that reviewed content; no scenario rewards investigating, viewing or copying imagery |
+| Document accuracy review (21 Oct 2026) | **Pass** | Independent expert review of all 12 refined take-away documents against KCSIE 2026/UKCIS facts, hard safeguarding constraints and GOV.UK/NHS document standards: no Critical or High findings; 7 Medium/Low precision findings (statutory wording, CEOP attribution, do/do-not pattern, roundel use, style) all applied and re-verified |
+| Page fit (shipped artifact) | **Pass** | PDFs extracted from the deployed file: ten one-pagers at exactly 1 A4 page; facilitator guidance 2 pages with no split tables; worksheets 3 pages with running heads |
 
 ## Known limitations (stated, not hidden)
 1. **Manual assistive-technology testing not performed.** Accessibility evidence is automated (axe-core) plus scripted keyboard/journey checks. A manual screen-reader pass (NVDA/VoiceOver) is recommended before describing the course as WCAG-verified.
