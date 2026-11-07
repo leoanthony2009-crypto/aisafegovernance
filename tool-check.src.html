@@ -971,7 +971,7 @@ input[type=url]{width:100%;padding:7px 10px;border:1px solid var(--line);backgro
 <div class="shell" id="root">
   <nav class="rail" id="rail" aria-label="Tool navigation">
     <div id="nav"></div>
-    <div class="railfoot">Self-Assessment Edition<br>England · Local file, nothing is sent<br>DfE standards of 19 January 2026 · Form AISG-TC 5.0<br>Created by Wendell Gopaul · <a class="linkbtn" style="font-size:10.5px" href="/">About &amp; contact</a></div>
+    <div class="railfoot">Trial edition<br>England · Local file, nothing is sent<br>DfE standards of 19 January 2026 · Form AISG-TC 5.0<br>Created by Wendell Gopaul · <a class="linkbtn" style="font-size:10.5px" href="/">About &amp; contact</a></div>
   </nav>
 
   <main class="content" id="main">
@@ -1011,7 +1011,7 @@ input[type=url]{width:100%;padding:7px 10px;border:1px solid var(--line);backgro
           </div>
           <p class="nv" style="font-style:normal;margin-top:0">Each product is a separate check, saved in this browser only. Record roles, not names, and do not enter pupils' details.</p>
         </div>
-        <p class="methline">Self-assessment tool, not an approval or legal advice. Not affiliated with or endorsed by the DfE. Form AISG-TC 5.0 · © 2026 Wendell Gopaul. All rights reserved.</p>
+        <p class="methline">Trial edition. A self-assessment tool, not an approval or legal advice. Not affiliated with or endorsed by the DfE. Form AISG-TC 5.0 · © 2026 Wendell Gopaul. All rights reserved.</p>
       </section>
 
       <div id="work">
@@ -1163,18 +1163,21 @@ input[type=url]{width:100%;padding:7px 10px;border:1px solid var(--line);backgro
       </section>
 
       <!-- MODERATED CHECK -->
-      <section class="view" id="v-mod" aria-label="Moderated check">
-        <header class="phead"><p class="kicker">Administration</p><h1 tabindex="-1" id="hM">Moderated check</h1><p class="psub">An optional paid service. Booking does not change the outcome shown by this tool.</p></header>
+      <section class="view" id="v-mod" aria-label="Trial and feedback">
+        <header class="phead"><p class="kicker">Administration</p><h1 tabindex="-1" id="hM">Trial and feedback</h1><p class="psub">This tool is in trial. It is free to use, and the outcome it shows is the school's own self-assessment. Feedback from schools using it this year will shape the next version.</p></header>
         <div class="panel mod" id="mod">
-          <p id="modPrice"></p>
-          <p class="stepd" id="modWho"></p>
-          <ul class="steps3" style="list-style:disc">
-            <li>AISG reviews your check and the supplier's evidence against each critical control.</li>
-            <li>If the supplier provides a trial account, AISG runs the trial tests described in each standard.</li>
-            <li>You receive written findings and a record marked "Moderated by AISG: evidence reviewed on [date]". This is not a certification or endorsement. The school still makes the decision.</li>
-          </ul>
-          <div id="modTerms" style="margin-top:14px"></div>
-          <p id="contactLine" style="margin-top:12px"></p>
+          <h2 class="steph">Contact</h2>
+          <p class="stepd">Wendell Gopaul, headteacher and designated safeguarding lead, developed this check and the Evidence Review. Questions, corrections and offers to trial it with a group of schools are welcome.</p>
+          <p id="contactLine"></p>
+          <h2 class="steph" style="margin-top:22px">Feedback</h2>
+          <p class="stepd">Optional. It exports on its own, separately from your check, and is never part of the governance record.</p>
+          <div class="fld"><label class="f" for="fb-time">How long did the check take, in minutes?</label><input type="text" id="fb-time" data-fb="time" inputmode="numeric" style="max-width:160px"></div>
+          <div class="fld"><label class="f" for="fb-hard">Which checks were hardest to answer, and why?</label><textarea id="fb-hard" data-fb="hard" maxlength="2000"></textarea></div>
+          <div class="fld"><label class="f" for="fb-missing">What is missing, wrong or unclear?</label><textarea id="fb-missing" data-fb="missing" maxlength="2000"></textarea></div>
+          <div class="fld"><label class="f" for="fb-role">Your role (not your name)</label><input type="text" id="fb-role" data-fb="role" style="max-width:320px"></div>
+          <label for="fbText" class="visually-hidden">Feedback text to copy</label>
+          <textarea id="fbText" class="outtext short" readonly hidden></textarea>
+          <div class="btnrow"><button type="button" class="btn" id="fbCopy">Copy feedback to send</button><span class="status" id="fbText-status" aria-live="polite"></span></div>
         </div>
       </section>
 
@@ -1189,12 +1192,8 @@ input[type=url]{width:100%;padding:7px 10px;border:1px solid var(--line);backgro
 'use strict';
 /* Settings for the moderated check */
 var CONFIG={
-  contactEmail:'',  /* business address for moderated checks; never a school mailbox */
-  bookingUrl:'',    /* https:// booking page; shown as the main way to book when set */
-  price:'£195',
-  vatNote:'',       /* e.g. 'No VAT charged' or 'plus VAT' once confirmed */
-  turnaround:'',    /* e.g. '10 school days from receiving everything' once confirmed */
-  provider:''        /* who carries out the check: name and credentials */
+  contactEmail:'',   /* contact address for trial feedback; set before publishing */
+  contactName:'Wendell Gopaul'
 };
 
 var TOOL_VERSION='5.0', STDS_VERSION='2026-01-19', STDS_LABEL='19 January 2026';
@@ -1381,6 +1380,7 @@ function normalise(o){
     if(own(N,id)&&typeof N[id]==='string'&&N[id].trim()) b.notes[id]=N[id].slice(0,MAX_NOTE);
   });
   ACTS.forEach(function(a){ if(own(C,a.id)&&C[a.id]===true) b.acts[a.id]=true; });
+  if(isObj(o.fb)){ b.fb={}; ['time','hard','missing','role'].forEach(function(k){ if(own(o.fb,k)&&typeof o.fb[k]==='string') b.fb[k]=o.fb[k].slice(0,2000); }); }
   b.stds=typeof o.stds==='string'?o.stds:'2026-01-19';
   if(typeof o.id==='string'&&/^[a-f0-9]{8}$/.test(o.id)) b.id=o.id;
   b.migrated=o.v===1||o.migrated===true;
@@ -1492,7 +1492,7 @@ function renderNav(){
   h+='<div class="ngrp">Outputs</div>'+item('outcome','Outcome')+item('records','Records');
   h+='<div class="ngrp">Reference</div>'+item('glossary','Glossary');
   h+='<div class="ngrp">Tools</div><a class="nitem" href="/"><span class="nlab">Evidence Review</span></a>';
-  h+='<div class="ngrp">Administration</div>'+item('file','Save &amp; open a check')+item('mod','Moderated check');
+  h+='<div class="ngrp">Administration</div>'+item('file','Save &amp; open a check')+item('mod','Trial and feedback');
   $('nav').innerHTML=h;
 }
 function show(v,noFocus){
@@ -1630,6 +1630,7 @@ function update(){
   /* specimen */
   $('exBanner').hidden=!st.example; $('dlBtn').disabled=st.example; $('dlBtn').hidden=framed||st.example; $('printBtn').hidden=framed;
   $('work').querySelectorAll('input[type=text],input[type=url],input[type=date],textarea').forEach(function(x){ x.readOnly=st.example; }); $('p-loc').disabled=st.example;
+  $('mod').querySelectorAll('[data-fb]').forEach(function(x){ x.readOnly=st.example; });
   $('manage').querySelectorAll('button,input,textarea').forEach(function(x){ if(x.id!=='pasteIn'&&x.id!=='loadBtn'&&x.id!=='fileIn') x.disabled=st.example; });
   $('copyCode').hidden=st.example; $('clearBtn').hidden=st.example;
   var oldB=!st.example&&(st.stds!==STDS_VERSION||st.migrated);
@@ -1864,22 +1865,20 @@ if(!framed){
   });
 }
 
-(function moderated(){
-  $('modPrice').innerHTML='<b>'+esc(CONFIG.price)+' per product'+(CONFIG.vatNote?', '+esc(CONFIG.vatNote):'')+'.</b>';
-  $('modWho').textContent=CONFIG.provider; $('modWho').hidden=!CONFIG.provider;
-  var dl='';
-  if(CONFIG.turnaround) dl+='<p class="stepd"><b>Turnaround:</b> '+esc(CONFIG.turnaround)+'</p>';
-  dl+='<p class="stepd"><b>What to send:</b> Your save code or check file, the supplier\'s documents, and trial log-in details if you have them. Do not send pupils\' names or data.</p>';
-  $('modTerms').innerHTML=dl;
-  var h='', safeUrl=/^https:\/\/[^\s"'<>]+$/.test(CONFIG.bookingUrl)?CONFIG.bookingUrl:'';
-  if(safeUrl) h+='<a class="btn" href="'+esc(safeUrl)+'" target="_blank" rel="noopener noreferrer">Book a moderated check</a>';
-  if(CONFIG.contactEmail) h+='<span style="display:block;margin-top:8px">Or email <code>'+esc(CONFIG.contactEmail)+'</code>.</span>';
-  if(!h) h='To book, contact AISG through <a href="https://aisafegovernance.co.uk/" target="_blank" rel="noopener noreferrer">aisafegovernance.co.uk</a>.';
+(function contact(){
+  var h='';
+  if(CONFIG.contactEmail) h+='Email <code>'+esc(CONFIG.contactEmail)+'</code>.';
+  else h+='Contact details are on the <a href="/">AISG home page</a>, under About &amp; contact.';
   $('contactLine').innerHTML=h;
 })();
+/* trial feedback: kept with the check in this browser, exported as text */
+function fbText(){ var f=st.fb||{}; var L=['AISG AI tool pre-adoption check: trial feedback','Form version '+TOOL_VERSION+'. '+ukDate(todayISO())+'.','Product checked: '+(st.product.name||'(not named)')+'. Outcome shown: '+assess(st).out.h+'.','Time taken (minutes): '+(f.time||''),'Hardest checks and why: '+(f.hard||''),'Missing, wrong or unclear: '+(f.missing||''),'Role: '+(f.role||''),'No names or pupil details are included.']; return L.join('\n'); }
+document.addEventListener('input',function(e){ var t=e.target; if(!t.dataset||!t.dataset.fb||st.example) return; st.fb=st.fb||{}; st.fb[t.dataset.fb]=t.value.slice(0,2000); if(!st.example) persist(); });
+$('fbCopy').addEventListener('click',function(){ st.fb=st.fb||{}; ['time','hard','missing','role'].forEach(function(k){ var el=$('fb-'+k); if(el) st.fb[k]=el.value.slice(0,2000); }); if(!st.example) persist(); var tx=fbText(); var el=$('fbText'); el.value=tx; el.hidden=false; copyText(tx,'fbText-status',el); });
+function renderFb(){ var f=st.fb||{}; ['time','hard','missing','role'].forEach(function(k){ var el=$('fb-'+k); if(el) el.value=f[k]||''; }); }
 
 function renderRef(){ $('poltab').innerHTML=POLICIES.map(function(x){return '<tr><td><b>'+esc(x[0])+'</b></td><td>'+esc(x[1])+'</td></tr>';}).join(''); $('glosstab').innerHTML=GLOSSARY.map(function(x){return '<tr><td><b>'+esc(x[0])+'</b></td><td>'+esc(x[1])+'</td></tr>';}).join(''); }
-function rerender(){ renderRef(); renderNav(); renderSwitcher(); renderProduct(); renderStds(); renderActs(); lastCls=''; update(); show(CUR,true); }
+function rerender(){ renderRef(); renderFb(); renderNav(); renderSwitcher(); renderProduct(); renderStds(); renderActs(); lastCls=''; update(); show(CUR,true); }
 window.AISG={assess:assess,normalise:normalise,blank:blank,example:function(){return clone(EXAMPLE);},STDS:STDS,ACTS:ACTS,code:function(){return code();}};
 rerender();
 (function(){ var v=location.hash.slice(1); if(v&&$('v-'+v)) show(v,true); })();
