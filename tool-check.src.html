@@ -1,9 +1,8 @@
-<title>AI Tool Pre-Adoption Check</title>
+<title>AI tool pre-adoption check</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="A form for DSLs and DPOs to check a named AI tool against the DfE's 13 Generative AI product safety standards before staff or pupils use it.">
 <style>
 /*FONTS*/
-/* Layout: the page is the form. Header block with a ruled reference box; lettered Parts A to E and two annexes in one column; a "Record summary" box in the margin on wide screens, after Part E on phones. Navy carries structure; gold only marks the header rule and focus. */
 :root{
   --paper:#FFFFFF; --ink:#18293C; --navy:#1F3A5F; --gold:#B08D2E;
   --line:#D3D9E1; --line-strong:#7A8695; --muted:#525F6D; --shade:#F3F5F8;
@@ -40,7 +39,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 
 /* header block */
 .fh-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 14px;padding-block:16px 10px}
-.mark{font-family:var(--disp);font-weight:700;font-size:1.05rem;color:var(--navy);letter-spacing:.03em}
+.mark{font-family:var(--disp);font-weight:700;font-size:1.05rem;color:var(--navy)}
 .org{color:var(--muted)}
 .fh{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:20px 40px;padding-block:6px 22px;border-bottom:3px solid var(--gold)}
 @media (max-width:900px){.fh{grid-template-columns:minmax(0,1fr)}}
@@ -86,7 +85,7 @@ h1{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.6vw,1.75rem)
 .part-h{display:flex;align-items:stretch;gap:12px;margin-bottom:12px}
 .part-h .cell{flex:none;width:30px;display:grid;place-items:center;background:var(--navy);color:var(--cell-fg);font-family:var(--disp);font-weight:700;font-size:.95rem}
 .part-h h2{font-family:var(--disp);font-weight:600;font-size:1.125rem;padding:5px 0 0;line-height:1.3}
-.part-h .annex{flex:none;align-self:center;padding:4px 0 0;font-weight:600;color:var(--muted);font-size:.9rem}
+.annexno{color:var(--muted);margin-right:10px}
 .part-p{max-width:68ch;margin-bottom:12px}
 .part-p+.part-p{margin-top:-4px}
 
@@ -134,7 +133,7 @@ h1{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.6vw,1.75rem)
 .std-body{padding:0 0 14px}
 .req{max-width:74ch;color:var(--muted);margin-bottom:6px}
 .na-msg{color:var(--muted);padding:2px 0 6px}
-.ihead,.item{display:grid;grid-template-columns:62px minmax(0,1fr) repeat(4,76px);gap:0 4px;align-items:start}
+.ihead,.item{display:grid;grid-template-columns:76px minmax(0,1fr) repeat(4,74px);gap:0 4px;align-items:start}
 .ihead{font-size:.8rem;font-weight:600;color:var(--muted);border-bottom:1px solid var(--line-strong);padding:6px 0 4px}
 .ihead span:nth-child(n+3){text-align:center}
 .item{padding:10px 0;border-bottom:1px solid var(--line)}
@@ -146,7 +145,7 @@ h1{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.6vw,1.75rem)
 .how{margin-top:3px;font-size:.88rem}
 .how summary{cursor:pointer;color:var(--navy);text-decoration:underline;text-underline-offset:2px;display:inline}
 .how p{margin-top:4px;padding:6px 0 2px 10px;border-left:2px solid var(--line-strong)}
-.ev{display:block;width:100%;margin-top:6px;padding:4px 0;border:0;border-bottom:1px solid var(--line-strong);background:transparent;font-size:.9rem;resize:vertical;min-height:30px;line-height:1.4}
+.ev{display:block;width:100%;margin-top:6px;padding:4px 0;border:0;border-bottom:1px solid var(--line-strong);background:transparent;font-size:.9rem;resize:none;line-height:1.4;field-sizing:content;min-height:2.2em}
 .ev:focus{border-bottom-color:var(--navy)}
 .seg{display:contents}
 .seg legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
@@ -158,7 +157,7 @@ h1{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.6vw,1.75rem)
 .opt input[value=n]:checked{accent-color:var(--bad)}
 @media (max-width:760px){
   .ihead{display:none}
-  .item{grid-template-columns:52px repeat(4,minmax(0,1fr));row-gap:8px}
+  .item{grid-template-columns:64px repeat(4,minmax(0,1fr));row-gap:8px}
   .item .t{grid-column:2/-1;padding-right:0}
   .seg{display:contents}
   .opt:first-of-type{grid-column:2}
@@ -215,13 +214,12 @@ h1{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.6vw,1.75rem)
 .mod dd{margin:0}
 .contact{margin-top:12px}
 .contact code{user-select:all;font-family:var(--body);font-weight:600}
-.toast{position:fixed;z-index:30;right:max(16px, env(safe-area-inset-right, 0px));bottom:calc(16px + env(safe-area-inset-bottom, 0px));display:flex;gap:12px;align-items:center;background:var(--paper);border:1.5px solid var(--navy);padding:9px 12px;max-width:calc(100% - 32px)}
-@media (max-width:980px){.toast{bottom:calc(68px + env(safe-area-inset-bottom, 0px));left:max(16px, env(safe-area-inset-left, 0px))}}
+.toast{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;margin-top:8px;padding:6px 10px;border:1px solid var(--navy);background:var(--paper)}
 #fileIn:focus-visible+#fileLbl{outline:3px solid var(--focus);outline-offset:2px}
 
 /* margin summary */
 .result{position:sticky;top:calc(env(safe-area-inset-top, 0px) + 16px);margin-top:44px;border:1px solid var(--navy);background:var(--paper);min-width:0;font-size:.92rem}
-@media (max-width:980px){.result{position:static}}
+@media (max-width:980px){.result{display:none}}
 .result>h2{font-family:var(--disp);font-weight:600;font-size:1rem;padding:9px 12px;border-bottom:2px solid var(--navy)}
 .dec{padding:10px 12px;border-bottom:1px solid var(--line)}
 .dec-h{font-weight:700;font-size:1.02rem}
@@ -256,13 +254,14 @@ h1{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.6vw,1.75rem)
 }
 </style>
 
+<!--BODY-->
 <div class="wm" id="wm" aria-hidden="true" hidden><span>SPECIMEN</span></div>
 <div class="page">
 <header class="wrap">
   <div class="fh-top"><span class="mark">AISG</span><span class="org">AI Safeguarding &amp; Governance</span></div>
   <div class="fh">
     <div>
-      <h1 id="pageTitle">AI Tool Pre-Adoption Check</h1>
+      <h1 id="pageTitle">AI tool pre-adoption check</h1>
       <dl class="facts">
         <dt>Purpose</dt><dd>Check a named AI tool against the DfE's 13 product safety standards before staff or pupils use it.</dd>
         <dt>Who fills it in</dt><dd>The DSL, with the DPO and whoever manages IT.</dd>
@@ -287,7 +286,7 @@ h1{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.6vw,1.75rem)
       <div><dt>Basis</dt><dd>DfE Generative AI: product safety standards, 19 January 2026</dd></div>
       <div><dt>Reference</dt><dd id="refVal"></dd></div>
       <div><dt>Status</dt><dd id="statusVal"></dd></div>
-      <div><dt><label for="checkSel">Check</label></dt><dd><select id="checkSel"></select><div class="btns"><button type="button" class="btn ghost" id="newBtn">New check</button></div></dd></div>
+      <div><dt><label for="checkSel">Check</label></dt><dd><select id="checkSel"></select><div class="btns"><button type="button" class="btn ghost" id="newBtn">New check</button></div><div class="toast" id="toast" role="status" hidden><span id="toastText"></span><button type="button" class="linkbtn" id="undoBtn">Undo</button></div></dd></div>
       <div><dt>Saved</dt><dd class="saved" id="saved"></dd></div>
     </dl>
   </div>
@@ -295,6 +294,7 @@ h1{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.6vw,1.75rem)
   <div class="notice" id="exBanner" hidden>
     <p><strong>Specimen.</strong> This is a completed check of a made-up product, so you can see how the outcome and record work. It is not a real assessment and cannot be edited.</p>
     <button type="button" class="btn" id="startBtn">Start my check</button>
+    <p class="status" id="exNote" aria-live="polite" style="flex-basis:100%"></p>
   </div>
   <div class="notice old" id="oldBanner" hidden><p id="oldText"></p></div>
 </header>
@@ -400,7 +400,7 @@ h1{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.6vw,1.75rem)
       </section>
 
       <section class="part mod" id="mod" aria-labelledby="hM">
-        <div class="part-h"><span class="cell" aria-hidden="true">1</span><h2 id="hM"><span class="vh">Annex 1: </span>Moderated check (optional paid service)</h2></div>
+        <div class="part-h"><h2 id="hM"><span class="annexno">Annex 1</span>Moderated check (optional paid service)</h2></div>
         <p id="modPrice"></p>
         <p class="muted" id="modWho"></p>
         <ul>
@@ -414,7 +414,7 @@ h1{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.6vw,1.75rem)
       </section>
 
       <section class="part" id="manage" aria-labelledby="hS">
-        <div class="part-h"><span class="cell" aria-hidden="true">2</span><h2 id="hS"><span class="vh">Annex 2: </span>Saving, moving and removing checks</h2></div>
+        <div class="part-h"><h2 id="hS"><span class="annexno">Annex 2</span>Saving, moving and removing checks</h2></div>
         <p class="part-p">Checks are saved in this browser only. Each product is a separate check; choose between them in the reference box at the top. On a shared computer, remove the check when you finish.</p>
         <div class="row">
           <button type="button" class="btn ghost" id="copyCode">Copy save code</button>
@@ -431,7 +431,7 @@ h1{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.6vw,1.75rem)
           <label for="pasteIn">Paste a save code to open it as a new check</label>
           <textarea id="pasteIn" placeholder="Starts with AISG2: or AISG1:"></textarea>
         </div>
-        <div class="row"><button type="button" class="btn" id="loadBtn">Open save code</button><button type="button" class="btn danger" id="clearBtn">Remove this check</button><span class="status" id="load-status" aria-live="polite"></span></div>
+        <div class="row" id="loadRow"><button type="button" class="btn" id="loadBtn">Open save code</button><button type="button" class="btn danger" id="clearBtn">Remove this check</button><span class="status" id="load-status" aria-live="polite"></span></div>
       </section>
     </form>
   </main>
@@ -442,7 +442,7 @@ h1{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.6vw,1.75rem)
       <p class="dec-h" id="decH"></p>
       <p id="decP"></p>
       <ol class="reasons" id="reasons"></ol>
-      <p class="upsell" id="upsell" hidden>If you cannot run the trial tests yourself, read <a href="#mod">about the moderated check</a>.</p>
+      <p class="upsell" id="upsell" hidden></p>
     </div>
     <dl class="rtab">
       <div><dt>Standards</dt><dd><span id="covStd"></span> <span id="covSub" class="muted"></span></dd></div>
@@ -451,38 +451,35 @@ h1{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.6vw,1.75rem)
       <div><dt>Actions</dt><dd id="actSum"></dd></div>
       <div><dt>Reference</dt><dd id="refline"></dd></div>
     </dl>
-    <p class="disc">AISG is not affiliated with or endorsed by the DfE. The DfE standards are written mainly for suppliers. This form does not endorse any product and is not legal advice. The school is the data controller and makes the decision, with its DSL and DPO.</p>
   </aside>
 </div>
 
 <footer class="wrap">
   <div class="foot">
     <span>Form AISG-TC, version 4.0, issued November 2026. Based on the <a href="https://www.gov.uk/government/publications/generative-ai-product-safety-standards/generative-ai-product-safety-standards" target="_blank" rel="noopener noreferrer">DfE Generative AI: product safety standards</a>, updated 19 January 2026.</span>
-    <span>AISG, AI Safeguarding &amp; Governance, <a href="https://aisafegovernance.co.uk/" target="_blank" rel="noopener noreferrer">aisafegovernance.co.uk</a>. Not affiliated with or endorsed by the DfE.</span>
+    <span>AISG, AI Safeguarding &amp; Governance, <a href="https://aisafegovernance.co.uk/" target="_blank" rel="noopener noreferrer">aisafegovernance.co.uk</a>. AISG is not affiliated with or endorsed by the DfE. The DfE standards are written mainly for suppliers. This form does not endorse any product and is not legal advice. The school is the data controller and makes the decision, with its DSL and DPO.</span>
   </div>
 </footer>
 </div>
 
 <div class="progbar" id="progbar" aria-hidden="true">
   <span><b id="pbCount"></b> checks answered. <span id="pbState"></span></span>
-  <a href="#side" class="btn ghost">Summary</a>
+  <a href="#hD" class="btn ghost">Outcome</a>
 </div>
 <p class="vh" id="announce" aria-live="polite"></p>
-<div class="toast" id="toast" role="status" hidden><span id="toastText"></span><button type="button" class="btn ghost" id="undoBtn">Undo</button></div>
 <pre class="print-rec" id="rPrint"></pre>
 
 <script>
 'use strict';
-/* ===== CONFIG: set these before publishing on aisafegovernance.co.uk ===== */
+/* Settings for the moderated check */
 var CONFIG={
   contactEmail:'',  /* business address for moderated checks; never a school mailbox */
   bookingUrl:'',    /* https:// booking page; shown as the main way to book when set */
   price:'£195',
   vatNote:'',       /* e.g. 'No VAT charged' or 'plus VAT' once confirmed */
   turnaround:'',    /* e.g. '10 school days from receiving everything' once confirmed */
-  provider:'Carried out by an experienced designated safeguarding lead, separately from their own school employment.'  /* add a no-supplier-relationship statement only once confirmed */
+  provider:''        /* who carries out the check: name and credentials */
 };
-/* ========================================================================= */
 
 var TOOL_VERSION='4.0', STDS_VERSION='2026-01-19', STDS_LABEL='19 January 2026';
 var KEY='aisg-tool-check-v2', OLD_KEY='aisg-tool-check-v1', MAX_IMPORT=262144, MAX_NOTE=2000;
@@ -597,7 +594,10 @@ function ukDate(iso){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(iso||'');if(!m)retur
 function validISO(iso){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(iso||'');if(!m)return false;var y=+m[1];if(y<2020||y>2100)return false;var d=new Date(iso+'T00:00:00Z');return !isNaN(d)&&d.toISOString().slice(0,10)===iso;}
 function noted(S,id){return (S.notes[id]||'').trim().length>=10;}
 function label(it){if(it.k)return it.k;var t=it.t.replace(/\s*\(.*?\)/g,'');return t.length>62?t.slice(0,60).replace(/\s+\S*$/,'')+'…':t.replace(/\.$/,'');}
+function shortDate(iso){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(iso||'');return m?+m[3]+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m[2]-1]+' '+m[1]:'';}
 function newId(){var a=new Uint8Array(4);try{crypto.getRandomValues(a);}catch(e){for(var i=0;i<4;i++)a[i]=Math.floor(Math.random()*256);}return Array.prototype.map.call(a,function(b){return b.toString(16).padStart(2,'0');}).join('');}
+var KSHORT={'1a':'Purpose and target learners stated','1b':'Impact claims backed by evidence','1c':'Purpose reviewed when features change','2a':'DfE use cases stated','2b':'Evidence it meets its stated purpose','2c':'Statement against all 13 standards','3b':'Filtering adjusts for age and need','3c':'Images, languages and misspellings moderated','3e':'Filtering kept up to date','4c':'Learners told when content is blocked','4d':'Clear reports for staff','4e':'Reports on offloading and engagement','4f':'Learners told their use is monitored','5c':'Permission levels for users','5d':'Prompt fixes and safety-tested releases','5e':'Fits the DfE cyber security standards','6f':'Controller role and sub-processors stated','6g':'Retention and deletion','6h':'Breaches reported to the school','6c':'Supplier DPIA shared','6e':'Meets the ICO Children\'s Code','8a':'Child-centred design and testing','8b':'Performs consistently','9a':'Supplier risk assessment','9b':'Complaints route for safety issues','9c':'AI safety policies published','10a':'Hints before answers','10b':'Friction before full-answer modes','10c':'Offloading detected and reported','10d':'Expert oversight published','11b':'Time limits','11c':'No personal or emotional prompting','11d':'Dependence flagged to the DSL','11e':'Minimal learner data kept','12c':'Crisis protocol published','13a':'No flattery or pressure','13b':'No dark patterns or adverts','13c':'Not designed to prolong use'};
+STDS.forEach(function(s){s.items.forEach(function(it){ if(!it.k&&KSHORT[it.id]) it.k=KSHORT[it.id]; });});
 var IDS=[], ITEM={}, REF={}, STD_OF={};
 STDS.forEach(function(s){s.items.forEach(function(it,i){IDS.push(it.id);ITEM[it.id]=it;REF[it.id]='S'+s.n+'.'+(i+1);STD_OF[it.id]=s;});});
 
@@ -627,7 +627,7 @@ function normalise(o){
   return b;
 }
 
-/* ---------- pure assessment logic (exposed as window.AISG for tests) ---------- */
+/* ---------- assessment logic ---------- */
 function applies(s,aud){return s.rel==='all'||(s.rel==='mixed'&&aud!=='staff')||(s.rel==='learner'&&aud==='learners');}
 function isCrit(it,aud){return it.crit==='all'||(it.crit==='mixed'&&aud!=='staff')||(it.crit==='learner'&&aud==='learners');}
 function actApplies(a,aud){return !a.aud||(a.aud==='learners'&&aud==='learners')||(a.aud==='pupils'&&aud!=='staff');}
@@ -659,7 +659,7 @@ function assess(S,now){
   });
   var unans=items.filter(function(it){return !S.ans[it.id];});
   if(unans.length) add('open','',unans.length+' check'+(unans.length>1?'s':'')+' still to answer','item-'+unans[0].id);
-  items.forEach(function(it){ if(!isCrit(it,aud)&&S.ans[it.id]==='n'&&!noted(S,it.id)) add('cond',REF[it.id],'Not met. Note how the risk is managed','item-'+it.id); });
+  items.forEach(function(it){ if(!isCrit(it,aud)&&S.ans[it.id]==='n'&&!noted(S,it.id)) add('cond',REF[it.id],label(it)+': not met, with no note of how the risk is managed','item-'+it.id); });
   var ncClaim=items.filter(function(it){return !isCrit(it,aud)&&S.ans[it.id]==='c';}), ncTotal=items.filter(function(it){return !isCrit(it,aud);}).length;
   if(ncTotal&&ncClaim.length/ncTotal>0.25) add('cond','Evidence',ncClaim.length+' of '+ncTotal+' other checks are claims with no evidence','item-'+ncClaim[0].id);
   STDS.forEach(function(s){ if(!applies(s,aud)) return; var all=s.items.every(function(it){return S.ans[it.id];});
@@ -677,7 +677,7 @@ function assess(S,now){
   else if(S.product.date&&S.product.reviewBy>addYear(S.product.date)) add('cond','Check','Review-by date is more than a year after the check','p-reviewBy');
   if(S.stds!==STDS_VERSION) add('cond','Check','Made against an older edition of the standards','');
   var blocks=R.filter(function(r){return r.sev==='block';}), conds=R.filter(function(r){return r.sev==='cond';});
-  var critClaim=crits.filter(function(it){return S.ans[it.id]==='c';}).length, out, useLine=' This applies to the use recorded in A3.'+(aud!=='learners'?' Check again if pupils will use it directly.':'');
+  var critClaim=crits.filter(function(it){return S.ans[it.id]==='c';}).length, out, useLine=aud!=='learners'?' This covers staff use only (A3). Check again if pupils will use it directly.':'';
   if(blocks.length) out={cls:'bad',g:'✕',h:'Blocking gaps',p:blocks.length+' blocking gap'+(blocks.length>1?'s':'')+'. Do not use it with pupils or personal data until they are resolved with written evidence.'};
   else if(unans.length) out={cls:'idle',g:'…',h:'Not finished',p:answered+' of '+total+' checks answered.'+(critClaim?' '+critClaim+' critical control'+(critClaim>1?'s are':' is')+' a claim with no evidence so far.':'')};
   else if(conds.length) out={cls:'warn',g:'!',h:'Conditions before use',p:conds.length+' condition'+(conds.length>1?'s':'')+' to meet. '+(aud==='staff'?'Do not use it with personal data until they are met.':'Do not let pupils use it until they are met. Any pilot should use staff or test accounts and no personal data.')+useLine};
@@ -719,7 +719,7 @@ function setSaved(){
 /* ---------- render ---------- */
 function renderSwitcher(){
   var ids=Object.keys(store.checks).sort(function(a,b){return (store.checks[b].product.date||'').localeCompare(store.checks[a].product.date||'');});
-  var h=ids.map(function(id){var p=store.checks[id].product;return '<option value="'+esc(id)+'"'+(id===st.id?' selected':'')+'>'+esc(p.name||'Unnamed check')+(p.date?', '+esc(ukDate(p.date)):'')+'</option>';}).join('');
+  var h=ids.map(function(id){var p=store.checks[id].product;return '<option value="'+esc(id)+'"'+(id===st.id?' selected':'')+'>'+esc(p.name||'Unnamed')+(p.date?', '+esc(shortDate(p.date)):'')+'</option>';}).join('');
   h+='<option value="example"'+(st.example?' selected':'')+'>Specimen (made-up product)</option>';
   $('checkSel').innerHTML=h;
 }
@@ -753,7 +753,7 @@ function renderStds(){
       h+='<div class="item" id="item-'+it.id+'" tabindex="-1"><span class="ref">'+r+'<span class="mk" id="crit-'+it.id+'" hidden><span aria-hidden="true">†</span><span class="vh">, critical control</span></span>'+(it.test?'<span class="mk" id="tst-'+it.id+'" hidden><span aria-hidden="true">‡</span><span class="vh">, test in a trial</span></span>':'')+'</span>'+
          '<div class="t"><span id="t-'+it.id+'">'+esc(it.t)+'</span>'+(it.src?'<span class="src">'+(it.src==='AISG addition'?'Added by AISG from UK GDPR and the ICO\'s 2026 edtech audit. Not in the DfE standards.':'Optional. Not a DfE requirement.')+'</span>':'')+
          (it.test?'<details class="how"><summary>How to test</summary><p>'+esc(it.test)+'</p></details>':'')+
-         '<label for="n-'+it.id+'" class="vh">'+r+' where the evidence is filed</label><textarea class="ev" id="n-'+it.id+'" data-noteval="'+it.id+'" rows="1" maxlength="'+MAX_NOTE+'" placeholder="Where the evidence is filed, or the trial result">'+esc(note)+'</textarea></div>'+
+         '<label for="n-'+it.id+'" class="vh">'+r+' where the evidence is filed</label><textarea class="ev" id="n-'+it.id+'" data-noteval="'+it.id+'" rows="2" maxlength="'+MAX_NOTE+'" placeholder="Where the evidence is filed, or the trial result">'+esc(note)+'</textarea></div>'+
          '<fieldset class="seg" aria-describedby="t-'+it.id+' keyShort"><legend>'+r+' evidence</legend>'+
          LEVELS.map(function(l){return '<span class="opt"><input type="radio" name="a-'+it.id+'" id="a-'+it.id+'-'+l[0]+'" value="'+l[0]+'" data-item="'+it.id+'"'+(a===l[0]?' checked':'')+'><label for="a-'+it.id+'-'+l[0]+'">'+l[1]+'</label></span>';}).join('')+
          '</fieldset></div>';
@@ -795,9 +795,8 @@ function update(opts){
   var lim=6, more=shown.length-lim;
   $('reasons').innerHTML=shown.slice(0,lim).map(function(x){var ref=/^S\d/.test(x.ref)?'<b>'+esc(x.ref)+'</b> ':'';return '<li>'+(x.jump?'<a href="#'+esc(x.jump)+'" data-jump="'+esc(x.jump)+'">'+ref+esc(x.text)+'</a>':ref+esc(x.text))+'</li>';}).join('')+(more>0?'<li>'+more+' more in the decision record (E3)</li>':'');
   $('reasons').hidden=!shown.length;
-  $('upsell').hidden=!(r.out.cls==='warn'&&r.reasons.some(function(x){return /trial|claim/.test(x.text);}));
   var cc=critCounts(r);
-  $('covStd').textContent=r.stdsEv+' of '+r.stdsApp+' evidenced';
+  $('covStd').textContent=r.stdsEv+' of '+r.stdsApp+' have some written or tested evidence';
   $('covSub').textContent='('+r.total+' checks)';
   $('covChecks').textContent=r.answered+' of '+r.total+' answered';
   $('covCrit').textContent=cc.e+' evidenced, '+cc.w+' with conditions, '+cc.n+' not met'+(cc.u?', '+cc.u+' unanswered':'');
@@ -820,7 +819,8 @@ function update(opts){
   }).join('');
   $('pbCount').textContent=r.answered+' of '+r.total; $('pbState').textContent=r.out.h+'.';
   fingerprint=''; $('sText').value=summary(r); $('qText').value=questions(); var rec=record(r); $('rText').value=rec; $('rPrint').textContent=rec;
-  $('exBanner').hidden=!st.example; $('wm').hidden=!st.example; $('work').disabled=st.example; $('dlBtn').disabled=st.example;
+  $('exBanner').hidden=!st.example; $('wm').hidden=!st.example; $('dlBtn').disabled=st.example;
+  $('work').querySelectorAll('input[type=text],input[type=url],input[type=date],textarea').forEach(function(x){ x.readOnly=st.example; }); $('p-loc').disabled=st.example; document.body.classList.toggle('specimen',st.example);
   $('manage').querySelectorAll('button,input,textarea').forEach(function(x){ if(x.id!=='pasteIn'&&x.id!=='loadBtn'&&x.id!=='fileIn') x.disabled=st.example; });
   var oldB=!st.example&&(st.stds!==STDS_VERSION||st.migrated);
   $('oldBanner').hidden=!oldB; if(oldB) $('oldText').innerHTML='<strong>Older check.</strong> '+(st.stds!==STDS_VERSION?'This check was made against an earlier version of the DfE standards. Check the standards that have changed before relying on it.':'This check was made with an earlier version of this form, and some checks have been added or reworded. Go through each standard again before relying on it.');
@@ -871,7 +871,7 @@ function record(r){
   if(st.example) L.push(EX_HEAD);
   L.push('Reference: '+refOf());
   L.push('Basis: DfE Generative AI: product safety standards, updated '+STDS_LABEL+(st.stds!==STDS_VERSION?' (check made against an earlier edition)':''));
-  L.push('Form version: '+TOOL_VERSION+'. Record produced: '+new Date().toISOString().slice(0,16).replace('T',' ')+' UTC.'+(fingerprint?' Fingerprint: '+fingerprint+' (shows accidental edits; not a signature).':''));
+  var nowD=new Date(); L.push('Form version: '+TOOL_VERSION+'. Record produced: '+ukDate(nowD.toISOString().slice(0,10))+', '+nowD.toISOString().slice(11,16)+' UTC.'+(fingerprint?' Fingerprint: '+fingerprint+' (shows accidental edits; not a signature).':''));
   L.push('Status: the school\'s own assessment. Not reviewed by AISG.');
   L.push('');
   L.push('Product: '+(p.name||'(not named)')+(p.version?', '+p.version:''));
@@ -949,8 +949,7 @@ form.addEventListener('input',function(e){
 });
 form.addEventListener('submit',function(e){e.preventDefault();});
 form.addEventListener('click',function(e){
-  var b=e.target.closest('[data-note]');
-  if(b){ var ta=$('n-'+b.dataset.note), open=ta.hidden; ta.hidden=!open; b.setAttribute('aria-expanded',open?'true':'false'); if(open) ta.focus(); return; }
+  if(st.example&&e.target.matches('#work input[type=radio],#work input[type=checkbox]')){ e.preventDefault(); var n=$('exNote'); n.textContent='This is the specimen, so it cannot be changed. Choose Start my check to make your own.'; return; }
   var nx=e.target.closest('[data-next]');
   if(nx){ var n=+nx.dataset.next, cur=$('std-'+n); cur.open=false;
     var aud=st.product.audience, nextS=STDS.filter(function(s){return s.n>n&&applies(s,aud)&&(viewMode!=='crit'||s.items.some(function(it){return isCrit(it,aud);}));})[0];
@@ -978,7 +977,8 @@ function copyText(text,statusId,el){
 
 /* switching, new, undo */
 var undoState=null, undoTimer=null, undoArmedAt=0;
-function offerUndo(msg,prev){
+function offerUndo(msg,prev,slot){
+  var t=$('toast'), host=slot?$(slot):$('newBtn').parentNode; if(t.parentNode!==host.parentNode||t.previousElementSibling!==host) host.parentNode.insertBefore(t,host.nextSibling);
   undoState=prev; undoArmedAt=Date.now(); $('toastText').textContent=msg; $('toast').hidden=false; clearTimeout(undoTimer);
   undoTimer=setTimeout(function(){ $('toast').hidden=true; undoState=null; },15000);
 }
@@ -1008,7 +1008,7 @@ $('clearBtn').addEventListener('click',function(){
   clearTimeout(clearTimer); var removed=st; delete store.checks[st.id]; removedIds[st.id]=1;
   var rest=Object.keys(store.checks); st=rest.length?store.checks[rest[0]]:clone(EXAMPLE);
   if(!st.example) persist(); else saveStoreOnly(); disarm(); rerender();
-  offerUndo('Removed '+(removed.product.name||'the check')+'.',{removed:removed,back:removed.id}); $('undoBtn').focus();
+  offerUndo('Removed '+(removed.product.name||'the check')+'.',{removed:removed,back:removed.id},'loadRow'); $('undoBtn').focus();
 });
 
 /* save codes: AISG2: + base64 of UTF-8 JSON */
@@ -1030,7 +1030,7 @@ function loadFrom(text){
     var back=st.example?'example':st.id;
     if(own(store.checks,n.id)) n.id=newId();
     n.example=false; st=n; persist(); rerender();
-    offerUndo('Opened '+(st.product.name||'the check')+' as a new check.',{added:st.id,back:back});
+    offerUndo('Opened '+(st.product.name||'the check')+' as a new check.',{added:st.id,back:back},'loadRow');
     $('pasteIn').value='';
   }catch(err){ s.classList.add('err'); s.textContent=err.message==='size'?'That code is too large to be an AISG check.':err.message==='empty'?'Paste a save code first.':err.message==='example'?'This is the fictional worked example and cannot be opened as a check.':'That is not a valid AISG save code. Copy the whole code, starting with AISG2: or AISG1:'; }
 }
@@ -1056,13 +1056,13 @@ if(!framed){
 
 (function moderated(){
   $('modPrice').innerHTML='<b>'+esc(CONFIG.price)+' per product</b>'+(CONFIG.vatNote?', '+esc(CONFIG.vatNote):'')+'.';
-  $('modWho').textContent=CONFIG.provider;
+  $('modWho').textContent=CONFIG.provider; $('modWho').hidden=!CONFIG.provider;
   var dl='';
   if(CONFIG.turnaround) dl+='<dt>Turnaround</dt><dd>'+esc(CONFIG.turnaround)+'</dd>';
   dl+='<dt>What to send</dt><dd>Your save code or check file, the supplier\'s documents, and trial log-in details if you have them. Do not send pupils\' names or data.</dd>';
   $('modTerms').innerHTML=dl;
   var h='', safeUrl=/^https:\/\/[^\s"'<>]+$/.test(CONFIG.bookingUrl)?CONFIG.bookingUrl:'';
-  if(safeUrl) h+='<a class="btn gold" href="'+esc(safeUrl)+'" target="_blank" rel="noopener noreferrer">Book a moderated check</a>';
+  if(safeUrl) h+='<a class="btn" href="'+esc(safeUrl)+'" target="_blank" rel="noopener noreferrer">Book a moderated check</a>';
   if(CONFIG.contactEmail) h+='<span style="display:block;margin-top:8px">Or email <code>'+esc(CONFIG.contactEmail)+'</code>.</span>';
   if(!h) h='To book, contact AISG through <a href="https://aisafegovernance.co.uk/" target="_blank" rel="noopener noreferrer">aisafegovernance.co.uk</a>.';
   $('contactLine').innerHTML=h;

@@ -18,7 +18,9 @@ async def main():
         await pg.goto(PAGE); await pg.wait_for_timeout(500)
         # 1 example is read-only and labelled
         check('example outcome is Conditions before use', await pg.text_content('#decH') == 'Conditions before use', await pg.text_content('#decH'))
-        check('example form disabled', await pg.evaluate("document.getElementById('work').disabled"))
+        check('example form read-only', await pg.evaluate("document.getElementById('p-name').readOnly && document.getElementById('p-loc').disabled"))
+        await pg.click('#a-1a-v', force=True); await pg.wait_for_timeout(100)
+        check('example answers cannot be changed', await pg.evaluate("document.getElementById('a-1a-d').checked && !document.getElementById('a-1a-v').checked"), await pg.text_content('#exNote'))
         check('example record labelled fictional', 'SPECIMEN' in await pg.input_value('#rText'))
         check('example not saved to storage', await pg.evaluate("localStorage.getItem('aisg-tool-check-v2')") is None)
         check('critical badge hidden on non-critical item', await pg.evaluate("getComputedStyle(document.getElementById('crit-1a')).display") == 'none')

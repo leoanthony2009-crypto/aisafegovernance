@@ -9,10 +9,11 @@ src = (root / 'tool-check.src.html').read_text(encoding='utf-8')
 faces = re.findall(r'@font-face\{[^}]+\}', (root / 'index.html').read_text(encoding='utf-8'))
 assert len(faces) == 2, 'expected the two embedded AISG font faces in index.html'
 body = src.replace('/*FONTS*/', '\n'.join(faces), 1)
-head, rest = body.split('<header', 1)
+head, rest = body.split('<!--BODY-->', 1)
+head = head.replace('<meta name="claude:viewport-fit-sides" content="cover">\n', '')
 page = ('<!doctype html>\n<html lang="en-GB">\n<head>\n<meta charset="utf-8">\n'
         '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
-        + head + '</head>\n<body>\n<header' + rest + '\n</body>\n</html>\n')
+        + head + '</head>\n<body>' + rest + '\n</body>\n</html>\n')
 (root / 'aisg-tool-check.html').write_text(page, encoding='utf-8')
 if '--artifact' in sys.argv:
     pathlib.Path(sys.argv[sys.argv.index('--artifact') + 1]).write_text(body, encoding='utf-8')
