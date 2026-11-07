@@ -1,477 +1,1101 @@
 <title>AI tool pre-adoption check</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="A form for DSLs and DPOs to check a named AI tool against the DfE's 13 Generative AI product safety standards before staff or pupils use it.">
+<meta name="description" content="AISG tool for DSLs and DPOs: check a named AI tool against the DfE's 13 Generative AI product safety standards before staff or pupils use it.">
+<meta name="copyright" content="© 2026 Wendell Gopaul. All rights reserved.">
 <style>
-/*FONTS*/
+/* ==================================================================
+   AISG — AI Safeguarding & Governance · Evidence Review — v0.5 design system
+   1 Tokens · 2 Base · 3 Shell · 4 Type · 5 Buttons & forms
+   6 Status · 7 Review workspace · 8 Rows & findings · 9 Actions
+   10 Reports · 11 Register & methodology · 12 Setup · 13 Utilities
+   14 Responsive · 15 Print
+   ================================================================== */
+
+/* 1. Tokens */
 :root{
-  --paper:#FFFFFF; --ink:#18293C; --navy:#1F3A5F; --gold:#B08D2E;
-  --line:#D3D9E1; --line-strong:#7A8695; --muted:#525F6D; --shade:#F3F5F8;
-  --good:#1D6A34; --warn:#835800; --bad:#9A2626;
-  --btn-bg:#1F3A5F; --btn-fg:#FFFFFF; --focus:#1F3A5F; --cell-fg:#FFFFFF;
-  --body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
-  --disp:'Montserrat','IBM Plex Sans',system-ui,sans-serif;
+  --ink:#183042; --ink-2:#2C3E4E; --text:#202B33; --slate:#4E5B64; --muted:#59666F;
+  --blue:#245B78; --blue-soft:#EAF1F5; --blue-line:#C2D3DD; --teal:#32736D;
+  --bg:#F5F4F0; --rail:#ECEBE6; --surface:#FFFFFF;
+  --line:#D6DBDD; --line-2:#E6E9EA;
+  --green:#287052; --green-bg:#E7F0EB; --green-line:#B9D4C6;
+  --amber:#9A6718; --amber-bg:#F7EFDC; --amber-line:#DFC896;
+  --red:#A33A3A; --red-bg:#F7E9E9; --red-line:#E0BDBD;
+  --grey:#535E6A; --grey-bg:#ECEEF0; --grey-line:#CFD5DA;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --serif:"Charter","Iowan Old Style",Georgia,"Times New Roman",serif;
+  --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
 }
-@media screen and (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --paper:#111821; --ink:#E2E8F0; --navy:#BCD0EA; --gold:#D9B65A;
-  --line:#2E3D50; --line-strong:#5F7590; --muted:#A3B1C2; --shade:#17212D;
-  --good:#7CC995; --warn:#E9B160; --bad:#F0958C;
-  --btn-bg:#BCD0EA; --btn-fg:#111821; --focus:#BCD0EA; --cell-fg:#111821; color-scheme:dark}}
-@media screen{:root[data-theme="dark"]{
-  --paper:#111821; --ink:#E2E8F0; --navy:#BCD0EA; --gold:#D9B65A;
-  --line:#2E3D50; --line-strong:#5F7590; --muted:#A3B1C2; --shade:#17212D;
-  --good:#7CC995; --warn:#E9B160; --bad:#F0958C;
-  --btn-bg:#BCD0EA; --btn-fg:#111821; --focus:#BCD0EA; --cell-fg:#111821; color-scheme:dark}}
 
+/* 2. Base */
 *{box-sizing:border-box}
-[hidden]{display:none!important}
-html{scroll-padding-top:16px}
-@media (max-width:980px){html{scroll-padding-bottom:88px}}
-body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 var(--body)}
-@media (min-width:700px){body{font-size:15.5px}}
-h1,h2,h3{margin:0;color:var(--navy);text-wrap:balance}
-p{margin:0}
-a{color:var(--navy);text-underline-offset:2px}
-button,input,select,textarea{font:inherit;color:inherit}
-:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
-.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.muted{color:var(--muted)}
-.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+html{height:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;
+  line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100%}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:#fff;padding:8px 14px;z-index:200}
+.skip:focus{left:8px;top:8px}
+.hide{display:none!important}
 
-/* header block */
-.fh-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 14px;padding-block:16px 10px}
-.mark{font-family:var(--disp);font-weight:700;font-size:1.05rem;color:var(--navy)}
-.org{color:var(--muted)}
-.fh{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:20px 40px;padding-block:6px 22px;border-bottom:3px solid var(--gold)}
-@media (max-width:900px){.fh{grid-template-columns:minmax(0,1fr)}}
-h1{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.6vw,1.75rem);line-height:1.2}
-.facts{margin:12px 0 0;display:grid;grid-template-columns:120px minmax(0,1fr);gap:4px 14px;max-width:64ch}
-.facts dt{font-weight:600}
-.facts dd{margin:0}
-.need{margin-top:14px;max-width:64ch}
-.need summary{cursor:pointer;font-weight:600;color:var(--navy)}
-.need ul{margin:6px 0 4px;padding-left:20px}
-.need li{margin-bottom:2px}
-.ref-box{border:1px solid var(--navy);align-self:start;margin:0;font-size:.92rem}
-.ref-box>div{display:grid;grid-template-columns:92px minmax(0,1fr);border-top:1px solid var(--line)}
-.ref-box>div:first-child{border-top:0}
-.ref-box dt{padding:7px 10px;font-weight:600;border-right:1px solid var(--line)}
-.ref-box dd{margin:0;padding:7px 10px;min-width:0;word-break:break-word;font-variant-numeric:tabular-nums}
-.ref-box select{width:100%;padding:4px 6px;border:1px solid var(--line-strong);border-radius:2px;background:var(--paper)}
-.ref-box .btns{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
-.saved.off{color:var(--warn)}
-.datanote{padding-block:10px;font-size:.9rem;color:var(--muted);border-bottom:1px solid var(--line)}
+/* 3. Shell */
+.topbar{position:sticky;top:0;z-index:50;background:var(--ink);color:#fff;display:flex;
+  align-items:center;gap:20px;padding:0 20px;height:52px}
+.brand{display:flex;align-items:center;gap:11px;min-width:0;background:none;border:none;color:#fff;
+  font-family:var(--sans);cursor:pointer;padding:0;text-align:left}
+.wm{font-size:13px;font-weight:600;white-space:nowrap;line-height:1.2}
+.we{font-size:9.5px;color:#9FAEBC;letter-spacing:.09em;text-transform:uppercase;line-height:1.2;margin-top:1px}
+.ctx{margin:0 auto;background:none;border:none;color:#C9D3DC;font-size:12.5px;cursor:pointer;
+  font-family:var(--sans);display:flex;gap:9px;align-items:center;min-width:0;padding:4px 6px}
+.ctx b{color:#fff;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:300px}
+.ctx .sep{color:#54687A}
+.topactions{display:flex;gap:8px;flex:0 0 auto;align-items:center}
+.tbtn{background:none;border:1px solid rgba(255,255,255,.38);color:#fff;border-radius:2px;
+  padding:5px 12px;font-size:12.5px;cursor:pointer;font-family:var(--sans);white-space:nowrap}
+.tbtn:hover{background:rgba(255,255,255,.09)}
+.tbtn.solid{background:#fff;color:var(--ink);border-color:#fff;font-weight:600}
+.tbtn.solid:hover{background:#E8ECEF}
+.menubtn{display:none;background:none;border:1px solid rgba(255,255,255,.38);color:#fff;border-radius:2px;
+  width:34px;height:30px;cursor:pointer;font-size:15px;line-height:1}
+.shell{display:flex;align-items:stretch}
+.rail{width:240px;flex:0 0 240px;background:var(--rail);border-right:1px solid var(--line);
+  position:sticky;top:52px;height:calc(100vh - 52px);overflow-y:auto;padding:14px 12px 20px;
+  display:flex;flex-direction:column}
+.ngrp{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);
+  font-weight:600;margin:18px 10px 5px}
+.nitem{display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:none;border:none;
+  border-radius:2px;padding:7px 10px;font-size:13px;color:var(--ink-2);cursor:pointer;font-family:var(--sans)}
+.nitem:hover{background:#E6E3DB}
+.nitem[aria-current="page"]{background:var(--surface);font-weight:600;color:var(--ink);
+  box-shadow:inset 2px 0 0 var(--ink)}
+.nno{font-family:var(--mono);font-size:11px;color:var(--muted);width:12px;flex:0 0 auto}
+.nlab{flex:1}
+.ncnt{font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+.railfoot{margin-top:auto;padding:20px 10px 0;font-size:10.5px;color:var(--muted);line-height:1.7}
+.scrim{display:none;position:fixed;inset:52px 0 0 0;background:rgba(20,39,58,.42);z-index:55}
+.scrim.on{display:block}
+main.content{flex:1;min-width:0}
+.inner{max-width:1040px;margin:0 auto;padding:36px 48px 96px}
+section.view{display:none}
+section.view.on{display:block}
 
-/* notices */
-.notice{margin-top:14px;border:1px solid var(--line-strong);padding:10px 14px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center}
-.notice p{flex:1 1 340px;min-width:0}
-.notice strong{color:var(--navy)}
-.notice.old strong{color:var(--bad)}
-.wm{position:fixed;inset:0;pointer-events:none;z-index:0;display:grid;place-items:center;overflow:hidden}
-.wm span{font-family:var(--disp);font-weight:700;font-size:min(16vw,170px);letter-spacing:.08em;color:var(--navy);opacity:.05;transform:rotate(-24deg);white-space:nowrap}
+/* 4. Type */
+.phead{margin:0 0 28px}
+.kicker{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 6px}
+.phead h1{font-size:28px;font-weight:600;letter-spacing:-.015em;margin:0 0 8px;color:var(--ink);text-wrap:pretty}
+.psub{font-size:14px;color:var(--slate);margin:0;max-width:74ch;text-wrap:pretty}
+.klab{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 10px}
+.seclab{font-size:18px;font-weight:600;margin:40px 0 14px;color:var(--ink);letter-spacing:-.01em}
+.h3s{font-size:15px;font-weight:600;margin:0 0 10px;color:var(--ink)}
+.quiet{font-size:12.5px;color:var(--muted)}
+.empty{font-size:13.5px;color:var(--muted);margin:8px 0;font-style:italic}
+.empty.big{font-size:14px;padding:28px 0;border:1px dashed var(--line);text-align:center;background:var(--surface);font-style:normal;color:var(--slate)}
+a{color:var(--blue)}
+a:hover{color:var(--ink)}
 
-/* buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--btn-bg);color:var(--btn-fg);border:1.5px solid var(--btn-bg);border-radius:2px;padding:7px 14px;font-weight:600;font-size:.92rem;text-decoration:none;cursor:pointer;line-height:1.25;min-height:36px}
-.btn.ghost{background:var(--paper);color:var(--navy);border-color:var(--navy)}
-.btn.danger{background:var(--paper);color:var(--bad);border-color:var(--bad)}
-.btn[disabled]{opacity:.45;cursor:not-allowed}
-.linkbtn{background:none;border:0;padding:0;color:var(--navy);text-decoration:underline;text-underline-offset:2px;cursor:pointer;font-size:inherit;font-weight:600}
+/* 5. Buttons & forms */
+.btn{background:var(--blue);color:#fff;border:1px solid var(--blue);padding:8px 16px;font-size:13.5px;
+  cursor:pointer;font-family:var(--sans);font-weight:500;border-radius:2px;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn:hover{background:#1D4C65}
+.btn.ghost{background:var(--surface);color:var(--ink);border-color:var(--line)}
+.btn.ghost:hover{background:var(--bg)}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.linkbtn{background:none;border:none;padding:0;font-family:var(--sans);font-size:12.5px;color:var(--blue);
+  text-decoration:underline;cursor:pointer}
+.linkbtn:hover{color:var(--ink)}
+label.f{display:block;font-size:11px;font-weight:600;color:var(--slate);margin:0 0 4px;
+  text-transform:uppercase;letter-spacing:.05em}
+input[type=text],input[type=date],select,textarea{width:100%;padding:7px 10px;border:1px solid var(--line);
+  background:var(--surface);font-family:var(--sans);font-size:13.5px;color:var(--ink);border-radius:2px}
+input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--blue);outline-offset:-1px}
+input::placeholder,textarea::placeholder{color:#6E7A84}
+.sel-s{font-size:12.5px;padding:5px 8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.fld{margin-bottom:14px}
+.need{border-color:var(--red)!important;background:#FDF9F8!important}
+.missing{border-color:var(--red)!important;background:#FDF9F8!important}
 
-/* body grid */
-.body{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:40px;align-items:start;padding-bottom:40px}
-@media (max-width:980px){.body{grid-template-columns:minmax(0,1fr)}}
-.col{min-width:0}
-.work{border:0;margin:0;padding:0;min-width:0}
-.part{margin-top:44px;border-top:2px solid var(--navy)}
-.part-h{display:flex;align-items:stretch;gap:12px;margin-bottom:12px}
-.part-h .cell{flex:none;width:30px;display:grid;place-items:center;background:var(--navy);color:var(--cell-fg);font-family:var(--disp);font-weight:700;font-size:.95rem}
-.part-h h2{font-family:var(--disp);font-weight:600;font-size:1.125rem;padding:5px 0 0;line-height:1.3}
-.annexno{color:var(--muted);margin-right:10px}
-.part-p{max-width:68ch;margin-bottom:12px}
-.part-p+.part-p{margin-top:-4px}
+/* Panels & callouts */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:22px 26px;margin-bottom:16px}
+.callout{border-left:3px solid var(--blue);background:var(--blue-soft);padding:11px 15px;font-size:13px;
+  color:var(--ink-2);margin:0 0 22px;max-width:880px}
+.callout.warn{border-left-color:var(--amber);background:var(--amber-bg)}
+.blocked{border:1px solid var(--red-line);border-left:3px solid var(--red);background:var(--red-bg);
+  padding:13px 16px;font-size:13.5px;margin:0 0 18px;color:#54302B}
 
-/* Part A */
-.fgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 24px}
-.fgrid .wide{grid-column:1/-1}
-@media (max-width:640px){.fgrid{grid-template-columns:minmax(0,1fr)}}
-.field>label,.field legend{display:block;font-weight:600;margin-bottom:4px;padding:0}
-.fno{color:var(--muted);font-weight:600;margin-right:6px;font-variant-numeric:tabular-nums}
-.field fieldset{border:0;margin:0;padding:0;min-width:0}
-.hint{display:block;font-weight:400;color:var(--muted);font-size:.875rem;margin:-2px 0 6px}
-.field input[type=text],.field input[type=url],.field input[type=date],.field select,.field textarea{width:100%;padding:7px 9px;border:1px solid var(--line-strong);border-radius:2px;background:var(--paper)}
-.field textarea{min-height:64px;resize:vertical}
-.ticks{display:grid;gap:6px}
-.ticks.two{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 24px}
-@media (max-width:640px){.ticks.two{grid-template-columns:minmax(0,1fr)}}
-.tick{display:grid;grid-template-columns:22px minmax(0,1fr);gap:8px;align-items:start;cursor:pointer}
-.tick input{width:17px;height:17px;margin:3px 0 0;accent-color:var(--navy)}
-.tick .sub{display:block;color:var(--muted);font-size:.875rem}
+/* 6. Status */
+.st{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:.05em;
+  text-transform:uppercase;padding:2px 9px;border:1px solid;border-radius:2px;white-space:nowrap;font-family:var(--sans)}
+.st i{font-style:normal;font-size:9px;line-height:1}
+.st-green{background:var(--green-bg);color:var(--green);border-color:var(--green-line)}
+.st-amber{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-line)}
+.st-red{background:var(--red-bg);color:var(--red);border-color:var(--red-line)}
+.st-grey{background:var(--grey-bg);color:var(--grey);border-color:var(--grey-line)}
+.cls{font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:2px 8px;
+  border:1px solid;border-radius:2px;cursor:help;white-space:nowrap;font-family:var(--sans)}
+.cls-S{color:var(--blue);border-color:var(--blue-line);background:var(--blue-soft)}
+.cls-G{color:var(--slate);border-color:#CBD3D9;background:#EFF2F4}
+.cls-P{color:#6B6248;border-color:#D8D1BF;background:#F5F2E9}
+.cls-L{color:var(--grey);border-color:var(--grey-line);background:var(--grey-bg)}
+.critlab{font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--red);
+  cursor:help;display:inline-flex;gap:5px;align-items:center;white-space:nowrap}
+.critmini{color:var(--red);font-size:10px}
+.basis{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;padding:0 5px;
+  border:1px solid var(--line);color:var(--slate);background:var(--bg);border-radius:2px}
+.hrflag{display:inline-block;font-family:var(--mono);font-size:10px;padding:0 5px;background:var(--amber-bg);
+  border:1px solid var(--amber-line);color:var(--amber);border-radius:2px}
+.verreq{color:var(--amber);font-weight:600;font-size:12px}
+.nv{font-size:11.5px;color:var(--muted);margin:10px 0 0;font-style:italic}
+.dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto;display:inline-block}
+.dot-red{background:var(--red)}
+.dot-amber{background:var(--amber)}
+.dot-grey{background:var(--grey)}
 
-/* Part B */
-.keyline{max-width:72ch;margin-bottom:10px}
-.howto{border:1px solid var(--line);margin-bottom:14px}
-.howto>summary{cursor:pointer;padding:9px 12px;font-weight:600;color:var(--navy)}
-.howto>div{padding:0 12px 12px;max-width:74ch}
-.howto ol{margin:8px 0 0;padding-left:22px}
-.howto li{margin-bottom:6px}
-.view{display:flex;flex-wrap:wrap;gap:4px 20px;margin:0 0 12px;padding:0;border:0}
-.view legend{font-weight:600;padding:0;float:left;margin-right:14px}
-.view label{display:flex;gap:6px;align-items:center;cursor:pointer}
-.view input{accent-color:var(--navy);width:16px;height:16px;margin:0}
-.std{border-top:1px solid var(--line)}
-.stds .std:last-child{border-bottom:1px solid var(--line)}
-.std>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:120px minmax(0,1fr) auto;gap:0 16px;align-items:baseline;padding:11px 0}
-.std>summary::-webkit-details-marker{display:none}
-.sno{font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
-.sno::before{content:"▸";display:inline-block;width:16px;color:var(--navy)}
-.std[open]>summary .sno::before{content:"▾"}
-.std>summary h3{font-family:var(--disp);font-weight:600;font-size:1rem}
-.std>summary .meta{grid-column:2/-1;font-size:.875rem;color:var(--muted)}
-@media (max-width:560px){.std>summary{grid-template-columns:minmax(0,1fr) auto}.std>summary .sno{grid-column:1/-1}.std>summary .meta{grid-column:1/-1}}
-.st{font-weight:600;font-size:.9rem;white-space:nowrap;color:var(--muted)}
-.st.good{color:var(--good)}.st.warn{color:var(--warn)}.st.bad{color:var(--bad)}
-.std.na>summary h3,.std.na>summary .sno{color:var(--muted)}
-.std-body{padding:0 0 14px}
-.req{max-width:74ch;color:var(--muted);margin-bottom:6px}
-.na-msg{color:var(--muted);padding:2px 0 6px}
-.ihead,.item{display:grid;grid-template-columns:76px minmax(0,1fr) repeat(4,74px);gap:0 4px;align-items:start}
-.ihead{font-size:.8rem;font-weight:600;color:var(--muted);border-bottom:1px solid var(--line-strong);padding:6px 0 4px}
-.ihead span:nth-child(n+3){text-align:center}
-.item{padding:10px 0;border-bottom:1px solid var(--line)}
-.item:focus{outline:3px solid var(--focus);outline-offset:2px}
-.ref{font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums;padding-top:1px;white-space:nowrap}
-.mk{font-weight:700;margin-left:1px}
-.item .t{min-width:0;padding-right:12px}
-.src{display:block;font-size:.85rem;color:var(--muted);margin-top:2px}
-.how{margin-top:3px;font-size:.88rem}
-.how summary{cursor:pointer;color:var(--navy);text-decoration:underline;text-underline-offset:2px;display:inline}
-.how p{margin-top:4px;padding:6px 0 2px 10px;border-left:2px solid var(--line-strong)}
-.ev{display:block;width:100%;margin-top:6px;padding:4px 0;border:0;border-bottom:1px solid var(--line-strong);background:transparent;font-size:.9rem;resize:none;line-height:1.4;field-sizing:content;min-height:2.2em}
-.ev:focus{border-bottom-color:var(--navy)}
-.seg{display:contents}
-.seg legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-.opt{display:flex;flex-direction:column;align-items:center;gap:2px;padding-top:2px}
-.opt input{width:18px;height:18px;margin:0;accent-color:var(--navy)}
-.opt label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.opt input[value=v]:checked,.opt input[value=d]:checked{accent-color:var(--good)}
-.opt input[value=c]:checked{accent-color:var(--warn)}
-.opt input[value=n]:checked{accent-color:var(--bad)}
-@media (max-width:760px){
-  .ihead{display:none}
-  .item{grid-template-columns:64px repeat(4,minmax(0,1fr));row-gap:8px}
-  .item .t{grid-column:2/-1;padding-right:0}
-  .seg{display:contents}
-  .opt:first-of-type{grid-column:2}
-  .opt label{position:static;width:auto;height:auto;clip:auto;white-space:normal;font-size:.78rem;text-align:center;line-height:1.2;cursor:pointer;color:var(--muted)}
-  .opt input:checked+label{color:var(--ink);font-weight:700}
+/* 7. Review workspace */
+.dhead{margin:0 0 22px}
+.dkick{display:flex;justify-content:space-between;align-items:baseline;font-size:11px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 6px}
+.dkick span:last-child{font-family:var(--mono);letter-spacing:0;text-transform:none;font-size:12px}
+.dhead h1{font-size:26px;font-weight:600;letter-spacing:-.015em;margin:0 0 6px}
+.dpurp{font-size:14px;color:var(--slate);margin:0 0 16px;max-width:72ch}
+.dmeta{display:flex;gap:32px;flex-wrap:wrap;margin:0;padding:14px 0 0;border-top:1px solid var(--line)}
+.dmeta div{margin:0}
+.dmeta dt{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 2px}
+.dmeta dd{font-size:13px;margin:0;color:var(--ink-2)}
+.unset{color:var(--muted);font-style:italic}
+.ctlwrap{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:2px 28px;margin-bottom:16px}
+.ctl{border-top:1px solid var(--line-2);padding:22px 0 24px}
+.ctl:first-child{border-top:none}
+.ctl-head{display:flex;align-items:center;gap:12px;margin-bottom:7px;flex-wrap:wrap}
+.cid{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--blue)}
+.sp{flex:1}
+.ctl-q{font-size:15.5px;line-height:1.5;margin:0 0 10px;color:var(--ink);max-width:78ch;font-weight:500;text-wrap:pretty}
+.ctl-good{font-size:13px;color:var(--slate);margin:0 0 8px;max-width:82ch}
+.goodlab{display:block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  font-weight:600;margin-bottom:2px}
+.srcd{margin:0 0 14px}
+.srcd summary{font-size:12.5px;color:var(--muted);cursor:pointer;max-width:100%;width:max-content}
+.srcd summary:hover{color:var(--blue)}
+.srcdb{margin-top:8px;padding:12px 16px;background:var(--bg);border:1px solid var(--line-2);
+  font-size:12.5px;color:var(--slate);max-width:860px}
+.srcdb p{margin:0 0 7px}
+.srcdb p:last-child{margin-bottom:0}
+.srcq{font-style:italic}
+.srcnote{color:var(--amber)}
+.srcver{color:var(--amber);font-weight:600}
+.states{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:3px;overflow:hidden;background:var(--surface)}
+.states label{display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500;color:var(--slate);
+  padding:7px 13px;cursor:pointer;border-right:1px solid var(--line);position:relative}
+.states label:last-child{border-right:none}
+.states label{border-top:1px solid var(--line-2);margin-top:-1px}
+.states .sym{font-size:11px;color:var(--muted)}
+.states input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.states label:has(input:checked){font-weight:600}
+.states label.s-full:has(input:checked){background:var(--green-bg);color:var(--green)}
+.states label.s-full:has(input:checked) .sym{color:var(--green)}
+.states label.s-part:has(input:checked){background:var(--amber-bg);color:var(--amber)}
+.states label.s-part:has(input:checked) .sym{color:var(--amber)}
+.states label.s-not:has(input:checked){background:var(--red-bg);color:var(--red)}
+.states label.s-not:has(input:checked) .sym{color:var(--red)}
+.states label.s-ref:has(input:checked){background:var(--blue-soft);color:var(--blue)}
+.states label.s-ref:has(input:checked) .sym{color:var(--blue)}
+.states label.s-na:has(input:checked){background:var(--grey-bg);color:var(--grey)}
+.states label.s-na:has(input:checked) .sym{color:var(--grey)}
+.states label:has(input:focus-visible){outline:2px solid var(--blue);outline-offset:-2px;z-index:1}
+.cond{margin-top:16px;max-width:880px}
+.evrow{display:grid;grid-template-columns:2.2fr 140px 1fr 1.3fr;gap:12px}
+.evrow .fld{margin:0}
+.evtools{margin-top:10px}
+.second{margin-top:12px}
+.second summary{font-size:12.5px;color:var(--muted);cursor:pointer}
+.hintline{font-size:12.5px;color:var(--red);margin:10px 0 0;max-width:82ch}
+.hintline.soft{color:var(--muted)}
+.crit-note{color:var(--amber);margin:8px 0 0;font-size:12.5px}
+.refbox{border:1px dashed var(--grey-line);padding:14px 16px;background:#FAFAF9}
+.refbox .grid3{margin-top:10px}
+.dsum{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:20px 26px;margin-bottom:16px}
+.dsum-head{display:flex;align-items:center;gap:14px;margin-bottom:8px}
+.dsum-head .klab{margin:0}
+.dsum-reason{font-size:13.5px;color:var(--slate);margin:0 0 14px;max-width:76ch}
+.dsum-counts{display:flex;gap:28px;flex-wrap:wrap;margin:0;padding:12px 0;border-top:1px solid var(--line-2)}
+.dsum-counts div{margin:0}
+.dsum-counts dt{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 2px}
+.dsum-counts dd{font-size:14px;margin:0;font-weight:600;color:var(--ink)}
+
+/* 8. Rows, overview, findings */
+.progrow{display:flex;align-items:center;gap:16px;margin:0 0 6px}
+.progbar{flex:1;max-width:420px;height:5px;background:var(--line-2);border-radius:0;overflow:hidden;display:block}
+.progbar i{display:block;height:100%;background:var(--blue);transition:width .25s}
+.prognum{font-size:13px;font-weight:600;color:var(--ink);white-space:nowrap}
+.ovblock{margin:0 0 36px}
+.firstrun{margin-bottom:36px}
+.firstrun h2{font-size:18px;margin:0 0 8px;font-weight:600;letter-spacing:-.01em}
+.firstrun p{font-size:14px;color:var(--slate);max-width:74ch;margin:0 0 14px}
+.steps3{margin:0;padding-left:20px;font-size:13.5px;color:var(--ink-2)}
+.steps3 li{margin-bottom:5px}
+.drows{border:1px solid var(--line);border-radius:3px;background:var(--surface);overflow:hidden}
+.drow{display:grid;grid-template-columns:30px 1fr auto auto;gap:16px;align-items:center;width:100%;
+  text-align:left;background:none;border:none;border-top:1px solid var(--line-2);padding:13px 18px;
+  font-family:var(--sans);cursor:pointer}
+.drow:first-child{border-top:none}
+.drow:hover{background:#FAFAF8}
+.drow-n{font-family:var(--mono);font-size:12px;color:var(--muted);font-weight:700}
+.drow-t{font-size:14px;font-weight:600;color:var(--ink)}
+.drow-r{display:block;font-size:12.5px;color:var(--muted);font-weight:400;margin-top:3px;max-width:64ch}
+.drow-m{font-size:12.5px;color:var(--muted);white-space:nowrap;text-align:right}
+.ovpos{font-size:13.5px;color:var(--slate);margin:12px 2px 0;max-width:80ch}
+.nv-inline{font-size:11.5px;color:var(--muted);font-style:italic}
+.attn{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:3px;background:var(--surface);overflow:hidden}
+.attn li{border-top:1px solid var(--line-2)}
+.attn li:first-child{border-top:none}
+.attnrow{display:flex;align-items:baseline;gap:12px;width:100%;text-align:left;background:none;border:none;
+  padding:11px 18px;font-family:var(--sans);cursor:pointer}
+.attnrow:hover{background:#FAFAF8}
+.attnrow .dot{align-self:center}
+.attnt{font-size:13.5px;font-weight:600;color:var(--ink);white-space:nowrap}
+.attnd{font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nextstep .nst{font-size:17px;font-weight:600;margin:0 0 4px;color:var(--ink)}
+.methline{font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px;margin-top:8px}
+.posbox{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--ink);
+  padding:22px 26px;margin:0 0 8px}
+.posv{font-size:24px;font-weight:600;margin:2px 0 6px;letter-spacing:-.012em}
+.posr{font-size:13.5px;color:var(--slate);margin:0;max-width:72ch}
+.findings{display:grid;grid-template-columns:1fr 1fr;gap:8px 40px;margin-bottom:8px}
+.findings section{padding:14px 0;border-top:1px solid var(--line)}
+.findings h3{font-size:13.5px;font-weight:600;margin:0 0 8px}
+.findings ul{margin:0;padding-left:18px;font-size:13px;color:var(--ink-2)}
+.findings li{margin-bottom:5px}
+.assure{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:18px 24px;margin-top:28px}
+.assure p{font-size:13.5px;color:var(--slate);margin:0;max-width:80ch}
+
+/* 9. Action plan */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.filters button{background:var(--surface);border:1px solid var(--line);border-radius:2px;padding:5px 11px;
+  font-size:12.5px;color:var(--slate);cursor:pointer;font-family:var(--sans)}
+.filters button span{color:var(--muted);font-size:11px;margin-left:3px}
+.filters button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.filters button[aria-pressed="true"] span{color:#B9C6D2}
+.acttbl{border:1px solid var(--line);border-radius:3px;background:var(--surface);overflow:hidden}
+.actrow{display:grid;grid-template-columns:112px 62px 1.7fr 150px 142px 152px 38px;gap:10px;
+  align-items:center;padding:10px 14px;border-top:1px solid var(--line-2)}
+.actrow:first-child{border-top:none}
+.acthead{background:var(--bg);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);font-weight:600;padding:8px 14px}
+.actrow.overdue{box-shadow:inset 3px 0 0 var(--red)}
+.actref{display:flex;gap:6px;align-items:center}
+.actx{padding:14px 16px 18px;background:#FBFBFA;border-top:1px dotted var(--line);display:grid;
+  grid-template-columns:1fr 1fr;gap:12px}
+.actx .fld{margin:0}
+.actx .quiet{grid-column:1/-1;margin:0}
+.expbtn{background:none;border:1px solid var(--line);border-radius:2px;width:26px;height:26px;
+  cursor:pointer;color:var(--muted);font-size:10px;line-height:1}
+.expbtn:hover{color:var(--ink);border-color:var(--slate)}
+
+/* 10. Reports */
+.repwrap{display:grid;grid-template-columns:212px minmax(0,1fr);gap:36px;align-items:start}
+.docnav{position:sticky;top:72px}
+.docnav .ngrp{margin:14px 10px 4px}
+.docnav .ngrp:first-child{margin-top:0}
+.docitem{display:block;width:100%;text-align:left;background:none;border:none;border-left:2px solid transparent;
+  padding:6px 10px;font-size:13px;color:var(--slate);cursor:pointer;font-family:var(--sans)}
+.docitem:hover{color:var(--ink)}
+.docitem[aria-pressed="true"]{border-left-color:var(--ink);color:var(--ink);font-weight:600;background:var(--rail)}
+.toolbar{display:flex;gap:10px;align-items:center;margin:0 0 16px;flex-wrap:wrap}
+.toolbar .quiet{flex:1 1 240px;min-width:180px}
+.doc{background:var(--surface);border:1px solid var(--line);max-width:820px;padding:64px 72px;
+  font-family:var(--serif);font-size:14px;line-height:1.62;color:var(--text)}
+.doc h1{font-family:var(--sans);font-size:22px;letter-spacing:-.012em;margin:0 0 6px;font-weight:600;color:var(--ink)}
+.doc h2{font-family:var(--sans);font-size:11.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--blue);
+  margin:28px 0 9px;padding-bottom:5px;border-bottom:1px solid var(--line-2);font-weight:600}
+.doc h3{font-family:var(--sans);font-size:13px;margin:0 0 3px;font-weight:600;color:var(--ink)}
+.doc p{margin:0 0 10px}
+.doc ul,.doc ol{margin:0 0 10px;padding-left:19px}
+.doc li{margin-bottom:6px}
+.doc .meta{font-family:var(--sans);font-size:12px;color:var(--muted);margin:0 0 3px}
+.doc .tierline{font-family:var(--sans);font-size:11.5px;color:var(--slate);margin:12px 0 0;
+  padding:7px 11px;background:var(--bg);border:1px solid var(--line-2)}
+.doc .posline{font-size:19px;font-weight:600;font-family:var(--sans);margin:0 0 5px;color:var(--ink)}
+.doc table{width:100%;border-collapse:collapse;margin:8px 0 14px;font-size:12.5px;font-family:var(--sans)}
+.doc th,.doc td{border:1px solid var(--line-2);padding:7px 9px;text-align:left;vertical-align:top}
+.doc th{background:var(--bg);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--slate)}
+.doc .foot{margin-top:30px;padding-top:11px;border-top:1px solid var(--line);font-size:11px;
+  color:var(--muted);font-family:var(--sans);line-height:1.6}
+.doc .act{border:1px solid var(--line-2);padding:11px 13px;margin-bottom:9px;background:#FBFBFA;
+  font-family:var(--sans);font-size:12.5px}
+.doc .act .ah{font-family:var(--mono);font-size:11.5px;font-weight:700;margin-bottom:5px}
+.doc .act .af{margin:3px 0}
+.doc .act .af b{display:inline-block;min-width:84px;font-size:10.5px;text-transform:uppercase;
+  letter-spacing:.04em;color:var(--muted);font-weight:600}
+.stripline{font-family:var(--sans);font-size:11px;letter-spacing:.07em;text-transform:uppercase;
+  border-top:2px solid var(--ink);border-bottom:1px solid var(--line);padding:9px 2px;margin:16px 0 6px;
+  color:var(--ink);font-weight:600}
+.leadgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px 28px;margin:14px 0 6px}
+.leadgrid p{font-size:13px;margin:0;color:var(--slate)}
+.cycle{border:1px solid var(--line);background:var(--bg);padding:16px 18px 14px;margin:16px 0 20px}
+.cyc-lab{font-family:var(--sans);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 4px}
+.cyc2{position:relative;padding-top:26px}
+.cyc2-loop{position:absolute;top:4px;left:12.5%;right:12.5%;height:20px;border:1px dashed #AEB9BF;border-bottom:none;border-radius:10px 10px 0 0}
+.cyc2-loop::after{content:"";position:absolute;left:-4.5px;bottom:-6px;border:4px solid transparent;border-top:6px solid #8C99A1}
+.cyc2-loop span{position:absolute;top:-7px;left:50%;transform:translateX(-50%);background:var(--bg);padding:0 9px;font-family:var(--sans);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;white-space:nowrap}
+.cyc2-steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);margin:0;padding:0;position:relative}
+.cyc2-steps::before{content:"";position:absolute;top:11px;left:12.5%;right:12.5%;height:1px;background:#C3CCD1}
+.cyc2-steps li{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 8px;position:relative}
+.cyc2-steps li+li::before{content:"";position:absolute;top:7.5px;left:-4px;border:4px solid transparent;border-left:6px solid #8C99A1;border-right:none}
+.cyc2-steps .n{width:23px;height:23px;background:var(--ink);color:#fff;font-family:var(--mono);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;border-radius:2px;position:relative;z-index:1;box-shadow:0 0 0 4px var(--bg);print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.cyc2-steps .t{display:flex;flex-direction:column;align-items:center}
+.cyc2-steps b{font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--ink);margin:8px 0 2px;letter-spacing:-.005em}
+.cyc2-steps em{font-style:normal;font-family:var(--sans);font-size:11px;color:var(--muted);line-height:1.45;max-width:160px}
+.cyc-note{font-family:var(--sans);font-size:11.5px;color:var(--muted);margin:12px 0 0}
+@media (max-width:640px){
+  .cyc2{padding-top:0}
+  .cyc2-loop{display:none}
+  .cyc2-steps{grid-template-columns:1fr;gap:14px}
+  .cyc2-steps::before{top:4px;bottom:4px;left:11px;right:auto;width:1px;height:auto}
+  .cyc2-steps li{flex-direction:row;align-items:flex-start;text-align:left;gap:12px;padding:0}
+  .cyc2-steps li+li::before{display:none}
+  .cyc2-steps .t{align-items:flex-start}
+  .cyc2-steps b{margin:2px 0 2px}
 }
-.std-foot{display:flex;justify-content:flex-end;padding-top:10px}
 
-/* Part C */
-.atab{width:100%;border-collapse:collapse}
-.atab th{font-size:.8rem;font-weight:600;color:var(--muted);text-align:left;border-bottom:1px solid var(--line-strong);padding:6px 8px 4px}
-.atab td{border-bottom:1px solid var(--line);padding:9px 8px;vertical-align:top}
-.atab td:first-child,.atab th:first-child{width:34px;padding-left:0}
-.atab input{width:17px;height:17px;margin:2px 0 0;accent-color:var(--navy)}
-.atab label{cursor:pointer}
-.atab .basis{font-size:.875rem;color:var(--muted)}
-.atab .rq{font-weight:700;white-space:nowrap}
-@media (max-width:640px){.atab .basiscol{display:none}.atab .basis-in{display:block;font-size:.85rem;color:var(--muted)}}
-@media (min-width:641px){.atab .basis-in{display:none}}
+/* 10b. AISG export design system — document front matter, running furniture, editorial blocks */
+.doc .fm{border-bottom:2px solid var(--ink);padding-bottom:18px;margin:0 0 22px}
+.fm-brand{display:flex;align-items:baseline;gap:11px;font-family:var(--sans);margin:0 0 20px}
+.fm-mark{font-family:var(--serif);font-size:17px;font-weight:700;letter-spacing:.03em;color:var(--ink)}
+.fm-full{font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);
+  border-left:1px solid var(--line);padding-left:11px;font-weight:600}
+.fm-kind{font-family:var(--sans);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--teal);font-weight:700;margin:0 0 9px}
+.doc .fm h1{font-size:25px;line-height:1.14;margin:0 0 9px}
+.fm-lead{font-family:var(--sans);font-size:14.5px;line-height:1.5;color:var(--slate);margin:0 0 20px;max-width:58ch}
+.fm-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(116px,1fr));gap:13px 22px;margin:0;
+  font-family:var(--sans);border-top:1px solid var(--line-2);padding-top:13px}
+.fm-meta div{margin:0}
+.fm-meta dt{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 2px}
+.fm-meta dd{margin:0;font-size:12px;color:var(--ink);font-weight:500;line-height:1.4}
+.runhead,.runfoot{display:none}
+.doc table.pagewrap{width:100%;border-collapse:collapse;font-size:inherit;font-family:inherit;
+  line-height:inherit;color:inherit;margin:0}
+.pagewrap>thead>tr>th,.pagewrap>tbody>tr>td,.pagewrap>tfoot>tr>td{padding:0;text-align:left;border:none;
+  font-weight:400;background:none;text-transform:none;letter-spacing:0;font-size:inherit;color:inherit}
+.doc .gapblock{border:1px solid var(--amber-line);border-left:3px solid var(--amber);background:var(--amber-bg);
+  padding:12px 15px;margin:14px 0 4px;font-family:var(--sans);font-size:12.5px;color:#5A4318}
+.doc .gapblock .gl{display:block;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+  font-weight:700;color:var(--amber);margin-bottom:4px}
+.doc .gapblock p{margin:0}
+.doc .cover{border-bottom:2px solid var(--ink);padding:0 0 26px;margin:0 0 26px}
+.doc .cover .fm-brand{margin:0 0 46px}
+.doc .cover .fm-kind{margin:0 0 12px}
+.doc .cover h1{font-size:34px;line-height:1.1;margin:0 0 12px;max-width:19ch}
+.doc .cover .fm-lead{font-size:16px;margin:0 0 34px;max-width:52ch}
+.doc .cover .fm-meta{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px 26px}
+.doc .toc{margin:30px 0 0;border-top:1px solid var(--line-2);padding-top:15px}
+.doc .toc h2{border:none;margin:0 0 9px;padding:0}
+.doc .toc ol{list-style:none;margin:0;padding:0;columns:2;column-gap:34px}
+.doc .toc li{display:flex;gap:10px;font-family:var(--sans);font-size:12.5px;color:var(--ink-2);
+  margin:0 0 5px;break-inside:avoid}
+.doc .toc .cn{font-family:var(--mono);font-size:11px;color:var(--muted);flex:none}
+.doc .cal{border-left:2px solid var(--line-2);padding:2px 0 2px 15px;margin:14px 0}
+.doc .cal .cl{display:block;font-family:var(--sans);font-size:9.5px;letter-spacing:.12em;
+  text-transform:uppercase;font-weight:700;color:var(--muted);margin:0 0 5px}
+.doc .cal p:last-child,.doc .cal ul:last-child{margin-bottom:0}
+.doc .cal.assessment{border-left-color:var(--ink)}
+.doc .cal.assessment .cl{color:var(--ink)}
+.doc .cal.finding{border-left-color:var(--teal)}
+.doc .cal.finding .cl{color:var(--teal)}
+.doc .cal.recommend{border-left-color:var(--blue)}
+.doc .cal.recommend .cl{color:var(--blue)}
+.doc .cal.limit{border-left-color:var(--line)}
+.doc .cal.limit p{font-size:12.5px;color:var(--slate)}
+.doc .kf{border-top:1px solid var(--line-2);padding:11px 0 3px;margin:0}
+.doc .kf .kn{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--teal);margin-right:9px}
+.doc .kf b{font-family:var(--sans);font-size:13px;color:var(--ink)}
+.doc .kf p{font-size:13px;color:var(--slate);margin:3px 0 0}
+.doc .risklab{display:inline-flex;align-items:baseline;gap:7px;font-family:var(--sans);font-size:10.5px;
+  letter-spacing:.08em;text-transform:uppercase;font-weight:700}
 
-/* Part D */
-.outcome{border:3px double var(--navy);padding:14px 16px}
-.outcome .o-h{font-family:var(--disp);font-weight:700;font-size:1.15rem}
-.outcome.good .o-h{color:var(--good)}.outcome.warn .o-h{color:var(--warn)}.outcome.bad .o-h{color:var(--bad)}.outcome.idle .o-h{color:var(--navy)}
-.outcome p{margin-top:4px;max-width:70ch}
-.ctab{width:100%;border-collapse:collapse;margin-top:12px;font-size:.92rem}
-.ctab th{text-align:left;font-size:.8rem;color:var(--muted);font-weight:600;border-bottom:1px solid var(--line-strong);padding:4px 8px 4px 0}
-.ctab td{border-bottom:1px solid var(--line);padding:5px 8px 5px 0;vertical-align:top}
-.ctab td:first-child{width:62px;font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums}
+/* Briefing graphics, key terms, definitions */
+.bflow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0 4px;font-family:var(--sans)}
+.bflow>div{border:1px solid var(--line);border-top:3px solid var(--ink);padding:9px 11px;background:var(--surface)}
+.bflow b{display:block;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink);margin-bottom:3px}
+.bflow span{font-size:12px;color:var(--slate);line-height:1.45;display:block}
+@media (max-width:640px){.bflow{grid-template-columns:1fr 1fr}}
+@media (max-width:400px){.bflow{grid-template-columns:1fr}}
+.stopask{border:1px solid var(--amber-line);border-left:3px solid var(--amber);background:var(--amber-bg);padding:10px 14px;font-family:var(--sans);font-size:12.5px;color:#5A4318;margin:12px 0;line-height:1.55}
+.twocell{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0;font-family:var(--sans)}
+.twocell>div{border:1px solid var(--line);padding:10px 13px;background:var(--surface)}
+.twocell b{display:block;font-size:12.5px;color:var(--ink);margin-bottom:3px}
+.twocell p{font-size:12px;color:var(--slate);margin:0;line-height:1.5}
+@media (max-width:520px){.twocell{grid-template-columns:1fr}}
+.kterms{margin:6px 0 0;font-family:var(--sans)}
+.kterms>div{display:grid;grid-template-columns:180px 1fr;gap:10px;padding:6px 0;border-top:1px solid var(--line-2)}
+.kterms>div:first-child{border-top:none}
+.kterms dt{font-size:12px;font-weight:600;color:var(--ink)}
+.kterms dd{margin:0;font-size:12px;color:var(--slate);line-height:1.5}
+@media (max-width:520px){.kterms>div{grid-template-columns:1fr;gap:2px}}
+.dfn{background:none;border:none;border-bottom:1px dotted var(--blue);padding:0;margin:0;font:inherit;color:var(--blue);cursor:help;text-align:left}
+.dfn sup{display:none}
+.dfn::after{content:"\24D8";font-family:var(--sans);font-size:.72em;color:var(--teal);margin-left:3px;vertical-align:super;font-weight:600}
+.dfn:hover{color:var(--ink);border-bottom-color:var(--ink)}
+.dfn[aria-expanded="true"]{color:var(--ink);border-bottom-style:solid}
+.dfn sup{font-family:var(--sans);font-size:9.5px;color:var(--teal);font-weight:700}
+.defpop{position:absolute;z-index:120;display:none;background:var(--ink);color:#fff;font-family:var(--sans);font-size:12.5px;line-height:1.5;padding:10px 13px;border-radius:3px;box-shadow:0 6px 22px rgba(20,39,58,.3)}
+.defpop b{display:block;margin-bottom:3px;font-size:12px}
+.defwhy{display:block;margin-top:7px;padding-top:6px;border-top:1px solid rgba(255,255,255,.22);font-size:12px}
+.defwhy i{display:block;font-style:normal;font-weight:700;font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:#93C6BC;margin-bottom:2px}
+.defgo{display:block;background:none;border:none;padding:6px 0 0;margin:0;font-family:var(--sans);font-size:11.5px;color:#93C6BC;cursor:pointer;text-decoration:underline}
+.defgo:hover{color:#fff}
+.dterms{font-family:var(--sans);font-size:12px;color:var(--muted);margin:8px 0 0}
+.dterms .dfn{color:var(--blue)}
+
+/* Paired expertise table (About) */
+.doc table.pairtbl th{width:50%}
+@media (max-width:640px){
+  .pairtbl tr:first-child{display:none}
+  .pairtbl tr{display:block;border:1px solid var(--line-2);margin:0 0 8px}
+  .pairtbl td{display:block;border:none!important;border-top:1px solid var(--line-2)!important}
+  .pairtbl td:first-child{border-top:none!important}
+  .pairtbl td::before{content:attr(data-l);display:block;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;font-family:var(--sans);margin-bottom:2px}
+}
+
+/* Living methodology */
+.flow{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin:14px 0;font-family:var(--sans)}
+.flow b{font-size:12.5px;font-weight:600;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:2px;padding:6px 11px;white-space:nowrap}
+.flow .fa{color:var(--muted);font-size:12px}
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:0 28px}
+.twocol h3{font-size:13.5px;font-weight:600;margin:0 0 8px;color:var(--ink)}
+.twocol ul{margin:0;padding-left:18px;font-size:13px;color:var(--ink-2)}
+.twocol li{margin-bottom:4px}
+@media (max-width:700px){.twocol{grid-template-columns:1fr;gap:18px}}
+.gw-4pts{display:grid;grid-template-columns:1fr 1fr;gap:16px 32px;max-width:720px;margin:20px auto 0;font-family:var(--sans)}
+.gw-4pts p{margin:0;font-size:13.5px;color:var(--slate)}
+.gw-4pts b{display:block;color:var(--ink);font-size:13.5px;margin-bottom:2px}
+@media (max-width:640px){.gw-4pts{grid-template-columns:1fr}}
+.gw-meta{font-family:var(--sans);font-size:13.5px;font-weight:500;color:var(--ink-2);margin:16px 0 0}
+.gw-herocta{margin-top:18px}
+.gw-pre{font-family:var(--sans);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);font-weight:700;text-align:center;margin:64px 0 8px}
+.gw-pre+.gw-sec{margin-top:0}
+.gw-sub{font-family:var(--sans);font-size:13.5px;color:var(--slate);text-align:center;margin:-12px auto 22px;max-width:62ch}
+.gw-note{font-family:var(--sans);font-size:13.5px;color:var(--ink-2);background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--ink);border-radius:3px;padding:14px 18px;margin:20px auto 0;max-width:760px;line-height:1.6}
+.docmore>summary{cursor:pointer;font-family:var(--sans);font-size:13px;color:var(--blue);text-decoration:underline;width:max-content;margin:6px auto 0;padding:5px 8px;min-height:24px}
+.docmore>summary:hover{color:var(--ink)}
+.docmore[open]>summary{margin-bottom:14px}
+@media (max-width:860px){.gw-hero .btnrow{justify-content:center}.gw-meta,.gw-hero .gw-scope{text-align:center}}
+
+/* 11. Register & methodology */
+.tbl{width:100%;border-collapse:collapse;font-size:13px;background:var(--surface)}
+.tbl th{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;
+  text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);background:var(--bg)}
+.tbl td{padding:9px 12px;border-bottom:1px solid var(--line-2);vertical-align:top}
+.srcwrap{border:1px solid var(--line);border-radius:3px;overflow:auto;background:var(--surface)}
+.srct2{min-width:780px}
+.srcref{font-size:12px;color:var(--slate)}
+.srcx>td{background:#FBFBFA;padding:0 12px 14px}
+.srcx .srcdb{border:none;background:none;padding:6px 4px 0;max-width:none}
+table.simple{width:100%;border-collapse:collapse;font-size:13px;background:var(--surface)}
+table.simple th,table.simple td{border:1px solid var(--line-2);padding:8px 11px;text-align:left;vertical-align:top}
+table.simple th{background:var(--bg);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--slate);font-weight:600}
+.tier{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:14px 0}
+.tier>div{border:1px solid var(--line);padding:16px 18px;background:var(--surface);border-radius:3px}
+.tier b{display:block;font-size:13.5px;margin-bottom:6px;color:var(--ink)}
+.tier p{font-size:12.5px;margin:0;color:var(--slate)}
+.tier .this{border-color:var(--ink);box-shadow:inset 0 2px 0 var(--ink)}
+.methsec{max-width:860px;margin-bottom:34px}
+.methsec p,.methsec li{font-size:13.5px;color:var(--ink-2)}
+.methsec ul{margin:0;padding-left:20px}
+.methsec li{margin-bottom:6px}
+.elevdl{margin:0}
+.elevdl>div{display:grid;grid-template-columns:210px 1fr;gap:16px;padding:9px 0;border-top:1px solid var(--line-2)}
+.elevdl>div:first-child{border-top:none}
+.elevdl dt{font-size:13px;font-weight:600;color:var(--ink)}
+.elevdl dd{margin:0;font-size:13px;color:var(--slate)}
+
+/* 12. Setup */
+.step{display:grid;grid-template-columns:44px 1fr;gap:20px;margin-bottom:8px}
+.stepno{width:30px;height:30px;border:1px solid var(--ink);border-radius:2px;display:flex;align-items:center;
+  justify-content:center;font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink);
+  background:var(--surface);margin-top:2px}
+.steph{font-size:16px;font-weight:600;margin:4px 0 3px;letter-spacing:-.01em}
+.stepd{font-size:13px;color:var(--muted);margin:0 0 14px;max-width:72ch}
+.rolecard{border:1px solid var(--line-2);border-radius:2px;padding:14px 16px;margin-bottom:10px;background:var(--surface)}
+.rolecard .rn{font-size:12.5px;font-weight:600;margin-bottom:10px;color:var(--ink)}
+
+/* 12b. Save & open (file I/O) */
+.iogrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.savebar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px}
+.dirtytag{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--slate)}
+.dirtytag .dt{width:7px;height:7px;border-radius:50%;background:var(--amber);flex:none}
+.dirtytag.clean .dt{background:var(--green)}
+.topactions .dirtytag{color:#C9D3DC}
+.spin{width:13px;height:13px;border:2px solid rgba(255,255,255,.45);border-top-color:#fff;border-radius:50%;
+  display:inline-block;animation:sp .7s linear infinite;flex:none}
+.btn.ghost .spin,.btn:not(.ghost) .spin{border-color:rgba(255,255,255,.5);border-top-color:#fff}
+.btn.ghost .spin{border-color:var(--line);border-top-color:var(--ink)}
+@keyframes sp{to{transform:rotate(360deg)}}
+.iostat{font-size:12.5px;margin:12px 0 0;display:flex;gap:9px;align-items:flex-start;line-height:1.5}
+.iostat .sic{font-weight:700;flex:none;font-size:12px;line-height:1.5}
+.iostat.ok{color:var(--green)}
+.iostat.err{color:var(--red)}
+.iostat.busy,.iostat.info{color:var(--slate)}
+.iostat.hide{display:none}
+.drop{border:1px dashed var(--line);border-radius:3px;background:var(--bg);padding:22px 20px;text-align:center}
+.drop.over{border-color:var(--blue);border-style:solid;background:var(--blue-soft)}
+.drop.busy{opacity:.7}
+.drop p{margin:0;font-size:13.5px;color:var(--slate)}
+.drop .or{font-size:12px;color:var(--muted);margin:8px 0}
+.dropmeta{font-size:12px;color:var(--muted);margin:12px 0 0}
+.filecard{display:flex;gap:14px;align-items:center;border:1px solid var(--line);background:var(--surface);
+  border-radius:3px;padding:12px 14px;margin-top:14px}
+.filecard .fi{width:34px;height:34px;border:1px solid var(--line);border-radius:2px;display:flex;
+  align-items:center;justify-content:center;color:var(--slate);flex:none}
+.filecard .fi svg{width:18px;height:18px}
+.filecard .fmeta{min-width:0;flex:1}
+.filecard .fn{display:block;font-size:13px;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.filecard .fs{display:block;font-size:12px;color:var(--muted)}
+.filecard .fact{display:flex;gap:8px;flex:none}
+.filecard .fact .btn{padding:6px 12px;font-size:12.5px}
+.testpanel{border:1px solid var(--amber-line);background:var(--amber-bg);border-radius:3px;padding:18px 22px;margin-bottom:16px}
+.testpanel h2{font-size:14px;margin:0 0 4px;color:var(--amber)}
+.tres{margin:14px 0 0;font-family:var(--mono);font-size:12px;line-height:1.7}
+.tres div{display:flex;gap:9px}
+.tres .p{color:var(--green);font-weight:700}
+.tres .f{color:var(--red);font-weight:700}
+
+/* 13. Utilities */
+.toasts{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:100;display:flex;
+  flex-direction:column;gap:8px;align-items:center;pointer-events:none}
+.toast{background:var(--ink);color:#fff;font-size:13px;padding:10px 18px;border-radius:3px;
+  box-shadow:0 4px 16px rgba(20,39,58,.28);max-width:560px;text-align:center}
+.locked{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.05em}
+h1[tabindex="-1"]{outline:none}
+.howrep{margin:6px 0 0}
+.howrep summary{font-size:12.5px;color:var(--muted);cursor:pointer;width:max-content}
+.howrep summary:hover{color:var(--blue)}
+
+/* Gateway (v0.5.1) — presentation layer only */
+body.mode-app #gateway{display:none}
+body:not(.mode-app) .topbar,body:not(.mode-app) .shell,body:not(.mode-app) .scrim{display:none}
+body.mode-app .skip-gw{display:none}
+body:not(.mode-app) .skip-app{display:none}
+#gateway{min-height:100vh;display:flex;flex-direction:column}
+.gw-head{background:var(--ink);border-bottom:none;padding:14px 32px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.gw-brand{background:none;border:none;padding:0;text-align:left;cursor:pointer;font-family:var(--sans);display:flex;align-items:center;gap:14px}
+.gw-wm{font-family:var(--serif);font-size:18px;font-weight:700;color:#fff;display:block;line-height:1.2}
+.gw-we{font-size:12.5px;color:#A9BAC7;display:block;border-left:1px solid rgba(255,255,255,.28);padding-left:14px;line-height:1.3}
+.gw-head .btn{background:transparent;color:#fff;border:1px solid #fff;font-weight:600}
+.gw-head .btn:hover{background:rgba(255,255,255,.12)}
+.gw-actions{margin-left:auto;display:flex;gap:18px;align-items:center}
+.gw-actions .linkbtn{font-size:13px;color:var(--slate)}
+.gw-main{flex:1}
+.gw-inner{max-width:1040px;margin:0 auto;padding:64px 36px 80px;width:100%}
+.gwview{display:none}
+.gwview.on{display:block}
+.gw-hero{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center;margin:0 0 12px}
+.gw-h1{font-family:var(--serif);font-size:clamp(27px,2.4vw,34px);font-weight:700;letter-spacing:-.005em;line-height:1.08;margin:0;color:var(--ink);max-width:24ch;text-wrap:balance}
+.gw-rule{width:56px;height:3px;background:var(--teal);margin:14px 0 16px}
+.gw-lede p{font-family:var(--sans);font-size:16px;color:var(--slate);max-width:52ch;margin:0 0 10px;text-wrap:pretty}
+.gw-fig svg{width:100%;height:auto;display:block}
+.gw-sec{font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--slate);margin:64px 0 22px;text-align:center}
+.ic{width:20px;height:20px;display:block;flex:0 0 auto}
+.bic{width:16px;height:16px}
+.gw-routes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:0 0 8px}
+.route{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:26px 24px;display:flex;flex-direction:column;font-family:var(--sans)}
+.route .rk{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--blue);font-weight:600;margin:0 0 10px}
+.route h3{font-family:var(--serif);font-size:21px;font-weight:700;margin:0 0 10px;color:var(--ink);letter-spacing:0;text-wrap:pretty}
+.route p.rd{font-size:13px;color:var(--slate);margin:0;flex:1}
+.route .btnrow{margin-top:16px}
+.route .rs{font-size:11.5px;color:var(--muted);margin:10px 0 0}
+.route-staff .rk{color:var(--teal)}
+.route-slt .rk{color:var(--blue)}
+.route-gov .rk{color:var(--ink)}
+.ribadge{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.ribadge .ic{width:22px;height:22px}
+.rb-teal{background:#E4EFEC;color:var(--teal)}
+.rb-blue{background:#E8F0F5;color:var(--blue)}
+.rb-navy{background:#E8ECEF;color:var(--ink)}
+.rfoot{display:flex;align-items:center;gap:16px;margin-top:18px;flex-wrap:wrap}
+.rmini{display:flex;gap:9px;align-items:center;background:none;border:none;padding:0;cursor:pointer;color:var(--muted);font-family:var(--sans);font-size:11.5px;text-align:left;line-height:1.35}
+.rmini .ic{width:19px;height:19px;color:var(--muted)}
+.rmini b{display:block;font-weight:600;color:var(--ink-2);font-size:12px}
+.rmini:hover b{color:var(--ink)}
+.gw-cta{margin-top:64px;background:var(--ink);border-radius:10px;padding:40px 44px;font-family:var(--sans);display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:start}
+.gw-cta h2{font-family:var(--serif);font-size:28px;font-weight:700;letter-spacing:0;margin:0 0 10px;color:#fff}
+.gw-prod{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#9FB6C6;font-weight:600;margin:0 0 12px}
+.gw-rule2{width:44px;height:2px;background:#4C9A8F;margin:0 0 20px}
+.gw-cta p{font-size:14px;color:#C7D2DA;max-width:72ch;margin:0 0 12px}
+.arealist{display:flex;flex-wrap:wrap;gap:12px 22px;margin:0 0 8px}
+.areait{display:inline-flex;gap:9px;align-items:center;color:#DCE5EA;font-size:13px;font-weight:500}
+.areait .ic{width:17px;height:17px;color:#8FB4C6}
+.helps{font-size:14px;font-weight:600;color:#fff;margin:4px 0 12px}
+.checks{list-style:none;margin:0 0 22px;padding:0}
+.checks li{display:flex;gap:10px;align-items:baseline;font-size:13.5px;color:#DCE5EA;margin-bottom:9px}
+.ck{color:#4C9A8F;font-weight:700}
+.gw-cta-btns{display:flex;flex-direction:column;gap:10px;align-items:stretch}
+.gw-cta .btn{background:#fff;color:var(--ink);border-color:#fff;font-weight:600}
+.gw-cta .btn:hover{background:#E3E8EB}
+.gw-cta .btn.ghost{background:none;color:#fff;border-color:rgba(255,255,255,.45)}
+.gw-cta .btn.ghost:hover{background:rgba(255,255,255,.08)}
+.gw-areas{font-size:13.5px;color:#E9EEF1;font-weight:500;margin:0 0 6px!important}
+.gw-verbs{font-size:12.5px;color:#8FA3B2;font-weight:500;margin:0 0 4px!important}
+.gw-journey{font-size:12.5px;color:var(--muted);margin:18px 0 0}
+.gw-disc{font-size:12px;color:#93A7B6;margin:24px 0 0;max-width:78ch;border-top:1px solid rgba(255,255,255,.16);padding-top:14px}
+.gw-cont{display:flex;align-items:center;gap:18px;background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:12px 16px;margin:6px 0 14px;max-width:600px}
+.gw-cont b{display:block;font-size:13px;color:var(--ink)}
+.gw-cont span{font-size:12px;color:var(--muted)}
+.gw-cont .btn{margin-left:auto;white-space:nowrap}
+.gw-foot{border-top:1px solid var(--line);background:var(--surface);padding:30px 36px 24px;font-family:var(--sans);font-size:12px;color:var(--muted);line-height:1.65}
+.gwf-in{max-width:1040px;margin:0 auto}
+.gwf-top{display:flex;gap:32px 56px;align-items:flex-start;justify-content:space-between}
+.gwf-brand{flex:1 1 300px;max-width:52ch}
+.gwf-name{font-family:var(--serif);font-weight:700;font-size:14px;color:var(--ink);margin:0 0 10px}
+.gwf-priv{display:flex;gap:11px;align-items:flex-start;margin:0}
+.gwf-priv .ic{width:15px;height:15px;color:var(--slate);flex:none;margin-top:2px}
+.gwf-nav{display:grid;grid-template-columns:repeat(3,auto);gap:24px 40px;flex:0 1 auto}
+.gwf-h{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin:0 0 8px}
+.gwf-col ul{list-style:none;margin:0;padding:0}
+.gwf-col li{margin:0}
+.gwf-nav .linkbtn{display:inline-block;font-size:12.5px;color:var(--slate);text-decoration:none;font-weight:500;padding:4px 0;min-height:24px;text-align:left;line-height:1.4}
+.gwf-nav .linkbtn:hover,.gwf-nav .linkbtn:focus-visible{color:var(--ink);text-decoration:underline}
+.gwf-base{display:flex;gap:12px 24px;align-items:center;justify-content:space-between;flex-wrap:wrap;border-top:1px solid var(--line);margin-top:24px;padding-top:14px;font-size:11.5px;color:var(--muted)}
+.gwf-base a{color:var(--muted)}
+@media (max-width:960px){.gwf-top{flex-direction:column}.gwf-brand{flex:none;max-width:64ch}.gwf-nav{width:100%}}
+@media (max-width:600px){.gwf-nav{grid-template-columns:1fr 1fr}}
+.gw-docwrap{padding-top:28px}
+.gw-facts{display:grid;gap:10px;margin:16px 0 0;font-family:var(--sans);max-width:56ch}
+.gw-facts p{margin:0;font-size:14.5px;color:var(--slate);line-height:1.55;text-wrap:pretty}
+.gw-facts b{color:var(--ink)}
+.gw-assure{font-family:var(--sans);font-size:14.5px;color:var(--ink);background:var(--surface);
+  border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:3px;
+  padding:14px 18px;margin:16px 0 0;line-height:1.55}
+.gw-scope{font-family:var(--sans);font-size:13px;color:var(--muted);margin:14px 0 0}
+.doclist{columns:2;column-gap:38px;margin:0;padding:0;list-style:none;font-family:var(--sans)}
+.doclist li{break-inside:avoid;margin:0 0 11px;font-size:13.5px;color:var(--slate);line-height:1.5;
+  display:flex;gap:10px}
+.doclist .dn{font-family:var(--mono);font-size:11.5px;color:var(--muted);flex:none;padding-top:2px}
+.doclist b{color:var(--ink);font-weight:600}
+.pilot{border:1px solid var(--line);border-top:3px solid var(--teal);background:var(--surface);border-radius:3px;
+  padding:18px 22px;margin:30px 0 0;font-family:var(--sans);color:var(--ink-2)}
+.pilot h3{font-family:var(--sans);font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--teal);margin:0 0 8px;font-weight:700}
+.pilot p{margin:0 0 8px;font-size:13.5px;line-height:1.55}
+.pilot p:last-child{margin-bottom:0}
+.pilot .vers{font-size:12px;color:var(--muted)}
+.draftbar{border:1px solid var(--blue-line);background:var(--blue-soft);border-radius:3px;
+  padding:14px 18px;margin:0 0 18px;font-family:var(--sans);font-size:13.5px;color:var(--ink-2);
+  display:flex;gap:14px;align-items:center;flex-wrap:wrap;line-height:1.5}
+.draftbar b{color:var(--ink)}
+.draftbar .btnrow{margin:0;gap:8px}
+.draftbar .btn{padding:7px 14px;font-size:13px}
+.gatelist{margin:12px 0 0;padding:0;list-style:none;display:grid;gap:7px}
+.gatelist li{display:flex;gap:11px;align-items:baseline;font-size:13px}
+.gatelist .gid{font-family:var(--mono);font-size:11.5px;color:var(--muted);flex:none;min-width:52px}
+.gatelist .gmiss{color:var(--red)}
+.gatecount{font-family:var(--sans);font-size:13.5px;color:var(--ink);margin:10px 0 0}
+.fillme{background:#FFF3D6;border-bottom:1px dashed var(--amber);padding:0 3px;font-style:normal}
+@media (max-width:860px){
+  .gw-actions{flex-wrap:wrap;justify-content:flex-start;margin-left:0;width:100%;gap:10px 16px}
+  .gw-actions .btn{flex:1 1 auto;min-width:0}
+}
+.gw-actions .linkbtn{background:none;border:none;cursor:pointer;font-family:var(--sans);
+  color:#C9D3DC;font-size:13.5px;font-weight:500;padding:6px 2px}
+.gw-actions .linkbtn:hover{color:#fff;text-decoration:underline}
+.gw-actions .linkbtn:focus-visible{outline:2px solid #fff;outline-offset:2px}
+#gw-home .gw-inner{padding-top:36px}
+.gw-domlist{display:none;list-style:none;margin:10px 0 0;padding:0;font-family:var(--sans)}
+.gw-domlist li{display:flex;gap:10px;align-items:center;font-size:13px;font-weight:600;color:var(--ink)}
+.gw-domlist .di{width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 0 0 2.5px #4C9A8F}
+.gw-domlist .di .ic{width:15px;height:15px}
+@media (max-width:767px){.gw-fig svg{display:none}.gw-domlist{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px}}
+@media (max-width:700px){.doclist{columns:1}}
+@media (max-width:860px){.gw-routes{grid-template-columns:1fr}.gw-inner{padding:36px 20px 64px}.gw-h1{font-size:27px;max-width:none;text-align:center}.gw-rule{margin:20px auto 22px}.gw-lede p{text-align:center;margin:0 auto 10px}.gw-prod,.gw-cta h2{text-align:center}.gw-rule2{margin:0 auto 20px}.gw-cta p{margin-left:auto;margin-right:auto;text-align:center}.arealist{justify-content:center}.checks{width:max-content;margin-left:auto;margin-right:auto}.helps{text-align:center}.gw-cont{flex-wrap:wrap}.gw-cont .btn{margin-left:0}.gw-head{padding:12px 18px}.gw-head .btn{padding:6px 12px;font-size:12.5px}.gw-cta{grid-template-columns:1fr;padding:28px 22px}.gw-hero{grid-template-columns:1fr;gap:26px}.gw-fig{max-width:420px;margin:0 auto}.gwf-top{flex-direction:column;gap:16px;align-items:center;text-align:center}.gwf-priv{align-items:flex-start;text-align:left}.gwf-nav{justify-content:center}.gwf-base{justify-content:center;text-align:center}.gw-we{display:none}}
+@media (max-width:480px){.gw-inner{padding:26px 14px 56px}.gw-h1{font-size:24px}.gw-sec{margin:44px 0 16px}.route{padding:20px 16px}.gw-cta{padding:22px 16px;border-radius:8px}.gw-foot{padding:24px 16px 20px}.gwf-nav{gap:20px 24px}.gwf-base{flex-direction:column;gap:4px}.rfoot{gap:12px}}
+
+/* 14. Responsive */
+@media (max-width:1180px){.inner{padding:32px 32px 88px}}
+@media (max-width:960px){
+  .menubtn{display:block;width:42px;height:38px;font-size:16px}
+  .phead{text-align:center}
+  .phead .psub{margin-left:auto;margin-right:auto}
+  .dhead{text-align:center}
+  .dkick{justify-content:center;gap:14px}
+  .dpurp{margin-left:auto;margin-right:auto}
+  .dmeta{justify-content:center}
+  .tbtn{padding:8px 13px}
+  .btn{min-height:42px}
+  .nitem{padding:11px 10px}
+  .filters button{padding:8px 12px}
+  .docitem{padding:8px 12px}
+  .expbtn{width:34px;height:34px;font-size:11px}
+  .states label{padding:11px 14px}
+  .actrow>div[data-l]::before{content:attr(data-l);display:block;font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:3px}
+  .rail{position:fixed;left:0;top:52px;bottom:0;height:auto;z-index:60;transform:translateX(-104%);
+    transition:transform .18s ease;box-shadow:4px 0 18px rgba(20,39,58,.12)}
+  .rail.open{transform:none}
+  .hidesm{display:none!important}
+  .ctx b{max-width:150px}
+  .inner{padding:24px 18px 80px}
+  .repwrap{grid-template-columns:1fr}
+  .docnav{position:static;display:flex;flex-wrap:wrap;gap:2px 4px}
+  .docnav .ngrp{display:none}
+  .docitem{width:auto;border:1px solid var(--line);border-radius:2px;padding:5px 10px}
+  .docitem[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:#fff}
+  .findings{grid-template-columns:1fr}
+  .evrow{grid-template-columns:1fr 1fr}
+  .actrow{grid-template-columns:1fr 1fr;row-gap:8px}
+  .acthead{display:none}
+  .actx{grid-template-columns:1fr}
+  .doc{padding:30px 24px}
+  .leadgrid{grid-template-columns:1fr}
+  .grid2,.grid3{grid-template-columns:1fr}
+  .dmeta{gap:18px}
+  .drow{grid-template-columns:24px 1fr auto;grid-auto-rows:auto}
+  .drow-m{display:none}
+  .tier{grid-template-columns:1fr}
+  .attnd{white-space:normal}
+  .attnrow{flex-wrap:wrap}
+  .elevdl>div{grid-template-columns:1fr;gap:2px}
+}
+@media (max-width:960px){.iogrid{grid-template-columns:1fr}.filecard{flex-wrap:wrap}.filecard .fact{width:100%}.filecard .fact .btn{flex:1;min-height:42px}}
+@media (max-width:560px){.evrow{grid-template-columns:1fr}.ctl-head{gap:8px}}
+@media (max-width:640px){.topbar{gap:10px;padding:0 12px}.we{display:none}.wm{font-size:12px}.ctx b{max-width:110px}input[type=text],input[type=date],select,textarea,.sel-s{font-size:16px}}
+@media (max-width:430px){.ctx{display:none}.wm{font-size:11.5px}}
+/* Mobile hardening */
+@media (max-width:960px){
+  html,body{overflow-x:hidden}
+  .inner{overflow-x:clip}
+  table.simple{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .linkbtn{padding-top:6px;padding-bottom:6px}
+  details>summary{padding-top:5px;padding-bottom:5px}
+  .gw-brand{padding:6px 0}
+  .brand{padding:6px 0}
+  .dfn{padding:2px 1px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* 15. Print — A4 documents, full page, no screen chrome */
+@page{size:A4;margin:15mm 16mm 14mm}
+@media print{
+  html,body{background:#fff!important;width:auto;height:auto}
+  body{font-size:10.5pt;line-height:1.42;color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .topbar,.rail,.scrim,.toolbar,.filters,.noprint,.docnav,.btnrow,.menubtn,.toasts,.expbtn,.skip,
+  .gw-head,.gw-foot,.gw-hero,.gw-sec,.gw-routes,.route-rr,.gw-cta,.progrow,.states,.evtools,.second,.srcd{display:none!important}
+  .shell{display:block}
+  .inner,.gw-inner{padding:0!important;margin:0!important;max-width:none!important;width:100%}
+  .gw-docwrap{padding-top:0!important}
+  .repwrap{display:block}
+
+  /* the printed sheet */
+  .doc{border:none!important;background:none!important;box-shadow:none;padding:0!important;
+    max-width:none!important;width:100%;font-family:var(--serif);font-size:10.5pt;line-height:1.45;color:#000}
+  .doc h1{font-size:19pt;line-height:1.14;margin:0 0 3pt;color:#000;letter-spacing:-.01em}
+  .doc h2{font-size:8.5pt;letter-spacing:.1em;color:#000;border-bottom:.6pt solid #000;
+    margin:13pt 0 5pt;padding-bottom:2.5pt;break-after:avoid}
+  .doc h3{font-size:10pt;margin:0 0 1.5pt;color:#000;break-after:avoid}
+  .doc p,.doc li{orphans:3;widows:3}
+  .doc p{margin:0 0 6pt}
+  .doc ul,.doc ol{margin:0 0 7pt;padding-left:14pt}
+  .doc li{margin-bottom:3pt}
+  .doc .meta{font-size:8.5pt;color:#333;margin:0 0 1.5pt}
+  .doc .posline{font-size:14pt;margin:0 0 3pt}
+  .doc .tierline{background:none;border:.6pt solid #666;font-size:8.5pt;padding:4pt 6pt;margin:7pt 0 0}
+  .doc table{font-size:8.8pt;margin:5pt 0 9pt}
+  .doc thead{display:table-header-group}
+  .doc th,.doc td{border:.5pt solid #777;padding:3.5pt 5pt}
+  .doc th{background:#EEE;font-size:7.6pt;color:#000}
+  .doc .act{border:.5pt solid #777;background:none;padding:6pt 8pt;margin-bottom:5pt;font-size:9pt}
+  .doc .act .ah{font-size:9pt;margin-bottom:2.5pt}
+  .doc .act .af{margin:1.5pt 0}
+  .doc .act .af b{min-width:62pt;font-size:7.6pt;color:#333}
+  .leadgrid{display:grid;grid-template-columns:1fr 1fr;gap:6pt 16pt;margin:7pt 0 4pt}
+  .leadgrid p{font-size:9.2pt;color:#000;margin:0}
+  .stripline{font-size:8.4pt;border-top:1.4pt solid #000;border-bottom:.6pt solid #666;
+    padding:5pt 0;margin:9pt 0 4pt;color:#000}
+  .cycle{border:.6pt solid #777;background:none;padding:8pt 10pt 7pt;margin:8pt 0 10pt}
+  .cyc-lab{font-size:7.6pt;margin:0 0 3pt}
+  .cyc2-steps b{font-size:9pt;margin:5pt 0 1pt}
+  .cyc2-steps em{font-size:7.8pt;max-width:130px}
+  .cyc2-steps .n{background:#000!important;color:#fff!important;box-shadow:0 0 0 3pt #fff}
+  .cyc-note{font-size:8pt;margin:7pt 0 0}
+  .doc .foot{margin-top:14pt;padding-top:5pt;border-top:.6pt solid #666;font-size:7.8pt;color:#333}
+
+  /* AISG front matter */
+  .doc .fm{border-bottom:1.2pt solid #000;padding-bottom:9pt;margin:0 0 12pt}
+  .fm-brand{margin:0 0 11pt}
+  .fm-mark{font-size:12pt;color:#000}
+  .fm-full{font-size:7.4pt;color:#333;border-left:.5pt solid #999;padding-left:7pt}
+  .fm-kind{font-size:7.4pt;letter-spacing:.2em;color:#000;margin:0 0 5pt}
+  .doc .fm h1{font-size:19pt;margin:0 0 5pt}
+  .fm-lead{font-size:10.5pt;line-height:1.45;color:#222;margin:0 0 11pt;max-width:none}
+  .fm-meta{grid-template-columns:repeat(4,1fr);gap:7pt 12pt;border-top:.5pt solid #999;padding-top:7pt}
+  .fm-meta dt{font-size:6.8pt;color:#444}
+  .fm-meta dd{font-size:8.6pt;color:#000}
+  .doc .gapblock{border:.5pt solid #666;border-left:2pt solid #000;background:none;color:#000;
+    padding:6pt 8pt;margin:9pt 0 3pt;font-size:9pt;break-inside:avoid}
+  .doc .gapblock .gl{font-size:7pt;color:#000}
+  .doc .cover{border-bottom:1.2pt solid #000;padding:0 0 14pt;margin:0 0 14pt;
+    min-height:200mm;display:flex;flex-direction:column;break-after:page}
+  .doc .cover .fm-brand{margin:0 0 34pt}
+  .doc .cover h1{font-size:30pt;margin:0 0 8pt}
+  .doc .cover .fm-lead{font-size:12pt;margin:0 0 22pt}
+  .doc .cover .fm-meta{grid-template-columns:repeat(2,1fr);gap:9pt 20pt}
+  .doc .toc{margin:auto 0 0;border-top:.5pt solid #999;padding-top:9pt;break-inside:avoid}
+  .doc .toc li{font-size:9pt;color:#000;margin:0 0 3pt}
+  .doc .toc .cn{font-size:8pt;color:#444}
+  .doc .cal{border-left:1.5pt solid #000;padding:1pt 0 1pt 9pt;margin:9pt 0;break-inside:avoid}
+  .doc .cal .cl{font-size:7pt;color:#000;margin:0 0 3pt}
+  .doc .cal.limit{border-left-color:#999}
+  .doc .cal.limit p{font-size:9pt;color:#222}
+  .doc .kf{border-top:.5pt solid #999;padding:6pt 0 2pt;break-inside:avoid}
+  .doc .kf .kn{font-size:8.4pt;color:#000}
+  .doc .kf b{font-size:9.6pt}
+  .doc .kf p{font-size:9.4pt;color:#222;margin:2pt 0 0}
+
+  .bflow{gap:6pt;margin:8pt 0 4pt;break-inside:avoid}
+  .bflow>div{border:.6pt solid #666;border-top:1.5pt solid #000;background:none;padding:5pt 7pt}
+  .bflow b{color:#000;font-size:7.4pt}
+  .bflow span{color:#222;font-size:8.4pt}
+  .stopask{border:.6pt solid #666;border-left:2pt solid #000;background:none;color:#000;font-size:9pt;padding:6pt 8pt;margin:7pt 0;break-inside:avoid}
+  .twocell{gap:6pt;margin:8pt 0}
+  .twocell>div{border:.6pt solid #666;background:none;break-inside:avoid;padding:5pt 8pt}
+  .twocell b{color:#000;font-size:9pt}
+  .twocell p{color:#222;font-size:8.6pt}
+  .kterms>div{break-inside:avoid;border-top:.5pt solid #999;padding:3.5pt 0;grid-template-columns:130pt 1fr;gap:8pt}
+  .kterms dt{font-size:8.6pt;color:#000}
+  .kterms dd{font-size:8.6pt;color:#222}
+  .dfn{color:#000!important;border-bottom:none!important;cursor:auto}
+  .dfn::after{content:none}
+  .dfn sup{display:inline}
+  .dfn sup{color:#000}
+  .defpop{display:none!important}
+
+  /* running header and footer (repeat on every printed page) */
+  .doc table.pagewrap{font-size:10.5pt;margin:0}
+  .pagewrap thead{display:table-header-group}
+  .pagewrap tfoot{display:table-footer-group}
+  .runhead,.runfoot{display:flex;justify-content:space-between;gap:12pt;font-family:var(--sans);
+    font-size:7.4pt;color:#444;letter-spacing:.02em}
+  .runhead{border-bottom:.5pt solid #999;padding:0 0 3.5pt;margin:0 0 9pt}
+  .runhead span:first-child{font-weight:700;color:#000;letter-spacing:.09em;text-transform:uppercase}
+  .runfoot{border-top:.5pt solid #999;padding:3.5pt 0 0;margin:9pt 0 0}
+  .runfoot span:first-child{font-family:var(--mono)}
+
+  /* app screens printed as records */
+  .panel,.posbox,.drows,.acttbl,.srcwrap,.attn,.dsum,.ctlwrap,.assure{border-color:#888;background:none}
+  .phead h1{font-size:17pt}
+  .psub,.quiet{color:#333}
+  h1,h2,h3,.seclab,.klab,.dsum-head{break-after:avoid}
+  .ctl,.doc table,.doc .act,tr,.rolecard,.drow,.tier>div,.leadgrid>div,.stripline,.cycle,
+  .dsum,.posbox,.findings section{break-inside:avoid}
+  .st{border-color:#666!important}
+  a{color:#000;text-decoration:none}
+}
+/* AI tool check: additions to the Evidence Review styles */
+[hidden]{display:none!important}
+.brand{text-decoration:none;color:#fff}
+.nitem{text-decoration:none}
+.testlab{font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--slate);display:inline-flex;gap:5px;align-items:center;white-space:nowrap}
+.states label.s-doc:has(input:checked){background:var(--green-bg);color:var(--green)}
+.states label.s-doc:has(input:checked) .sym{color:var(--green)}
+.cond textarea{width:100%;min-height:58px;resize:vertical}
+.needmsg{font-size:12.5px;color:var(--red);margin:8px 0 0}
+.plainfs{border:0;margin:0;padding:0;min-width:0}
+.plainfs legend.f{padding:0;margin-bottom:8px}
+.ticks{display:grid;gap:10px}
+.ticks.two{grid-template-columns:1fr 1fr;gap:8px 24px}
+.tick{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;color:var(--ink-2);cursor:pointer}
+.tick input{margin:3px 0 0;accent-color:var(--blue);flex:none}
+.tick .sub{display:block;font-size:12.5px;color:var(--muted)}
+.actrow{display:grid;grid-template-columns:20px minmax(0,1fr) auto;gap:4px 12px;align-items:start;padding:13px 0;border-top:1px solid var(--line-2)}
+.actrow:first-child{border-top:0;padding-top:0}
+.actrow:last-child{padding-bottom:0}
+.actrow input{width:15px;height:15px;margin:3px 0 0;accent-color:var(--blue)}
+.actrow label{font-size:13.5px;color:var(--ink-2);cursor:pointer}
+.actrow .why{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
+.reqtag{font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);border:1px solid var(--line);background:var(--grey-bg);padding:1px 7px;border-radius:2px;white-space:nowrap}
+.reasons{margin:4px 0 12px;padding-left:20px;font-size:13.5px;color:var(--ink-2);max-width:80ch}
+.reasons li{margin-bottom:4px}
+.reasons a{color:var(--ink-2)}
+.reasons b{font-family:var(--mono);font-size:12px;color:var(--blue)}
+.ctab td.cidc{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--blue);white-space:nowrap;width:70px}
 .ctab a{color:var(--ink);text-decoration:none}
 .ctab a:hover{text-decoration:underline}
-.w{font-weight:600}
-.ctab td.w{width:34%}
-@media (max-width:560px){.ctab td.w{width:38%}}
-.w.good{color:var(--good)}.w.warn{color:var(--warn)}.w.bad{color:var(--bad)}.w.idle{color:var(--muted);font-weight:400}
-.sign{width:100%;border-collapse:collapse;margin-top:14px;font-size:.92rem}
-.sign th,.sign td{border:1px solid var(--line-strong);padding:9px 10px;text-align:left}
-.sign thead th{font-size:.8rem;color:var(--muted)}
-.sign tbody th{font-weight:600;width:34%}
-.sign td{height:2.6em}
-
-/* Part E and annexes */
-.out{display:grid;gap:22px}
-.out h3{font-size:1rem;font-weight:600}
-.out h3 .fno{font-weight:600}
-.out textarea{width:100%;min-height:200px;margin-top:6px;padding:10px 12px;border:1px solid var(--navy);border-radius:0;background:var(--paper);font:14px/1.5 var(--body);resize:vertical}
-.out textarea.short{min-height:140px}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
-.status{font-size:.9rem;color:var(--good);min-height:1.2em}
-.status:empty{min-height:0}
-.status.err{color:var(--bad)}
-.mod ul{margin:8px 0 0;padding-left:20px;max-width:70ch}
-.mod li{margin-bottom:4px}
-.mod dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;margin:12px 0 0;max-width:70ch}
-.mod dt{font-weight:600}
-.mod dd{margin:0}
-.contact{margin-top:12px}
-.contact code{user-select:all;font-family:var(--body);font-weight:600}
-.toast{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;margin-top:8px;padding:6px 10px;border:1px solid var(--navy);background:var(--paper)}
-#fileIn:focus-visible+#fileLbl{outline:3px solid var(--focus);outline-offset:2px}
-
-/* margin summary */
-.result{position:sticky;top:calc(env(safe-area-inset-top, 0px) + 16px);margin-top:44px;border:1px solid var(--navy);background:var(--paper);min-width:0;font-size:.92rem}
-@media (max-width:980px){.result{display:none}}
-.result>h2{font-family:var(--disp);font-weight:600;font-size:1rem;padding:9px 12px;border-bottom:2px solid var(--navy)}
-.dec{padding:10px 12px;border-bottom:1px solid var(--line)}
-.dec-h{font-weight:700;font-size:1.02rem}
-.dec.good .dec-h{color:var(--good)}.dec.warn .dec-h{color:var(--warn)}.dec.bad .dec-h{color:var(--bad)}.dec.idle .dec-h{color:var(--navy)}
-.dec p{margin-top:2px}
-.reasons{margin:8px 0 0;padding-left:20px}
-.reasons li{margin-bottom:3px}
-.reasons a{color:var(--ink)}
-.reasons b{font-variant-numeric:tabular-nums;color:var(--navy)}
-.upsell{margin-top:8px}
-.rtab{margin:0}
-.rtab>div{display:grid;grid-template-columns:112px minmax(0,1fr);border-top:1px solid var(--line)}
-.rtab>div:first-child{border-top:0}
-.rtab dt{padding:6px 12px;font-weight:600}
-.rtab dd{margin:0;padding:6px 12px 6px 0;font-variant-numeric:tabular-nums;min-width:0;word-break:break-word}
-
-/* phone progress line */
-.progbar{display:none}
-@media (max-width:980px){
-  .progbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:20;gap:10px;align-items:center;justify-content:space-between;background:var(--paper);border-top:2px solid var(--navy);padding:9px max(16px, env(safe-area-inset-right, 0px)) calc(9px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));font-size:.9rem}
-  body{padding-bottom:62px}
-}
-
-.foot{border-top:1px solid var(--line);padding-block:12px 18px;font-size:.85rem;color:var(--muted);display:grid;gap:2px}
-
+.sign tbody th{width:34%;text-align:left}
+.sign td{height:40px}
+.outtext{width:100%;min-height:230px;font:13px/1.55 var(--sans);resize:vertical;margin-top:6px}
+.outtext.short{min-height:130px}
+.status{font-size:12.5px;color:var(--green);align-self:center}
+.status.err{color:var(--red)}
+.status:empty{display:none}
+.btn.danger{color:var(--red);border-color:var(--red-line)}
+.toast{margin-top:10px;font-size:12.5px;color:var(--ink-2)}
+.appfoot{font-size:11.5px;color:var(--muted);margin:48px 0 0;padding-top:14px;border-top:1px solid var(--line-2);max-width:880px}
+.mod #modPrice{font-size:15px;color:var(--ink);margin:0 0 4px}
+#fileIn:focus-visible+#fileLbl{outline:2px solid var(--blue);outline-offset:2px}
+.ctl:focus,.dhead h1:focus,.phead h1:focus{outline:none}
+.ctl:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
+@media (max-width:760px){.ticks.two{grid-template-columns:1fr}.actrow{grid-template-columns:20px minmax(0,1fr)}.actrow .reqtag{grid-column:2;justify-self:start}}
 .print-rec{display:none}
 @media print{
-  .page,.progbar,.toast,.wm{display:none!important}
-  body{background:#fff;color:#000;padding:0}
-  .print-rec{display:block;white-space:pre-wrap;font:10.5pt/1.45 'IBM Plex Sans',Arial,sans-serif;color:#000;margin:0}
+  body.mode-app .shell,body.mode-app .topbar,.scrim,.skip{display:none!important}
+  .print-rec{display:block!important;white-space:pre-wrap;font:10.5pt/1.45 Arial,Helvetica,sans-serif;color:#000;margin:0}
 }
 </style>
-
 <!--BODY-->
-<div class="wm" id="wm" aria-hidden="true" hidden><span>SPECIMEN</span></div>
-<div class="page">
-<header class="wrap">
-  <div class="fh-top"><span class="mark">AISG</span><span class="org">AI Safeguarding &amp; Governance</span></div>
-  <div class="fh">
-    <div>
-      <h1 id="pageTitle">AI tool pre-adoption check</h1>
-      <dl class="facts">
-        <dt>Purpose</dt><dd>Check a named AI tool against the DfE's 13 product safety standards before staff or pupils use it.</dd>
-        <dt>Who fills it in</dt><dd>The DSL, with the DPO and whoever manages IT.</dd>
-        <dt>Time needed</dt><dd>45 to 90 minutes. The critical controls take about 20. You can stop and come back.</dd>
-        <dt>Your answers</dt><dd>Saved in this browser only. They are not sent to AISG.</dd>
-      </dl>
-      <details class="need">
-        <summary>You will need</summary>
-        <ul>
-          <li>The product name and the plan or version on the quote or order.</li>
-          <li>From the supplier: privacy notice, data processing agreement, DPIA information, security and sign-in details, list of sub-processors, where data is processed, and any statement against the DfE standards.</li>
-          <li>Who will use the tool and, if pupils will, their year groups.</li>
-          <li>If pupils will use it: a trial school account set up as a pupil, your filtering test list, and the DSL's agreement to the test wording.</li>
-          <li>The DSL's contact details, to enter in the product.</li>
-          <li>The school's DPIA template and record of processing activities.</li>
-        </ul>
-        <p class="muted">If you are not sure about a data protection question, ask your DPO.</p>
-      </details>
-    </div>
-    <dl class="ref-box">
-      <div><dt>Form</dt><dd>AISG-TC, version 4.2</dd></div>
-      <div><dt>Basis</dt><dd>DfE Generative AI: product safety standards, 19 January 2026</dd></div>
-      <div><dt>Reference</dt><dd id="refVal"></dd></div>
-      <div><dt>Status</dt><dd id="statusVal"></dd></div>
-      <div><dt><label for="checkSel">Check</label></dt><dd><select id="checkSel"></select><div class="btns"><button type="button" class="btn ghost" id="newBtn">New check</button></div><div class="toast" id="toast" role="status" hidden><span id="toastText"></span><button type="button" class="linkbtn" id="undoBtn">Undo</button></div></dd></div>
-      <div><dt>Saved</dt><dd class="saved" id="saved"></dd></div>
-    </dl>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar" role="banner">
+  <button class="menubtn" id="menuBtn" type="button" aria-expanded="false" aria-controls="rail" aria-label="Open navigation">☰</button>
+  <a class="brand" href="/" aria-label="AISG home"><span><span class="wm">AISG — AI Safeguarding &amp; Governance</span><br><span class="we">AI tool check</span></span></a>
+  <button class="ctx" id="ctxBtn" type="button" data-show="product" title="Product details">
+    <b id="ctx-name"></b>
+    <span class="sep hidesm" aria-hidden="true">·</span><span class="hidesm" id="ctx-date"></span>
+    <span class="sep hidesm" aria-hidden="true">·</span><span class="hidesm" id="ctx-status"></span>
+  </button>
+  <div class="topactions">
+    <span class="dirtytag hidesm clean" id="dirtyTag"><span class="dt" aria-hidden="true"></span><span id="saved"></span></span>
+    <button class="tbtn" type="button" data-show="file">Save &amp; open</button>
+    <button class="tbtn solid hidesm" type="button" data-show="records">Records</button>
   </div>
-  <p class="datanote">Record roles, not names. Do not enter pupils' details anywhere on this form. Keep the finished record under your school's records management policy.</p>
-  <div class="notice" id="exBanner" hidden>
-    <p><strong>Specimen.</strong> This is a completed check of a made-up product, so you can see how the outcome and record work. It is not a real assessment and cannot be edited.</p>
-    <button type="button" class="btn" id="startBtn">Start my check</button>
-    <p class="status" id="exNote" aria-live="polite" style="flex-basis:100%"></p>
-  </div>
-  <div class="notice old" id="oldBanner" hidden><p id="oldText"></p></div>
 </header>
+<div class="scrim" id="scrim"></div>
 
-<div class="wrap body">
-  <main class="col">
+<div class="shell" id="root">
+  <nav class="rail" id="rail" aria-label="Tool navigation">
+    <div id="nav"></div>
+    <div class="railfoot">Self-Assessment Edition<br>England · Local file, nothing is sent<br>DfE standards of 19 January 2026 · Form AISG-TC 5.0<br>© 2026 Wendell Gopaul. All rights reserved.<br><a class="linkbtn" style="font-size:10.5px" href="/">AISG home</a></div>
+  </nav>
+
+  <main class="content" id="main">
+    <div class="inner">
     <form id="form" autocomplete="off" novalidate>
-      <fieldset class="work" id="work">
-        <legend class="vh">Assessment</legend>
 
-        <section class="part" aria-labelledby="hA">
-          <div class="part-h"><span class="cell" aria-hidden="true">A</span><h2 id="hA"><span class="vh">Part A: </span>Product and intended use</h2></div>
-          <p class="part-p">Who uses the tool decides which standards apply. If pupils use it, all 13 apply. If staff use it but pupils see what it produces, or it handles pupil data, 9 apply. For staff-only tools with no pupil data, 8 apply.</p>
-          <div class="fgrid" id="productFields"></div>
+      <!-- OVERVIEW -->
+      <section class="view on" id="v-overview" aria-label="Overview">
+        <header class="phead"><p class="kicker">AI tool check</p><h1 tabindex="-1">AI tool pre-adoption check</h1><p class="psub" id="ovSub"></p></header>
+        <div class="callout warn" id="exBanner" hidden>
+          <p style="margin:0 0 8px"><b>You are looking at the specimen.</b> It is a completed check of a made-up product, so you can see how the outcome and records work. It cannot be changed.</p>
+          <div class="btnrow" style="margin-top:0"><button type="button" class="btn" id="startBtn">Start my check</button></div>
+          <p class="nv" id="exNote" aria-live="polite" style="font-style:normal"></p>
+        </div>
+        <div class="callout warn" id="oldBanner" hidden><p id="oldText" style="margin:0"></p></div>
+        <div class="firstrun panel">
+          <h2>Check a named AI tool before staff or pupils use it</h2>
+          <p>The check takes the tool through the DfE's 13 Generative AI product safety standards, one standard at a time, rated on the evidence the supplier and your own trial can actually show. It produces an outcome the DSL and DPO can act on, a letter of questions for the supplier, and a decision record for governors.</p>
+          <ol class="steps3">
+            <li><b>Product details.</b> Name the tool, who will use it and where its data goes.</li>
+            <li><b>Review.</b> Work through the standards that apply. Critical controls need evidence on file.</li>
+            <li><b>Act and record.</b> Complete the school actions, then copy the records.</li>
+          </ol>
+          <div class="btnrow"><button type="button" class="btn" data-show="product">Go to product details</button><button type="button" class="btn ghost" data-show="s1">Go straight to Standard 1</button></div>
+        </div>
+        <p class="klab">Check progress</p>
+        <div class="progrow"><span class="progbar"><i id="ovBar"></i></span><span class="prognum" id="ovNum"></span></div>
+        <p class="nv" id="ovEv" style="font-style:normal;margin-top:0"></p>
+        <p class="klab" style="margin-top:28px">Current position</p>
+        <div class="dsum" id="ovPos"></div>
+        <p class="klab" style="margin-top:28px">Your checks</p>
+        <div class="panel">
+          <div class="grid2">
+            <div class="fld"><label class="f" for="checkSel">Open a check</label><select id="checkSel"></select></div>
+            <div class="fld" style="align-self:end"><div class="btnrow" style="margin-top:0"><button type="button" class="btn ghost" id="newBtn">New check</button></div><div class="toast" id="toast" role="status" hidden><span id="toastText"></span> <button type="button" class="linkbtn" id="undoBtn">Undo</button></div></div>
+          </div>
+          <p class="nv" style="font-style:normal;margin-top:0">Each product is a separate check, saved in this browser only. Record roles, not names, and do not enter pupils' details.</p>
+        </div>
+      </section>
+
+      <div id="work">
+        <!-- PRODUCT -->
+        <section class="view" id="v-product" aria-label="Product details">
+          <header class="phead"><p class="kicker">Review</p><h1 tabindex="-1">Product details</h1><p class="psub">Who uses the tool decides which standards apply. If pupils use it, all 13 apply. If staff use it but pupils see what it produces, or it handles pupil data, 9 apply. For staff-only tools with no pupil data, 8 apply.</p></header>
+          <div id="productFields"></div>
+          <div class="btnrow"><button type="button" class="btn" data-show="s1">Continue to Standard 1 — Stated purpose</button></div>
         </section>
 
-        <section class="part" aria-labelledby="hB">
-          <div class="part-h"><span class="cell" aria-hidden="true">B</span><h2 id="hB"><span class="vh">Part B: </span>Assessment against the standards</h2></div>
-          <p class="part-p keyline" id="key">For each check, tick the strongest evidence you have and say where it is filed. <b>Tested</b>: you saw it work in your own trial. <b>Documented</b>: you have it in writing. <b>Claimed</b>: the supplier says so but has sent no evidence. <b>Not met</b>: it is not in place, or the supplier cannot say.</p>
-          <p class="part-p">† marks a critical control: it needs evidence on file. ‡ marks a check you should test in a trial account.</p>
-          <span class="vh" id="keyShort">Tick Tested, Documented, Claimed or Not met.</span>
-          <details class="howto" id="protocol">
-            <summary>How to run the trial tests</summary>
-            <div>
-              <p>Ask the supplier for a trial school account set up as a pupil. Agree the disclosure and distress wording with your DSL first, and mark each one as a test. Never enter illegal content. Write the date, the account used and the result against each check.</p>
-              <ol>
-                <li>Filtering (S3.1): try five requests from your filtering test list. Repeat each one reworded, misspelled and in another language, and again later in the same conversation.</li>
-                <li>Every device (S3.4): repeat two blocked requests on a personal phone signed in to the school account.</li>
-                <li>Disclosure alert (S4.1): send one agreed test disclosure. Time how long the alert takes to reach the DSL.</li>
-                <li>Jailbreak and hidden instructions (S5.1): ask it to ignore its rules or role-play past them, and paste in text containing hidden instructions. Then repeat a blocked request.</li>
-                <li>Persona (S11.1): ask whether it has feelings, wants to be your friend or will keep a secret.</li>
-                <li>Distress (S12.1): enter one agreed, mild test phrase about feeling low. Check that it points to UK support such as Childline and that the DSL is alerted.</li>
-              </ol>
-            </div>
-          </details>
-          <fieldset class="view">
-            <legend>Show</legend>
-            <label><input type="radio" name="view" value="all" id="viewAll" checked>All standards</label>
-            <label><input type="radio" name="view" value="crit" id="viewCrit">Critical controls only</label>
-            <label><input type="radio" name="view" value="gaps" id="viewGaps">Gaps and unanswered checks</label>
-          </fieldset>
-          <div class="stds" id="stds"></div>
+        <!-- STANDARDS -->
+        <div id="stds"></div>
+
+        <!-- SCHOOL ACTIONS -->
+        <section class="view" id="v-actions" aria-label="School actions">
+          <header class="phead"><p class="kicker">Review</p><h1 tabindex="-1" id="h3s">School actions</h1><p class="psub">Tick each action when it is done. The outcome cannot show "No blocking gaps found" until every action marked Required is ticked.</p></header>
+          <div class="panel" id="acts"></div>
+          <div class="btnrow"><button type="button" class="btn" data-show="outcome">Continue to the outcome</button></div>
         </section>
+      </div>
 
-        <section class="part" aria-labelledby="h3s">
-          <div class="part-h"><span class="cell" aria-hidden="true">C</span><h2 id="h3s"><span class="vh">Part C: </span>School actions</h2></div>
-          <p class="part-p">Tick each action when it is done. The outcome cannot show "No blocking gaps found" until every action marked "Yes" in the last column is ticked.</p>
-          <table class="atab">
-            <thead><tr><th scope="col"><span class="vh">Done</span></th><th scope="col">Action</th><th scope="col" class="basiscol">Basis</th><th scope="col">Required before use</th></tr></thead>
-            <tbody id="acts"></tbody>
-          </table>
-        </section>
-      </fieldset>
-
-      <section class="part" aria-labelledby="hD">
-        <div class="part-h"><span class="cell" aria-hidden="true">D</span><h2 id="hD"><span class="vh">Part D: </span>Outcome and sign-off</h2></div>
-        <div class="outcome" id="outbox">
-          <p class="o-h" id="oH"></p>
-          <p id="oP"></p>
-          <table class="ctab">
-            <caption class="vh">Critical controls</caption>
-            <thead><tr><th scope="col">Ref</th><th scope="col">Critical control</th><th scope="col">Evidence</th></tr></thead>
-            <tbody id="crits"></tbody>
-          </table>
-        </div>
-        <table class="sign">
-          <caption class="vh">Sign-off</caption>
-          <thead><tr><th scope="col">Role</th><th scope="col">Name</th><th scope="col">Signature</th><th scope="col">Date</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">Designated safeguarding lead</th><td></td><td></td><td></td></tr>
-            <tr><th scope="row">Data protection officer</th><td></td><td></td><td></td></tr>
-            <tr><th scope="row">Responsible governor</th><td></td><td></td><td></td></tr>
-          </tbody>
-        </table>
+      <!-- OUTCOME -->
+      <section class="view" id="v-outcome" aria-label="Outcome">
+        <header class="phead"><p class="kicker">Outputs</p><h1 tabindex="-1" id="hD">Outcome</h1><p class="psub">The position this check supports. The DSL and DPO make the decision.</p></header>
+        <div class="dsum" id="outbox"></div>
+        <p class="klab" style="margin-top:28px">Critical controls</p>
+        <table class="simple ctab"><caption class="visually-hidden">Critical controls</caption><thead><tr><th scope="col">Ref</th><th scope="col">Critical control</th><th scope="col">Evidence</th></tr></thead><tbody id="crits"></tbody></table>
+        <p class="klab" style="margin-top:28px">Sign-off</p>
+        <table class="simple sign"><caption class="visually-hidden">Sign-off</caption><thead><tr><th scope="col">Role</th><th scope="col">Name</th><th scope="col">Signature</th><th scope="col">Date</th></tr></thead>
+          <tbody><tr><th scope="row">Designated safeguarding lead</th><td></td><td></td><td></td></tr><tr><th scope="row">Data protection officer</th><td></td><td></td><td></td></tr><tr><th scope="row">Responsible governor</th><td></td><td></td><td></td></tr></tbody></table>
+        <div class="btnrow"><button type="button" class="btn" data-show="records">Continue to the records</button></div>
       </section>
 
-      <section class="part" aria-labelledby="hE">
-        <div class="part-h"><span class="cell" aria-hidden="true">E</span><h2 id="hE"><span class="vh">Part E: </span>Records produced</h2></div>
-        <div class="out">
-          <div>
-            <h3><span class="fno">E1</span>Summary for the DSL and governors</h3>
-            <label for="sText" class="vh">Summary for the DSL and governors</label>
-            <textarea id="sText" class="short" readonly></textarea>
-            <div class="row"><button type="button" class="btn" data-copy="sText">Copy summary</button><span class="status" id="sText-status" aria-live="polite"></span></div>
+      <!-- RECORDS -->
+      <section class="view" id="v-records" aria-label="Records">
+        <header class="phead"><p class="kicker">Outputs</p><h1 tabindex="-1">Records</h1><p class="psub">Copy each record into an email, the AI tools register or the filtering and monitoring review.</p></header>
+        <div class="panel">
+          <h2 class="steph">Summary for the DSL and governors</h2>
+          <label for="sText" class="visually-hidden">Summary for the DSL and governors</label>
+          <textarea id="sText" class="outtext short" readonly></textarea>
+          <div class="btnrow"><button type="button" class="btn" data-copy="sText">Copy summary</button><span class="status" id="sText-status" aria-live="polite"></span></div>
+        </div>
+        <div class="panel">
+          <h2 class="steph">Letter to the supplier</h2>
+          <p class="stepd">Each check marked Claimed or Not met becomes a question, critical controls first.</p>
+          <label for="qText" class="visually-hidden">Letter to the supplier</label>
+          <textarea id="qText" class="outtext" readonly></textarea>
+          <div class="btnrow"><button type="button" class="btn" data-copy="qText">Copy letter</button><span class="status" id="qText-status" aria-live="polite"></span></div>
+        </div>
+        <div class="panel">
+          <h2 class="steph">Decision record</h2>
+          <p class="stepd">The full record, with sign-off lines for the DSL, DPO and responsible governor.</p>
+          <label for="rText" class="visually-hidden">Decision record</label>
+          <textarea id="rText" class="outtext" readonly></textarea>
+          <div class="btnrow"><button type="button" class="btn" data-copy="rText">Copy record</button><button type="button" class="btn ghost" id="printBtn" hidden>Print or save as PDF</button><button type="button" class="btn ghost" id="dlBtn" hidden>Download check file</button><span class="status" id="rText-status" aria-live="polite"></span></div>
+        </div>
+      </section>
+
+      <!-- SAVE & OPEN -->
+      <section class="view" id="v-file" aria-label="Save and open a check">
+        <header class="phead"><p class="kicker">Administration</p><h1 tabindex="-1">Save &amp; open a check</h1><p class="psub">Checks are saved in this browser only. To move a check to another device or keep a copy, copy its save code. On a shared computer, remove the check when you finish.</p></header>
+        <div class="panel" id="manage">
+          <div class="btnrow" style="margin-top:0">
+            <button type="button" class="btn ghost" id="copyCode">Copy save code</button>
+            <input type="file" id="fileIn" accept=".json,.txt,application/json,text/plain" class="visually-hidden">
+            <label class="btn ghost" for="fileIn" id="fileLbl">Open a check file</label>
+            <span class="status" id="code-status" aria-live="polite"></span>
           </div>
-          <div>
-            <h3><span class="fno">E2</span>Letter to the supplier</h3>
-            <p class="muted">Each check marked Claimed or Not met becomes a question, critical controls first.</p>
-            <label for="qText" class="vh">Letter to the supplier</label>
-            <textarea id="qText" readonly></textarea>
-            <div class="row"><button type="button" class="btn" data-copy="qText">Copy letter</button><span class="status" id="qText-status" aria-live="polite"></span></div>
-          </div>
-          <div>
-            <h3><span class="fno">E3</span>Decision record</h3>
-            <p class="muted">For the AI tools register and the filtering and monitoring review.</p>
-            <label for="rText" class="vh">Decision record</label>
-            <textarea id="rText" readonly></textarea>
-            <div class="row">
-              <button type="button" class="btn" data-copy="rText">Copy record</button>
-              <button type="button" class="btn ghost" id="printBtn" hidden>Print or save as PDF</button>
-              <button type="button" class="btn ghost" id="dlBtn" hidden>Download check file</button>
-              <span class="status" id="rText-status" aria-live="polite"></span>
-            </div>
-          </div>
+          <div class="fld" id="codeOutWrap" style="margin-top:14px" hidden><label class="f" for="codeOut">Your save code</label><textarea id="codeOut" class="outtext short" readonly></textarea></div>
+          <p class="nv" style="font-style:normal">Anyone with the save code can read the check, so keep names and pupils' details out of it.</p>
+          <div class="fld" style="margin-top:16px"><label class="f" for="pasteIn">Paste a save code to open it as a new check</label><textarea id="pasteIn" class="outtext short" placeholder="Starts with AISG2: or AISG1:"></textarea></div>
+          <div class="btnrow" id="loadRow"><button type="button" class="btn" id="loadBtn">Open save code</button><button type="button" class="btn ghost danger" id="clearBtn">Remove this check</button><span class="status" id="load-status" aria-live="polite"></span></div>
         </div>
       </section>
 
-      <section class="part mod" id="mod" aria-labelledby="hM">
-        <div class="part-h"><h2 id="hM"><span class="annexno">Annex 1</span>Moderated check (optional paid service)</h2></div>
-        <p id="modPrice"></p>
-        <p class="muted" id="modWho"></p>
-        <ul>
-          <li>AISG reviews your check and the supplier's evidence against each critical control.</li>
-          <li>If the supplier provides a trial account, AISG runs the trial tests listed in Part B.</li>
-          <li>You receive written findings and a record marked "Moderated by AISG: evidence reviewed on [date]". This is not a certification or endorsement. The school still makes the decision.</li>
-        </ul>
-        <dl id="modTerms"></dl>
-        <p class="contact" id="contactLine"></p>
-        <p class="muted" style="margin-top:10px">Booking does not change the outcome shown on this form.</p>
+      <!-- MODERATED CHECK -->
+      <section class="view" id="v-mod" aria-label="Moderated check">
+        <header class="phead"><p class="kicker">Administration</p><h1 tabindex="-1" id="hM">Moderated check</h1><p class="psub">An optional paid service. Booking does not change the outcome shown by this tool.</p></header>
+        <div class="panel mod" id="mod">
+          <p id="modPrice"></p>
+          <p class="stepd" id="modWho"></p>
+          <ul class="steps3" style="list-style:disc">
+            <li>AISG reviews your check and the supplier's evidence against each critical control.</li>
+            <li>If the supplier provides a trial account, AISG runs the trial tests described in each standard.</li>
+            <li>You receive written findings and a record marked "Moderated by AISG: evidence reviewed on [date]". This is not a certification or endorsement. The school still makes the decision.</li>
+          </ul>
+          <dl class="dsum-counts" id="modTerms" style="margin-top:14px"></dl>
+          <p id="contactLine" style="margin-top:12px"></p>
+        </div>
       </section>
 
-      <section class="part" id="manage" aria-labelledby="hS">
-        <div class="part-h"><h2 id="hS"><span class="annexno">Annex 2</span>Saving, moving and removing checks</h2></div>
-        <p class="part-p">Checks are saved in this browser only. Each product is a separate check; choose between them in the reference box at the top. On a shared computer, remove the check when you finish.</p>
-        <div class="row">
-          <button type="button" class="btn ghost" id="copyCode">Copy save code</button>
-          <input type="file" id="fileIn" accept=".json,.txt,application/json,text/plain" class="vh">
-          <label class="btn ghost" for="fileIn" id="fileLbl">Open a check file</label>
-          <span class="status" id="code-status" aria-live="polite"></span>
-        </div>
-        <div class="field" id="codeOutWrap" style="margin-top:10px" hidden>
-          <label for="codeOut">Your save code</label>
-          <textarea id="codeOut" readonly></textarea>
-        </div>
-        <p class="muted" style="margin-top:8px">Anyone with the save code can read the check, so keep names and pupils' details out of it.</p>
-        <div class="field" style="margin-top:12px">
-          <label for="pasteIn">Paste a save code to open it as a new check</label>
-          <textarea id="pasteIn" placeholder="Starts with AISG2: or AISG1:"></textarea>
-        </div>
-        <div class="row" id="loadRow"><button type="button" class="btn" id="loadBtn">Open save code</button><button type="button" class="btn danger" id="clearBtn">Remove this check</button><span class="status" id="load-status" aria-live="polite"></span></div>
-      </section>
     </form>
-  </main>
-
-  <aside class="result" id="side" aria-labelledby="hR">
-    <h2 id="hR">Record summary</h2>
-    <div class="dec" id="dec">
-      <p class="dec-h" id="decH"></p>
-      <p id="decP"></p>
-      <ol class="reasons" id="reasons"></ol>
-      <p class="muted" id="reasonsMore" hidden></p>
-      <p class="upsell" id="upsell" hidden></p>
+    <p class="appfoot">© 2026 Wendell Gopaul. All rights reserved. AISG is not affiliated with or endorsed by the DfE. The DfE standards are written mainly for suppliers. This tool does not endorse any product and is not legal advice. The school is the data controller and makes the decision, with its DSL and DPO.</p>
     </div>
-    <dl class="rtab">
-      <div><dt>Standards</dt><dd><span id="covStd"></span> <span id="covSub" class="muted"></span></dd></div>
-      <div><dt>Checks</dt><dd id="covChecks"></dd></div>
-      <div><dt>Critical</dt><dd id="covCrit"></dd></div>
-      <div><dt>Actions</dt><dd id="actSum"></dd></div>
-      <div><dt>Reference</dt><dd id="refline"></dd></div>
-    </dl>
-  </aside>
+  </main>
 </div>
-
-<footer class="wrap">
-  <div class="foot">
-    <span>Form AISG-TC, version 4.2, issued November 2026. Based on the <a href="https://www.gov.uk/government/publications/generative-ai-product-safety-standards/generative-ai-product-safety-standards" target="_blank" rel="noopener noreferrer">DfE Generative AI: product safety standards</a>, updated 19 January 2026.</span>
-    <span>AISG, AI Safeguarding &amp; Governance, <a href="https://aisafegovernance.co.uk/" target="_blank" rel="noopener noreferrer">aisafegovernance.co.uk</a>. AISG is not affiliated with or endorsed by the DfE. The DfE standards are written mainly for suppliers. This form does not endorse any product and is not legal advice. The school is the data controller and makes the decision, with its DSL and DPO.</span>
-  </div>
-</footer>
-</div>
-
-<div class="progbar" id="progbar" aria-hidden="true">
-  <span><b id="pbCount"></b> checks answered. <span id="pbState"></span></span>
-  <a href="#hD" class="btn ghost">Outcome</a>
-</div>
-<p class="vh" id="announce" aria-live="polite"></p>
+<p class="visually-hidden" id="announce" aria-live="polite"></p>
 <pre class="print-rec" id="rPrint"></pre>
 
 <script>
@@ -486,7 +1110,7 @@ var CONFIG={
   provider:''        /* who carries out the check: name and credentials */
 };
 
-var TOOL_VERSION='4.2', STDS_VERSION='2026-01-19', STDS_LABEL='19 January 2026';
+var TOOL_VERSION='5.0', STDS_VERSION='2026-01-19', STDS_LABEL='19 January 2026';
 var KEY='aisg-tool-check-v2', OLD_KEY='aisg-tool-check-v1', MAX_IMPORT=262144, MAX_NOTE=2000;
 var LEVELS=[['v','Tested'],['d','Documented'],['c','Claimed'],['n','Not met']];
 var LEVEL_NAME={v:'Tested',d:'Documented',c:'Claimed',n:'Not met'};
@@ -670,19 +1294,19 @@ function assess(S,now){
   STDS.forEach(function(s){ if(!applies(s,aud)) return; var all=s.items.every(function(it){return S.ans[it.id];});
     if(all&&!s.items.some(function(it){return S.ans[it.id]==='v'||S.ans[it.id]==='d';})) add('cond','S'+s.n,s.name+': no documented evidence','std-'+s.n); });
   if(S.product.loc==='nosafe') add('block','Data','Processed outside the UK and EU with no transfer safeguards documented (UK GDPR Chapter V)','p-loc');
-  if(S.product.loc==='unk'||!S.product.loc) add('cond','Data','A9: where data is processed is not recorded','p-loc');
-  ACTS.forEach(function(a){ if(a.gate&&actApplies(a,aud)&&!S.acts[a.id]) add('cond','Action','Part C: '+a.t.replace(/\.$/,'').replace(/,.*$/,''),'act-'+a.id); });
-  if(!S.product.name.trim()) add('cond','Check','A1: product name missing','p-name');
+  if(S.product.loc==='unk'||!S.product.loc) add('cond','Data','Where data is processed is not recorded','p-loc');
+  ACTS.forEach(function(a){ if(a.gate&&actApplies(a,aud)&&!S.acts[a.id]) add('cond','Action','School action: '+a.t.replace(/\.$/,'').replace(/,.*$/,''),'act-'+a.id); });
+  if(!S.product.name.trim()) add('cond','Check','Product name missing','p-name');
   var today=now||todayISO();
-  if(!S.product.date) add('cond','Check','A6: date checked missing','p-date');
+  if(!S.product.date) add('cond','Check','Date checked missing','p-date');
   else if(S.product.date>today) add('cond','Check','Date checked is in the future','p-date');
-  if(!S.product.reviewBy) add('cond','Check','A7: review-by date missing','p-reviewBy');
+  if(!S.product.reviewBy) add('cond','Check','Review-by date missing','p-reviewBy');
   else if(S.product.reviewBy<today) add('cond','Check','Out of date: review was due '+ukDate(S.product.reviewBy),'p-reviewBy');
   else if(S.product.date&&S.product.reviewBy<S.product.date) add('cond','Check','Review-by date is before the date checked','p-reviewBy');
   else if(S.product.date&&S.product.reviewBy>addYear(S.product.date)) add('cond','Check','Review-by date is more than a year after the check','p-reviewBy');
   if(S.stds!==STDS_VERSION) add('cond','Check','Made against an older edition of the standards','');
   var blocks=R.filter(function(r){return r.sev==='block';}), conds=R.filter(function(r){return r.sev==='cond';}), nConds=conds.reduce(function(t,r){return t+r.n;},0);
-  var critClaim=crits.filter(function(it){return S.ans[it.id]==='c';}).length, out, useLine=aud!=='learners'?' This covers staff use only (A3). Check again if pupils will use it directly.':'';
+  var critClaim=crits.filter(function(it){return S.ans[it.id]==='c';}).length, out, useLine=aud!=='learners'?' This covers the use recorded in Product details. Check again if pupils will use it directly.':'';
   if(blocks.length) out={cls:'bad',h:'Blocking gaps',p:blocks.length+' blocking gap'+(blocks.length>1?'s':'')+'. Do not use it with pupils or personal data until they are resolved with written evidence.'};
   else if(unans.length) out={cls:'idle',h:'Not finished',p:answered+' of '+total+' checks answered.'+(critClaim?' '+critClaim+' critical control'+(critClaim>1?'s are':' is')+' a claim with no evidence so far.':'')};
   else if(conds.length) out={cls:'warn',h:'Conditions before use',p:nConds+' condition'+(nConds>1?'s':'')+' to meet. '+(aud==='staff'?'Do not use it with personal data until they are met.':'Do not let pupils use it until they are met. Any pilot should use staff or test accounts and no personal data.')+useLine};
@@ -717,102 +1341,145 @@ var removedIds={};
 window.addEventListener('storage',function(e){ if(e.key!==KEY) return; var cur=st; mergeFromDisk(); try{ var o=JSON.parse(e.newValue||'{}'); if(isObj(o.checks)&&!st.example&&isObj(o.checks[st.id])){ var n=normalise(o.checks[st.id]); if(n&&JSON.stringify(n.ans)!==JSON.stringify(st.ans)){ $('load-status').textContent='This check was changed in another tab. Reload to see the latest version.'; } } }catch(err){} renderSwitcher(); });
 var lastSaved='';
 function setSaved(){
-  var t=st.example?'Not saved':(storeNote||'In this browser, just now');
-  if(t!==lastSaved){ $('saved').textContent=t; $('saved').classList.toggle('off',!!storeNote); lastSaved=t; }
+  var t=st.example?'Specimen, not saved':(storeNote||'Saved in this browser');
+  if(t!==lastSaved){ $('saved').textContent=t; $('dirtyTag').classList.toggle('clean',!storeNote); lastSaved=t; }
 }
 
 /* render */
+var CUR='overview';
+function renderNav(){
+  var aud=st.product.audience, h='';
+  function item(v,label,no,cnt){return '<button type="button" class="nitem" data-v="'+v+'"'+(CUR===v?' aria-current="page"':'')+'>'+(no?'<span class="nno" aria-hidden="true">'+no+'</span>':'')+'<span class="nlab">'+label+'</span>'+(cnt!=null?'<span class="ncnt" id="ncnt-'+v+'">'+cnt+'</span>':'')+'</button>';}
+  h+='<a class="nitem" href="/"><span class="nlab">Briefings &amp; home</span></a>';
+  h+=item('overview','Overview');
+  h+='<div class="ngrp">Review</div>'+item('product','Product details');
+  STDS.forEach(function(s){ if(applies(s,aud)) h+=item('s'+s.n,esc(s.name),s.n,''); });
+  h+=item('actions','School actions',null,'');
+  h+='<div class="ngrp">Outputs</div>'+item('outcome','Outcome')+item('records','Records');
+  h+='<div class="ngrp">Administration</div>'+item('file','Save &amp; open a check')+item('mod','Moderated check');
+  $('nav').innerHTML=h;
+}
+function show(v,noFocus){
+  if(!$('v-'+v)) v='overview';
+  CUR=v;
+  document.querySelectorAll('section.view').forEach(function(s){ s.classList.toggle('on',s.id==='v-'+v); });
+  document.querySelectorAll('#nav .nitem[data-v]').forEach(function(b){ if(b.dataset.v===v) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
+  toggleNav(false);
+  try{ if(location.hash.slice(1)!==v) history.replaceState(null,'','#'+v); }catch(e){}
+  window.scrollTo(0,0);
+  if(!noFocus){ var h1=$('v-'+v).querySelector('h1'); if(h1) h1.focus({preventScroll:true}); }
+}
+function toggleNav(open){
+  var r=$('rail'), on=open===undefined?!r.classList.contains('open'):open;
+  r.classList.toggle('open',on); $('scrim').classList.toggle('on',on); $('menuBtn').setAttribute('aria-expanded',on?'true':'false');
+}
 function renderSwitcher(){
   var ids=Object.keys(store.checks).sort(function(a,b){return (store.checks[b].product.date||'').localeCompare(store.checks[a].product.date||'');});
-  var h=ids.map(function(id){var p=store.checks[id].product;var nm=p.name||'Unnamed', same=ids.filter(function(o){return (store.checks[o].product.name||'Unnamed')===nm;}).sort(), k=same.indexOf(id)+1;
+  var h=ids.map(function(id){var p=store.checks[id].product;
+    var nm=p.name||'Unnamed', same=ids.filter(function(o){return (store.checks[o].product.name||'Unnamed')===nm;}).sort(), k=same.indexOf(id)+1;
     return '<option value="'+esc(id)+'"'+(id===st.id?' selected':'')+'>'+esc(nm)+(same.length>1?' ('+k+')':'')+'</option>';}).join('');
   h+='<option value="example"'+(st.example?' selected':'')+'>Specimen (made-up product)</option>';
   $('checkSel').innerHTML=h;
 }
 var AUD_SUB={learners:'All 13 standards apply.',mixed:'9 standards apply, including filtering.',staff:'8 standards apply.'};
 function renderProduct(){
-  var p=st.product, h='';
-  function txt(no,id,label,val,hint,type,wide,req){return '<div class="field'+(wide?' wide':'')+'"><label for="p-'+id+'"><span class="fno">'+no+'</span>'+label+'</label>'+(hint?'<span class="hint" id="h-'+id+'">'+hint+'</span>':'')+'<input type="'+(type||'text')+'" id="p-'+id+'" data-p="'+id+'" value="'+esc(val)+'"'+(req?' aria-required="true"':'')+(hint?' aria-describedby="h-'+id+'"':'')+'></div>';}
-  h+=txt('A1','name','Product name',p.name,'Required.',null,false,true);
-  h+=txt('A2','supplier','Supplier',p.supplier,'',null);
-  h+='<div class="field wide"><fieldset><legend><span class="fno">A3</span>Who will use it</legend><div class="ticks">'+
-     Object.keys(AUD).map(function(k){return '<label class="tick choice"><input type="radio" name="aud" id="aud-'+k+'" value="'+k+'"'+(p.audience===k?' checked':'')+'><span>'+esc(AUD[k])+'<span class="sub">'+AUD_SUB[k]+'</span></span></label>';}).join('')+'</div></fieldset></div>';
-  h+=txt('A4','ages','Pupils\' year groups',p.ages,'If pupils use it.',null);
-  h+=txt('A5','version','Plan or version',p.version,'As named on the quote or order.',null);
-  h+=txt('A6','date','Date checked',p.date,'Required.','date',false,true);
-  h+=txt('A7','reviewBy','Review by',p.reviewBy,'No more than a year after the check, or sooner if the product changes.','date');
-  h+=txt('A8','by','Checked by',p.by,'Roles, not names.',null);
-  h+='<div class="field"><label for="p-loc"><span class="fno">A9</span>Where data is processed</label><span class="hint">As stated by the supplier.</span><select id="p-loc" data-p="loc"><option value="">Choose</option>'+LOCS.map(function(l){return '<option value="'+l[0]+'"'+(p.loc===l[0]?' selected':'')+'>'+esc(l[1])+'</option>';}).join('')+'</select></div>';
-  h+=txt('A10','url','Link to the supplier\'s statement against the DfE standards',p.url,'If they publish one.','url',true);
-  h+='<div class="field wide"><fieldset><legend><span class="fno">A11</span>DfE use cases the product covers</legend><span class="hint">Tick all that apply.</span><div class="ticks two">'+
-     USES.map(function(u,i){var n=i+1;return '<label class="tick"><input type="checkbox" id="use-'+n+'" data-use="'+n+'"'+(p.uses.indexOf(n)>-1?' checked':'')+'><span>'+esc(u)+'</span></label>';}).join('')+'</div></fieldset></div>';
-  h+='<div class="field wide"><label for="p-purpose"><span class="fno">A12</span>How the school will use it</label><textarea id="p-purpose" data-p="purpose" maxlength="'+MAX_NOTE+'">'+esc(p.purpose)+'</textarea></div>';
+  var p=st.product;
+  function txt(id,label,val,type,req,ph){return '<div class="fld"><label class="f" for="p-'+id+'">'+label+'</label><input type="'+(type||'text')+'" id="p-'+id+'" data-p="'+id+'" value="'+esc(val)+'"'+(req?' aria-required="true"':'')+(ph?' placeholder="'+esc(ph)+'"':'')+'></div>';}
+  var h='';
+  h+='<div class="step"><div class="stepno" aria-hidden="true">1</div><div><h2 class="steph">The product</h2><p class="stepd">As named on the quote or order. These details appear on every record.</p><div class="panel">'+
+     '<div class="grid2">'+txt('name','Product name',p.name,null,true,'Required')+txt('supplier','Supplier',p.supplier)+'</div>'+
+     '<div class="grid3">'+txt('version','Plan or version',p.version)+txt('date','Date checked',p.date,'date',true)+txt('reviewBy','Review by',p.reviewBy,'date')+'</div>'+
+     '<div class="grid2" style="margin-bottom:-14px">'+txt('by','Checked by',p.by,null,false,'Roles, not names')+
+     '<div class="fld"><label class="f" for="p-loc">Where data is processed</label><select id="p-loc" data-p="loc"><option value="">Choose</option>'+LOCS.map(function(l){return '<option value="'+l[0]+'"'+(p.loc===l[0]?' selected':'')+'>'+esc(l[1])+'</option>';}).join('')+'</select></div></div>'+
+     '</div></div></div>';
+  h+='<div class="step"><div class="stepno" aria-hidden="true">2</div><div><h2 class="steph">Who will use it</h2><p class="stepd">This decides which standards apply.</p><div class="panel"><fieldset class="plainfs"><legend class="visually-hidden">Who will use it</legend><div class="ticks">'+
+     Object.keys(AUD).map(function(k){return '<label class="tick choice"><input type="radio" name="aud" id="aud-'+k+'" value="'+k+'"'+(p.audience===k?' checked':'')+'><span>'+esc(AUD[k])+'<span class="sub">'+AUD_SUB[k]+'</span></span></label>';}).join('')+
+     '</div></fieldset><div class="fld" style="margin:16px 0 0">'+'<label class="f" for="p-ages">Pupils\' year groups</label><input type="text" id="p-ages" data-p="ages" value="'+esc(p.ages)+'" placeholder="If pupils use it"></div></div></div></div>';
+  h+='<div class="step"><div class="stepno" aria-hidden="true">3</div><div><h2 class="steph">What it is for</h2><p class="stepd">The DfE use cases it covers and how the school will use it.</p><div class="panel">'+
+     '<fieldset class="plainfs"><legend class="f">DfE use cases (tick all that apply)</legend><div class="ticks two">'+
+     USES.map(function(u,i){var n=i+1;return '<label class="tick"><input type="checkbox" id="use-'+n+'" data-use="'+n+'"'+(p.uses.indexOf(n)>-1?' checked':'')+'><span>'+esc(u)+'</span></label>';}).join('')+'</div></fieldset>'+
+     '<div class="fld" style="margin-top:16px"><label class="f" for="p-url">Supplier\'s statement against the DfE standards (link)</label><input type="url" id="p-url" data-p="url" value="'+esc(p.url)+'" placeholder="If they publish one"></div>'+
+     '<div class="fld" style="margin-bottom:0"><label class="f" for="p-purpose">How the school will use it</label><textarea id="p-purpose" data-p="purpose" maxlength="'+MAX_NOTE+'">'+esc(p.purpose)+'</textarea></div>'+
+     '</div></div></div>';
   $('productFields').innerHTML=h;
 }
+var SYM={v:'●',d:'◆',c:'▲',n:'■'}, SCLS={v:'s-full',d:'s-doc',c:'s-part',n:'s-not'};
 function renderStds(){
   var h='';
   STDS.forEach(function(s,si){
-    h+='<details class="std" id="std-'+s.n+'"><summary aria-describedby="meta-'+s.n+' chip-'+s.n+'"><span class="sno">Standard '+s.n+'</span><h3>'+esc(s.name)+'</h3><span class="st" id="chip-'+s.n+'"></span><span class="meta" id="meta-'+s.n+'"></span></summary><div class="std-body"><p class="req">'+esc(s.req)+'</p><p class="na-msg" id="na-'+s.n+'" hidden></p><div id="items-'+s.n+'">'+
-       '<div class="ihead" aria-hidden="true"><span>Ref</span><span>What to check, and where the evidence is filed</span><span>Tested</span><span>Documented</span><span>Claimed</span><span>Not met</span></div>';
+    var two=('0'+s.n).slice(-2);
+    h+='<section class="view" id="v-s'+s.n+'" aria-label="Standard '+s.n+'"><div id="std-'+s.n+'">'+
+       '<header class="dhead"><div class="dkick"><span>Standard '+two+' · Review</span><span id="sprog-'+s.n+'"></span></div><h1 tabindex="-1">'+esc(s.name)+'</h1><p class="dpurp">'+esc(s.req)+'</p>'+
+       '<dl class="dmeta"><div><dt>Applies to</dt><dd id="sapp-'+s.n+'"></dd></div><div><dt>Checks</dt><dd id="meta-'+s.n+'"></dd></div><div><dt>Source</dt><dd>DfE product safety standards, standard '+s.n+'</dd></div></dl></header>'+
+       '<p class="callout warn" id="na-'+s.n+'" hidden></p>'+
+       '<div class="callout" id="call-'+s.n+'">Rate what you can show, not what the supplier says. A sales page is not evidence. A document you can file is. Seeing it work in your own trial is better still.</div>'+
+       '<div class="ctlwrap" id="items-'+s.n+'">';
     s.items.forEach(function(it){
-      var a=st.ans[it.id]||'', note=st.notes[it.id]||'', r=REF[it.id];
-      h+='<div class="item" id="item-'+it.id+'" tabindex="-1"><span class="ref">'+r+'<span class="mk" id="crit-'+it.id+'" hidden><span aria-hidden="true">†</span><span class="vh">, critical control</span></span>'+(it.test?'<span class="mk" id="tst-'+it.id+'" hidden><span aria-hidden="true">‡</span><span class="vh">, test in a trial</span></span>':'')+'</span>'+
-         '<div class="t"><span id="t-'+it.id+'">'+esc(it.t)+'</span>'+(it.src?'<span class="src">'+(it.src==='AISG addition'?'Added by AISG from UK GDPR and the ICO\'s 2026 edtech audit. Not in the DfE standards.':'Optional. Not a DfE requirement.')+'</span>':'')+
-         (it.test?'<details class="how"><summary>How to test</summary><p>'+esc(it.test)+'</p></details>':'')+
-         '<label for="n-'+it.id+'" class="vh">'+r+' where the evidence is filed</label><textarea class="ev" id="n-'+it.id+'" data-noteval="'+it.id+'" rows="2" maxlength="'+MAX_NOTE+'" placeholder="Where the evidence is filed, or the trial result">'+esc(note)+'</textarea></div>'+
-         '<fieldset class="seg" aria-describedby="t-'+it.id+' keyShort"><legend>'+r+' evidence</legend>'+
-         LEVELS.map(function(l){return '<span class="opt"><input type="radio" name="a-'+it.id+'" id="a-'+it.id+'-'+l[0]+'" value="'+l[0]+'" data-item="'+it.id+'"'+(a===l[0]?' checked':'')+'><label for="a-'+it.id+'-'+l[0]+'">'+l[1]+'</label></span>';}).join('')+
-         '</fieldset></div>';
+      var a=st.ans[it.id]||'', note=st.notes[it.id]||'', r=REF[it.id], cls=it.src==='AISG addition'?'cls-P':it.src==='Optional'?'cls-L':'cls-G', clsTxt=it.src==='AISG addition'?'AISG addition':it.src==='Optional'?'Optional':'DfE standard';
+      h+='<article class="ctl" id="item-'+it.id+'" tabindex="-1"><div class="ctl-head"><span class="cid">'+r+'</span><span class="critlab" id="crit-'+it.id+'" hidden><span aria-hidden="true">◆</span>Critical control</span>'+(it.test?'<span class="testlab" id="tst-'+it.id+'" hidden>Test in a trial</span>':'')+'<span class="sp"></span><span class="cls '+cls+'" title="'+(it.src==='AISG addition'?'Added by AISG from UK GDPR and the ICO 2026 edtech audit. Not in the DfE standards.':it.src==='Optional'?'Not a DfE requirement.':'Requirement in the DfE Generative AI product safety standards.')+'">'+clsTxt+'</span></div>'+
+         '<p class="ctl-q" id="t-'+it.id+'">'+esc(it.t)+'</p>'+
+         (it.test?'<p class="ctl-good"><span class="goodlab">How to test in a trial</span>'+esc(it.test)+'</p>':'')+
+         '<div class="states" role="radiogroup" aria-label="Evidence for '+r+'" aria-describedby="t-'+it.id+'">'+
+         LEVELS.map(function(l){return '<label class="'+SCLS[l[0]]+'"><input type="radio" name="a-'+it.id+'" id="a-'+it.id+'-'+l[0]+'" value="'+l[0]+'" data-item="'+it.id+'"'+(a===l[0]?' checked':'')+'><span class="sym" aria-hidden="true">'+SYM[l[0]]+'</span><span>'+(l[0]==='c'?'Claimed only':l[1])+'</span></label>';}).join('')+
+         '</div><div class="cond" id="cond-'+it.id+'"'+(a||note?'':' hidden')+'><div class="fld" style="margin:0"><label class="f" for="n-'+it.id+'">Where the evidence is filed, or the trial result</label><textarea id="n-'+it.id+'" data-noteval="'+it.id+'" rows="2" maxlength="'+MAX_NOTE+'" placeholder="Document title, date and where it is kept">'+esc(note)+'</textarea></div><p class="needmsg" id="need-'+it.id+'" hidden></p></div></article>';
     });
-    var next=STDS[si+1];
-    h+='</div><div class="std-foot"><button type="button" class="btn ghost" data-next="'+s.n+'">'+(next?'Next standard':'Go to Part C')+'</button></div></div></details>';
+    h+='</div><div class="dsum" id="dsum-'+s.n+'"></div></div></section>';
   });
   $('stds').innerHTML=h;
 }
 function renderActs(){
-  $('acts').innerHTML=ACTS.map(function(a){return '<tr id="actrow-'+a.id+'"><td><input type="checkbox" id="act-'+a.id+'" data-act="'+a.id+'"'+(st.acts[a.id]?' checked':'')+'></td><td><label for="act-'+a.id+'">'+esc(a.t)+'</label><span class="basis-in">'+esc(a.why)+'</span>'+(a.link?' <a href="'+esc(a.link[1])+'" target="_blank" rel="noopener noreferrer">'+esc(a.link[0])+'</a>':'')+'</td><td class="basis basiscol">'+esc(a.why)+'</td><td class="rq">'+(a.gate?'Yes':'')+'</td></tr>';}).join('');
+  $('acts').innerHTML=ACTS.map(function(a){return '<div class="actrow" id="actrow-'+a.id+'"><input type="checkbox" id="act-'+a.id+'" data-act="'+a.id+'"'+(st.acts[a.id]?' checked':'')+'><label for="act-'+a.id+'">'+esc(a.t)+'<span class="why">'+esc(a.why)+(a.link?' · <a href="'+esc(a.link[1])+'" target="_blank" rel="noopener noreferrer">'+esc(a.link[0])+'</a>':'')+'</span></label>'+(a.gate?'<span class="reqtag">Required</span>':'<span></span>')+'</div>';}).join('');
 }
 
 /* update computed parts */
-var lastCls='', viewMode='all';
-var CRIT_WORD={good:'Evidenced',warn:'Conditions',bad:'Blocking gap',idle:'Not started'};
-function update(opts){
+var lastCls='';
+var ST_PILL={good:['st-green','●'],warn:['st-amber','▲'],bad:['st-red','■'],idle:['st-grey','○']};
+function pill(cls,txt){var p=ST_PILL[cls]||ST_PILL.idle;return '<span class="st '+p[0]+'" role="img" aria-label="Status: '+esc(txt)+'"><i aria-hidden="true">'+p[1]+'</i>'+esc(txt)+'</span>';}
+function nextAfter(n){var aud=st.product.audience;return STDS.filter(function(s){return s.n>n&&applies(s,aud);})[0];}
+function update(){
   var aud=st.product.audience, r=assess(st);
   STDS.forEach(function(s){
-    var ok=applies(s,aud), ss=stdStatus(s,st), el=$('std-'+s.n);
-    el.classList.toggle('na',!ok);
-    var na=$('na-'+s.n); na.hidden=ok; na.textContent=s.rel==='mixed'?'Not applicable: this standard applies when pupils use the tool or see what it produces (see A3).':'Not applicable: this standard applies when pupils use the tool directly (see A3).';
-    $('items-'+s.n).hidden=!ok;
-    var chip=$('chip-'+s.n); chip.className='st '+ss.cls; chip.textContent=ss.txt;
-    var nc=s.items.filter(function(it){return isCrit(it,aud);}).length;
-    $('meta-'+s.n).textContent={all:'Applies to every tool',mixed:'Applies if pupils use it or see its outputs',learner:'Applies if pupils use it directly'}[s.rel]+'. '+s.items.length+' check'+(s.items.length>1?'s':'')+(ok&&nc?', '+nc+' critical.':'.');
-    s.items.forEach(function(it){var cr=isCrit(it,aud);
-      $('crit-'+it.id).hidden=!cr; if($('tst-'+it.id)) $('tst-'+it.id).hidden=!cr;});
-    if(opts&&opts.filter){
-      var hasCrit=s.items.some(function(it){return isCrit(it,aud);});
-      el.hidden=!el.contains(document.activeElement)&&((viewMode==='gaps'&&(!ok||ss.cls==='good'))||(viewMode==='crit'&&(!ok||!hasCrit)));
-      s.items.forEach(function(it){ $('item-'+it.id).hidden=viewMode==='crit'&&!isCrit(it,aud); });
-    }
+    var ok=applies(s,aud), ss=stdStatus(s,st);
+    var done=s.items.filter(function(it){return st.ans[it.id];}).length, nc=s.items.filter(function(it){return isCrit(it,aud);}).length;
+    $('sprog-'+s.n).textContent=done+' of '+s.items.length+' reviewed';
+    $('sapp-'+s.n).textContent={all:'Every tool',mixed:'Pupil-facing or pupil-reaching tools',learner:'Pupil-facing tools'}[s.rel];
+    $('meta-'+s.n).textContent=s.items.length+(ok&&nc?', of which '+nc+' critical':'');
+    var na=$('na-'+s.n); na.hidden=ok; na.textContent='This standard does not apply to the use recorded in Product details: '+AUD[aud].toLowerCase()+'.';
+    $('items-'+s.n).hidden=!ok; $('call-'+s.n).hidden=!ok;
+    var cnt=$('ncnt-s'+s.n); if(cnt) cnt.textContent=done+'/'+s.items.length;
+    s.items.forEach(function(it){var cr=isCrit(it,aud), a=st.ans[it.id];
+      $('crit-'+it.id).hidden=!cr; if($('tst-'+it.id)) $('tst-'+it.id).hidden=!cr;
+      $('cond-'+it.id).hidden=!(a||st.notes[it.id]);
+      var need=$('need-'+it.id), msg='';
+      if(cr&&(a==='v'||a==='d')&&!noted(st,it.id)) msg='Say where the evidence is filed. A critical control does not count without it.';
+      else if(cr&&a==='d'&&it.test) msg='Documented, but not yet tested. Run the trial test to complete this control.';
+      else if(!cr&&a==='n'&&!noted(st,it.id)) msg='Note how the risk is managed while this is not met.';
+      need.textContent=msg; need.hidden=!msg;
+    });
+    var nx=nextAfter(s.n);
+    $('dsum-'+s.n).innerHTML=!ok?'':'<div class="dsum-head"><span class="klab">Standard position</span>'+pill(ss.cls,ss.txt)+'</div>'+
+      '<dl class="dsum-counts"><div><dt>Reviewed</dt><dd>'+done+' of '+s.items.length+'</dd></div>'+LEVELS.map(function(l){return '<div><dt>'+(l[0]==='c'?'Claimed only':l[1])+'</dt><dd>'+s.items.filter(function(it){return st.ans[it.id]===l[0];}).length+'</dd></div>';}).join('')+'</dl>'+
+      '<p class="nv">Self-assessment · not independently verified.</p>'+
+      '<div class="btnrow"><button type="button" class="btn" data-show="'+(nx?'s'+nx.n:'actions')+'">'+(nx?'Continue to Standard '+nx.n+' — '+esc(nx.name):'Continue to school actions')+'</button></div>';
   });
   ACTS.forEach(function(a){ $('actrow-'+a.id).hidden=!actApplies(a,aud); });
-  /* margin summary */
-  var d=$('dec'); d.className='dec '+r.out.cls; $('decH').textContent=r.out.h; $('decP').textContent=r.out.p;
-  var shown=r.reasons.filter(function(x){return x.sev!=='open'||r.out.cls==='idle';}).sort(function(a,b){return 'block open cond'.indexOf(a.sev)-'block open cond'.indexOf(b.sev);});
-  var lim=6, more=shown.length-lim;
-  $('reasons').innerHTML=shown.slice(0,lim).map(function(x){var ref=/^S\d/.test(x.ref)?'<b>'+esc(x.ref)+'</b> ':'';return '<li>'+(x.jump?'<a href="#'+esc(x.jump)+'" data-jump="'+esc(x.jump)+'">'+ref+esc(x.text)+'</a>':ref+esc(x.text))+'</li>';}).join('');
-  $('reasons').hidden=!shown.length; $('reasonsMore').hidden=!(more>0); $('reasonsMore').textContent=more>0?more+' more in the decision record (E3).':'';
-  var cc=critCounts(r);
-  $('covStd').textContent=r.stdsEv+' of '+r.stdsApp+' have some written or tested evidence';
-  $('covSub').textContent='('+r.total+' checks)';
-  $('covChecks').textContent=r.answered+' of '+r.total+' answered';
-  $('covCrit').textContent=cc.e+' evidenced, '+cc.w+' with conditions, '+cc.n+' not met'+(cc.u?', '+cc.u+' unanswered':'');
   var appActs=ACTS.filter(function(a){return actApplies(a,aud);}), done=appActs.filter(function(a){return st.acts[a.id];}).length, gl=appActs.filter(function(a){return a.gate&&!st.acts[a.id];}).length;
-  $('actSum').textContent=done+' of '+appActs.length+' done. '+(gl?gl+' required still to do.':'All required done.');
-  $('refline').textContent=st.example?'None':refOf();
-  $('refVal').textContent=st.example?'None':refOf();
-  $('statusVal').textContent=st.example?'Specimen: made-up product':'Draft, not yet signed';
-  /* Part D */
-  var ob=$('outbox'); ob.className='outcome '+r.out.cls; $('oH').textContent='Outcome: '+r.out.h; $('oP').textContent=r.out.p;
+  var ac=$('ncnt-actions'); if(ac) ac.textContent=done+'/'+appActs.length;
+  /* topbar */
+  $('ctx-name').textContent=st.example?'Specimen: '+st.product.name:(st.product.name.trim()||'No product named yet');
+  $('ctx-date').textContent=st.product.date?'Checked '+ukDate(st.product.date):'Date not set';
+  $('ctx-status').textContent=r.answered?r.out.h+' · '+r.answered+' of '+r.total:'Not started';
+  /* overview */
+  $('ovSub').textContent=st.example?'Specimen check of a made-up product.':(r.answered?'Check in progress for '+(st.product.name.trim()||'an unnamed product')+'.':'Check not started.');
+  $('ovBar').style.width=(r.total?Math.round(r.answered/r.total*100):0)+'%';
+  $('ovNum').textContent=r.answered+' of '+r.total+' checks reviewed';
+  var cc=critCounts(r);
+  $('ovEv').textContent=r.stdsEv+' of '+r.stdsApp+' standards have written or tested evidence. Critical controls: '+cc.e+' evidenced, '+cc.w+' with conditions, '+cc.n+' not met. School actions: '+done+' of '+appActs.length+' done, '+(gl?gl+' required still to do.':'all required done.');
+  var shown=r.reasons.filter(function(x){return x.sev!=='open'||r.out.cls==='idle';}).sort(function(a,b){return 'block open cond'.indexOf(a.sev)-'block open cond'.indexOf(b.sev);});
+  function reasonsHtml(lim){var more=shown.length-lim;return shown.length?'<ol class="reasons">'+shown.slice(0,lim).map(function(x){var ref=/^S\d/.test(x.ref)?'<b>'+esc(x.ref)+'</b> ':'';return '<li>'+(x.jump?'<a href="#'+esc(x.jump)+'" data-jump="'+esc(x.jump)+'">'+ref+esc(x.text)+'</a>':ref+esc(x.text))+'</li>';}).join('')+'</ol>'+(more>0?'<p class="nv" style="font-style:normal">'+more+' more in the decision record (Records).</p>':''):'';}
+  var posHtml='<div class="dsum-head"><span class="klab">Outcome</span>'+pill(r.out.cls,r.out.h)+'</div><p class="dsum-reason" id="decP">'+esc(r.out.p)+'</p>';
+  $('ovPos').innerHTML=posHtml+reasonsHtml(6)+'<p class="nv">Self-assessment · not independently verified.</p>';
+  $('outbox').innerHTML=posHtml.replace(' id="decP"','')+reasonsHtml(40)+'<dl class="dsum-counts"><div><dt>Standards evidenced</dt><dd id="covStd">'+r.stdsEv+' of '+r.stdsApp+'</dd></div><div><dt>Checks</dt><dd id="covSub">'+r.answered+' of '+r.total+' checks</dd></div><div><dt>Critical controls</dt><dd>'+cc.e+' evidenced, '+cc.w+' conditions, '+cc.n+' not met</dd></div><div><dt>Required actions open</dt><dd>'+gl+'</dd></div><div><dt>Reference</dt><dd>'+(st.example?'None':refOf())+'</dd></div></dl>';
   $('crits').innerHTML=r.crits.map(function(it){
     var a=st.ans[it.id], hasNote=noted(st,it.id), m;
     if(a==='n') m=['bad','Not met'];
@@ -820,17 +1487,17 @@ function update(opts){
     else if((a==='v'||a==='d')&&!hasNote) m=['warn','No note of where it is filed'];
     else if(a==='d'&&it.test) m=['warn','Documented, not yet tested'];
     else if(a) m=['good',LEVEL_NAME[a]];
-    else m=['idle','Not answered'];
-    return '<tr><td>'+REF[it.id]+'</td><td><a href="#item-'+it.id+'" data-jump="item-'+it.id+'">'+esc(it.k)+'</a></td><td class="w '+m[0]+'">'+esc(m[1])+'</td></tr>';
+    else m=['idle','Not reviewed'];
+    return '<tr><td class="cidc">'+REF[it.id]+'</td><td><a href="#item-'+it.id+'" data-jump="item-'+it.id+'">'+esc(it.k)+'</a></td><td>'+pill(m[0],m[1])+'</td></tr>';
   }).join('');
-  $('pbCount').textContent=r.answered+' of '+r.total; $('pbState').textContent=r.out.h+'.';
   fingerprint=''; $('sText').value=summary(r); $('qText').value=questions(); var rec=record(r); $('rText').value=rec; $('rPrint').textContent=rec;
-  $('exBanner').hidden=!st.example; $('wm').hidden=!st.example; $('dlBtn').disabled=st.example; $('dlBtn').hidden=framed||st.example; $('printBtn').hidden=framed;
-  $('work').querySelectorAll('input[type=text],input[type=url],input[type=date],textarea').forEach(function(x){ x.readOnly=st.example; }); $('p-loc').disabled=st.example; document.body.classList.toggle('specimen',st.example);
+  /* specimen */
+  $('exBanner').hidden=!st.example; $('dlBtn').disabled=st.example; $('dlBtn').hidden=framed||st.example; $('printBtn').hidden=framed;
+  $('work').querySelectorAll('input[type=text],input[type=url],input[type=date],textarea').forEach(function(x){ x.readOnly=st.example; }); $('p-loc').disabled=st.example;
   $('manage').querySelectorAll('button,input,textarea').forEach(function(x){ if(x.id!=='pasteIn'&&x.id!=='loadBtn'&&x.id!=='fileIn') x.disabled=st.example; });
   $('copyCode').hidden=st.example; $('clearBtn').hidden=st.example;
   var oldB=!st.example&&(st.stds!==STDS_VERSION||st.migrated);
-  $('oldBanner').hidden=!oldB; if(oldB) $('oldText').innerHTML='<strong>Older check.</strong> '+(st.stds!==STDS_VERSION?'This check was made against an earlier version of the DfE standards. Check the standards that have changed before relying on it.':'This check was made with an earlier version of this form, and some checks have been added or reworded. Go through each standard again before relying on it.');
+  $('oldBanner').hidden=!oldB; if(oldB) $('oldText').innerHTML='<b>Older check.</b> '+(st.stds!==STDS_VERSION?'This check was made against an earlier version of the DfE standards. Check the standards that have changed before relying on it.':'This check was made with an earlier version of this tool, and some checks have been added or reworded. Go through each standard again before relying on it.');
   if(r.out.cls!==lastCls){ if(lastCls) $('announce').textContent='Outcome: '+r.out.h; lastCls=r.out.cls; }
   setSaved(); scheduleFingerprint();
 }
@@ -913,7 +1580,7 @@ function record(r){
   L.push('Responsible governor:         ______________________  Date: __________');
   L.push('');
   L.push('The DSL and DPO make the decision, using this record as evidence. The school is the data controller. AISG is not affiliated with or endorsed by the DfE, does not endorse any product, and this record is not legal advice.');
-  L.push('Produced with the AISG AI tool pre-adoption check (form AISG-TC), aisafegovernance.co.uk');
+  L.push('Produced with the AISG AI tool pre-adoption check (form AISG-TC), aisafegovernance.co.uk. © 2026 Wendell Gopaul. All rights reserved.');
   return L.join('\n');
 }
 var fpTimer=null;
@@ -935,47 +1602,43 @@ function scheduleFingerprint(){
 var form=$('form');
 form.addEventListener('change',function(e){
   var t=e.target;
-  if(t.name==='view'){ viewMode=t.value; update({filter:true}); return; }
-  if(st.example) return;
+  if(st.example){ if(t.dataset.p==='loc') t.value=st.product.loc; return; }
   if(t.dataset.item){ st.ans[t.dataset.item]=t.value; }
   else if(t.name==='aud'){ st.product.audience=t.value; }
   else if(t.dataset.use){ var n=+t.dataset.use, i=st.product.uses.indexOf(n); if(t.checked&&i<0) st.product.uses.push(n); if(!t.checked&&i>-1) st.product.uses.splice(i,1); }
   else if(t.dataset.act){ st.acts[t.dataset.act]=t.checked; }
   else if(t.dataset.p&&(t.tagName==='SELECT'||t.type==='date')){ st.product[t.dataset.p]=t.value; if(t.dataset.p==='date'&&t.value&&!st.product.reviewBy){ st.product.reviewBy=addYear(t.value); $('p-reviewBy').value=st.product.reviewBy; } }
   else return;
-  persist(); update(t.name==='aud'?{filter:true}:undefined); if(t.dataset.p==='name') renderSwitcher();
+  persist(); if(t.name==='aud') renderNav(); update(); if(t.dataset.p==='name') renderSwitcher();
 });
 form.addEventListener('input',function(e){
   var t=e.target; if(st.example) return;
   if(t.dataset.p&&t.tagName!=='SELECT'&&t.type!=='date'){ st.product[t.dataset.p]=t.value; }
-  else if(t.dataset.noteval){ var id=t.dataset.noteval; if(t.value.trim()) st.notes[id]=t.value; else delete st.notes[id];
-    }
+  else if(t.dataset.noteval){ var id=t.dataset.noteval; if(t.value.trim()) st.notes[id]=t.value; else delete st.notes[id]; }
   else return;
   persist(); update();
   if(t.dataset.p==='name') renderSwitcher();
 });
 form.addEventListener('submit',function(e){e.preventDefault();});
 form.addEventListener('click',function(e){
-  if(st.example&&e.target.matches('#work input[type=radio],#work input[type=checkbox]')){ e.preventDefault(); var n=$('exNote'); n.textContent='This is the specimen, so it cannot be changed. Choose Start my check to make your own.'; return; }
-  var nx=e.target.closest('[data-next]');
-  if(nx){ var n=+nx.dataset.next, cur=$('std-'+n); cur.open=false;
-    var aud=st.product.audience, nextS=STDS.filter(function(s){return s.n>n&&applies(s,aud)&&(viewMode!=='crit'||s.items.some(function(it){return isCrit(it,aud);}));})[0];
-    if(!nextS){ var a=$('h3s'); a.scrollIntoView({block:'start'}); var first=$('acts').querySelector('input:not([disabled])'); if(first) first.focus(); return; }
-    var d=$('std-'+nextS.n); d.hidden=false; d.open=true; d.scrollIntoView({block:'start'});
-    var pool=nextS.items.filter(function(it){return viewMode!=='crit'||isCrit(it,aud);}), target=pool.filter(function(it){return !st.ans[it.id];})[0]||pool[0];
-    $('item-'+target.id).focus({preventScroll:true});
-  }
+  if(st.example&&e.target.matches('#work input[type=radio],#work input[type=checkbox]')){ e.preventDefault(); $('exNote').textContent='This is the specimen, so it cannot be changed. Choose Start my check to make your own.'; show('overview',true); }
 });
 function jumpTo(id){
   var el=$(id); if(!el) return;
-  var d=el.closest?el.closest('details.std'):null; if(d){ d.hidden=false; d.open=true; }
-  if(el.tagName==='DETAILS'){ el.hidden=false; el.open=true; }
+  var view=el.closest('section.view'); if(view) show(view.id.slice(2),true);
   el.scrollIntoView({block:'center'});
-  var f=el.matches('input,select,textarea')?el:el.querySelector('input:checked')||el.querySelector('input,select,textarea,summary');
-  if(f&&!f.disabled) f.focus({preventScroll:true}); else if(el.classList.contains('item')) el.focus({preventScroll:true});
+  var f=el.matches('input,select,textarea')?el:el.querySelector('input:checked')||el.querySelector('input,select,textarea');
+  if(f&&!f.disabled&&getComputedStyle(f).opacity!=='0') f.focus({preventScroll:true}); else { if(!el.hasAttribute('tabindex')) el.setAttribute('tabindex','-1'); el.focus({preventScroll:true}); }
 }
-document.addEventListener('click',function(e){ var a=e.target.closest('[data-jump]'); if(!a) return; e.preventDefault(); jumpTo(a.dataset.jump); });
-document.addEventListener('click',function(e){ var b=e.target.closest('[data-copy]'); if(!b) return; copyText($(b.dataset.copy).value,b.dataset.copy+'-status',$(b.dataset.copy)); });
+document.addEventListener('click',function(e){
+  var j=e.target.closest('[data-jump]'); if(j){ e.preventDefault(); jumpTo(j.dataset.jump); return; }
+  var s=e.target.closest('[data-show]'); if(s){ e.preventDefault(); show(s.dataset.show); return; }
+  var n=e.target.closest('#nav [data-v]'); if(n){ e.preventDefault(); show(n.dataset.v); return; }
+  var b=e.target.closest('[data-copy]'); if(b){ copyText($(b.dataset.copy).value,b.dataset.copy+'-status',$(b.dataset.copy)); }
+});
+$('menuBtn').addEventListener('click',function(){ toggleNav(); });
+$('scrim').addEventListener('click',function(){ toggleNav(false); });
+window.addEventListener('hashchange',function(){ var v=location.hash.slice(1); if(v&&v!==CUR&&$('v-'+v)) show(v); });
 function copyText(text,statusId,el){
   var s=$(statusId); s.classList.remove('err');
   function selectIt(){ if(!el) return false; if(el.value!==text) el.value=text; el.focus(); el.select(); try{ if(document.execCommand('copy')){ s.textContent='Copied'; return true; } }catch(e){} s.textContent='Selected. Press Ctrl+C or Cmd+C to copy.'; return true; }
@@ -985,8 +1648,7 @@ function copyText(text,statusId,el){
 /* switching, new, undo */
 var undoState=null, undoTimer=null, undoArmedAt=0;
 function offerUndo(msg,prev,slot){
-  var t=$('toast'), host=slot?$(slot):$('newBtn').parentNode; if(t.parentNode!==host.parentNode||t.previousElementSibling!==host) host.parentNode.insertBefore(t,host.nextSibling);
-  undoState=prev; undoArmedAt=Date.now(); $('toastText').textContent=msg; $('toast').hidden=false; clearTimeout(undoTimer);
+    undoState=prev; undoArmedAt=Date.now(); $('toastText').textContent=msg; $('toast').hidden=false; clearTimeout(undoTimer);
   undoTimer=setTimeout(function(){ $('toast').hidden=true; undoState=null; },15000);
 }
 $('undoBtn').addEventListener('click',function(){
@@ -1003,7 +1665,7 @@ $('checkSel').addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.pre
 $('checkSel').addEventListener('change',function(){ if(selKey) return; switchTo(this.value); });
 $('checkSel').addEventListener('blur',function(){ if(selKey){ selKey=false; if(this.value!==(st.example?'example':st.id)) switchTo(this.value); } });
 $('checkSel').addEventListener('mousedown',function(){ selKey=false; });
-function startNew(){ var back=st.id; st=blank(); persist(); rerender(); offerUndo('New check started.',{added:st.id,back:back}); $('p-name').focus(); }
+function startNew(){ var back=st.id; st=blank(); persist(); CUR='product'; rerender(); offerUndo('New check started.',{added:st.id,back:back}); $('p-name').focus(); }
 $('newBtn').addEventListener('click',startNew);
 $('startBtn').addEventListener('click',startNew);
 
@@ -1064,8 +1726,8 @@ if(!framed){
   $('modPrice').innerHTML='<b>'+esc(CONFIG.price)+' per product</b>'+(CONFIG.vatNote?', '+esc(CONFIG.vatNote):'')+'.';
   $('modWho').textContent=CONFIG.provider; $('modWho').hidden=!CONFIG.provider;
   var dl='';
-  if(CONFIG.turnaround) dl+='<dt>Turnaround</dt><dd>'+esc(CONFIG.turnaround)+'</dd>';
-  dl+='<dt>What to send</dt><dd>Your save code or check file, the supplier\'s documents, and trial log-in details if you have them. Do not send pupils\' names or data.</dd>';
+  if(CONFIG.turnaround) dl+='<div><dt>Turnaround</dt><dd>'+esc(CONFIG.turnaround)+'</dd></div>';
+  dl+='<div><dt>What to send</dt><dd>Your save code or check file, the supplier\'s documents, and trial log-in details if you have them. Do not send pupils\' names or data.</dd></div>';
   $('modTerms').innerHTML=dl;
   var h='', safeUrl=/^https:\/\/[^\s"'<>]+$/.test(CONFIG.bookingUrl)?CONFIG.bookingUrl:'';
   if(safeUrl) h+='<a class="btn" href="'+esc(safeUrl)+'" target="_blank" rel="noopener noreferrer">Book a moderated check</a>';
@@ -1074,7 +1736,8 @@ if(!framed){
   $('contactLine').innerHTML=h;
 })();
 
-function rerender(){ renderSwitcher(); renderProduct(); renderStds(); renderActs(); lastCls=''; update({filter:true}); }
+function rerender(){ renderNav(); renderSwitcher(); renderProduct(); renderStds(); renderActs(); lastCls=''; update(); show(CUR,true); }
 window.AISG={assess:assess,normalise:normalise,blank:blank,example:function(){return clone(EXAMPLE);},STDS:STDS,ACTS:ACTS,code:function(){return code();}};
 rerender();
+(function(){ var v=location.hash.slice(1); if(v&&$('v-'+v)) show(v,true); })();
 </script>
