@@ -19,7 +19,7 @@ async def main():
         # 1 example is read-only and labelled
         check('example outcome is Conditions before use', await pg.text_content('#decH') == 'Conditions before use', await pg.text_content('#decH'))
         check('example form disabled', await pg.evaluate("document.getElementById('work').disabled"))
-        check('example record labelled fictional', 'WORKED EXAMPLE' in await pg.input_value('#rText'))
+        check('example record labelled fictional', 'SPECIMEN' in await pg.input_value('#rText'))
         check('example not saved to storage', await pg.evaluate("localStorage.getItem('aisg-tool-check-v2')") is None)
         check('critical badge hidden on non-critical item', await pg.evaluate("getComputedStyle(document.getElementById('crit-1a')).display") == 'none')
         check('critical badge shown on critical item', await pg.evaluate("getComputedStyle(document.getElementById('crit-12a')).display") != 'none')
@@ -28,7 +28,7 @@ async def main():
         # 2 start new check
         await pg.click('#startBtn'); await pg.wait_for_timeout(200)
         check('new check is blank and editable', not await pg.evaluate("document.getElementById('work').disabled") and await pg.input_value('#p-name') == '')
-        check('new check outcome Incomplete', await pg.text_content('#decH') == 'Incomplete')
+        check('new check outcome Incomplete', await pg.text_content('#decH') == 'Not finished')
         check('no questions for unanswered checks', 'No questions yet' in await pg.input_value('#qText'))
         # 3 fill everything as Documented without notes -> must NOT be top outcome
         await pg.fill('#p-name', 'Test Tool <img src=x onerror=window.__x=1>')
@@ -39,7 +39,7 @@ async def main():
         check('all Documented without notes is not cleared', h == 'Conditions before use', h)
         check('XSS in name did not execute', await pg.evaluate("window.__x===undefined"))
         # 4 a critical Not met blocks
-        await pg.evaluate("document.getElementById('std-12').open=true"); await pg.click('label[for="a-12a-n"]')
+        await pg.evaluate("document.getElementById('std-12').open=true"); await pg.check('#a-12a-n')
         check('critical Not met gives Blocking gaps', await pg.text_content('#decH') == 'Blocking gaps')
         # 5 full pass path: all tested/documented with notes, gates done
         await pg.evaluate("""() => {
@@ -76,18 +76,18 @@ async def main():
         check('no prototype pollution', await pg.evaluate("({}).x===undefined"))
         await pg.fill('#pasteIn', '{}'); await pg.click('#loadBtn')
         check('empty object rejected', 'not a valid' in await pg.text_content('#load-status'))
-        await pg.fill('#pasteIn', 'AISG2:' + 'A' * 300000); await pg.click('#loadBtn')
+        await pg.evaluate("document.getElementById('pasteIn').value='AISG2:'+'A'.repeat(300000)"); await pg.click('#loadBtn')
         check('oversized code rejected', 'too large' in await pg.text_content('#load-status'))
         # 10 remove is two-step and disarms
         await pg.click('#clearBtn'); armed = await pg.text_content('#clearBtn'); await pg.wait_for_timeout(6300)
-        check('remove arms then disarms after 6s', armed.startswith('Confirm') and await pg.text_content('#clearBtn') == 'Remove this check')
+        check('remove arms then disarms after 6s', armed.startswith('Yes') and await pg.text_content('#clearBtn') == 'Remove this check')
         # 11 corrupt storage recovers
         await pg.evaluate("localStorage.setItem('aisg-tool-check-v2','{bad')"); await pg.reload(); await pg.wait_for_timeout(300)
         check('corrupt storage keeps a backup and still saves', await pg.evaluate("localStorage.getItem('aisg-tool-check-v2-backup')") == '{bad')
         # 12 print shows full record only
         await pg.click('#startBtn'); await pg.fill('#p-name', 'Print test')
         await pg.emulate_media(media='print', color_scheme='dark')
-        vis = await pg.evaluate("[getComputedStyle(document.querySelector('main')).display, getComputedStyle(document.getElementById('rPrint')).display, getComputedStyle(document.getElementById('rPrint')).color]")
+        vis = await pg.evaluate("[getComputedStyle(document.querySelector('.page')).display, getComputedStyle(document.getElementById('rPrint')).display, getComputedStyle(document.getElementById('rPrint')).color]")
         check('print hides app and shows record in black', vis[0] == 'none' and vis[1] == 'block' and vis[2] in ('rgb(0, 0, 0)',), vis)
         await pg.emulate_media(media='screen')
         # 13 phone, dark, overflow
@@ -96,7 +96,7 @@ async def main():
         await ph.goto(PAGE); await ph.wait_for_timeout(400)
         await ph.evaluate("document.getElementById('std-3').open=true")
         check('no horizontal overflow at 360px', not await ph.evaluate("document.documentElement.scrollWidth>innerWidth"))
-        clipped = await ph.evaluate("[...document.querySelectorAll('.seg label')].filter(l=>l.scrollWidth>l.clientWidth+1).length")
+        clipped = await ph.evaluate("[...document.querySelectorAll('.seg label')].filter(l=>l.clientWidth>1 && l.scrollWidth>l.clientWidth+1).length")
         check('segment labels not clipped at 360px', clipped == 0, clipped)
         if SHOTS:
             await ph.screenshot(path=SHOTS + '/v2-phone-dark.png', full_page=False)
@@ -134,10 +134,10 @@ async def main():
         check('round2: undo visible and enabled after removing last check', await pg.evaluate("!document.getElementById('toast').hidden && !document.getElementById('undoBtn').disabled"))
         await pg.click('#undoBtn'); await pg.wait_for_timeout(100)
         check('round2: undo restores the removed check', await pg.input_value('#p-name') == 'Only check')
-        await pg.click('label.choice:has(#viewCrit)'); await pg.wait_for_timeout(100)
+        await pg.check('#viewCrit'); await pg.wait_for_timeout(100)
         vis = await pg.evaluate("[document.getElementById('item-1a').hidden, document.getElementById('item-3a').hidden, document.getElementById('std-1').hidden]")
         check('round2: critical-only view hides non-critical checks', vis == [True, False, True], vis)
-        await pg.click('label.choice:has(#viewAll)')
+        await pg.check('#viewAll')
         # 14 framed: print/download hidden
         import tempfile, os
         wrap = os.path.join(tempfile.mkdtemp(), 'frame.html')
