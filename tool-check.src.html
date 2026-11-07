@@ -889,14 +889,17 @@ body:not(.mode-app) .skip-app{display:none}
   a{color:#000;text-decoration:none}
 }
 /* AI tool check: additions to the Evidence Review styles */
+input[type=url]{width:100%;padding:7px 10px;border:1px solid var(--line);background:var(--surface);font-family:var(--sans);font-size:13.5px;color:var(--ink);border-radius:2px}
 .fig{margin:0 0 28px;max-width:880px}
 .fig .figscroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);padding:8px}
 .fig svg{width:100%;min-width:720px;height:auto;display:block}
 @media (min-width:980px){.fig svg{min-width:0}}
 .fig figcaption{font-size:12.5px;color:var(--muted);margin-top:6px}
 .poltab td:first-child{width:34%}
+.tblscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 8px}
 [hidden]{display:none!important}
-.brand{text-decoration:none;color:#fff}
+.brand{text-decoration:none;color:#fff;min-width:0;overflow:hidden}
+.brand .wm{overflow:hidden;text-overflow:ellipsis;display:block;max-width:100%}
 .nitem{text-decoration:none}
 .testlab{font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--slate);display:inline-flex;gap:5px;align-items:center;white-space:nowrap}
 .states label.s-doc:has(input:checked){background:var(--green-bg);color:var(--green)}
@@ -966,7 +969,7 @@ body:not(.mode-app) .skip-app{display:none}
 <div class="shell" id="root">
   <nav class="rail" id="rail" aria-label="Tool navigation">
     <div id="nav"></div>
-    <div class="railfoot">Self-Assessment Edition<br>England · Local file, nothing is sent<br>DfE standards of 19 January 2026 · Form AISG-TC 5.0<br>© 2026 Wendell Gopaul. All rights reserved.<br><a class="linkbtn" style="font-size:10.5px" href="/">AISG home</a></div>
+    <div class="railfoot">Self-Assessment Edition<br>England · Local file, nothing is sent<br>DfE standards of 19 January 2026 · Form AISG-TC 5.0<br>Created by Wendell Gopaul · <a class="linkbtn" style="font-size:10.5px" href="/">About &amp; contact</a></div>
   </nav>
 
   <main class="content" id="main">
@@ -977,7 +980,7 @@ body:not(.mode-app) .skip-app{display:none}
       <section class="view on" id="v-overview" aria-label="Overview">
         <header class="phead"><p class="kicker">AI tool check</p><h1 tabindex="-1">AI tool pre-adoption check</h1><p class="psub" id="ovSub"></p></header>
         <div class="callout warn" id="exBanner" hidden>
-          <p style="margin:0 0 8px"><b>You are looking at the specimen.</b> It is a completed check of a made-up product, so you can see how the outcome and records work. It cannot be changed.</p>
+          <p style="margin:0 0 8px"><b>You are looking at the specimen.</b> A completed check of an invented product, so you can see how the outcome and records work. It cannot be changed.</p>
           <div class="btnrow" style="margin-top:0"><button type="button" class="btn" id="startBtn">Start my check</button></div>
           <p class="nv" id="exNote" aria-live="polite" style="font-style:normal"></p>
         </div>
@@ -1035,6 +1038,7 @@ body:not(.mode-app) .skip-app{display:none}
           </div>
           <p class="nv" style="font-style:normal;margin-top:0">Each product is a separate check, saved in this browser only. Record roles, not names, and do not enter pupils' details.</p>
         </div>
+        <p class="methline">AISG is not affiliated with or endorsed by the DfE. The DfE standards are written mainly for suppliers. This tool does not endorse any product and is not legal advice. The school is the data controller and makes the decision, with its DSL and DPO. Form AISG-TC 5.0 · DfE standards of 19 January 2026 · © 2026 Wendell Gopaul. All rights reserved.</p>
       </section>
 
       <div id="work">
@@ -1105,7 +1109,7 @@ body:not(.mode-app) .skip-app{display:none}
       <!-- OUTCOME -->
       <section class="view" id="v-outcome" aria-label="Outcome">
         <header class="phead"><p class="kicker">Outputs</p><h1 tabindex="-1" id="hD">Outcome</h1><p class="psub">The position this check supports. The DSL and DPO make the decision.</p></header>
-        <div class="dsum" id="outbox"></div>
+        <div class="posbox" id="outbox"></div>
         <details class="srcd" style="margin:0 0 20px"><summary>How the outcome is decided</summary><div class="srcdb"><!-- FIG2: how the outcome is reached -->
 <figure class="fig" id="fig-outcome"><div class="figscroll"><svg viewBox="0 0 880 300" role="img" aria-labelledby="fig2t">
     <title id="fig2t">How the outcome is decided: any critical control not met gives Blocking gaps; unanswered checks give Not finished; any condition gives Conditions before use; otherwise No blocking gaps found</title>
@@ -1150,11 +1154,11 @@ body:not(.mode-app) .skip-app{display:none}
     </g>
   </svg></div><figcaption>How the outcome is decided. The questions are asked in this order, and the first "yes" sets the outcome.</figcaption>
 </figure></div></details>
-        <p class="klab" style="margin-top:28px">Critical controls</p>
-        <table class="simple ctab"><caption class="visually-hidden">Critical controls</caption><thead><tr><th scope="col">Ref</th><th scope="col">Critical control</th><th scope="col">Evidence</th></tr></thead><tbody id="crits"></tbody></table>
-        <p class="klab" style="margin-top:28px">Sign-off</p>
-        <table class="simple sign"><caption class="visually-hidden">Sign-off</caption><thead><tr><th scope="col">Role</th><th scope="col">Name</th><th scope="col">Signature</th><th scope="col">Date</th></tr></thead>
-          <tbody><tr><th scope="row">Designated safeguarding lead</th><td></td><td></td><td></td></tr><tr><th scope="row">Data protection officer</th><td></td><td></td><td></td></tr><tr><th scope="row">Responsible governor</th><td></td><td></td><td></td></tr></tbody></table>
+        <h2 class="seclab">Critical controls</h2>
+        <div class="tblscroll"><table class="simple ctab" style="min-width:560px"><caption class="visually-hidden">Critical controls</caption><thead><tr><th scope="col">Ref</th><th scope="col">Critical control</th><th scope="col">Evidence</th></tr></thead><tbody id="crits"></tbody></table></div>
+        <h2 class="seclab">Sign-off</h2>
+        <div class="tblscroll"><table class="simple sign" style="min-width:560px"><caption class="visually-hidden">Sign-off</caption><thead><tr><th scope="col">Role</th><th scope="col">Name</th><th scope="col">Signature</th><th scope="col">Date</th></tr></thead>
+          <tbody><tr><th scope="row">Designated safeguarding lead</th><td></td><td></td><td></td></tr><tr><th scope="row">Data protection officer</th><td></td><td></td><td></td></tr><tr><th scope="row">Responsible governor</th><td></td><td></td><td></td></tr></tbody></table></div>
         <div class="btnrow"><button type="button" class="btn" data-show="records">Continue to the records</button></div>
       </section>
 
@@ -1230,13 +1234,12 @@ body:not(.mode-app) .skip-app{display:none}
             <li>If the supplier provides a trial account, AISG runs the trial tests described in each standard.</li>
             <li>You receive written findings and a record marked "Moderated by AISG: evidence reviewed on [date]". This is not a certification or endorsement. The school still makes the decision.</li>
           </ul>
-          <dl class="dsum-counts" id="modTerms" style="margin-top:14px"></dl>
+          <div id="modTerms" style="margin-top:14px"></div>
           <p id="contactLine" style="margin-top:12px"></p>
         </div>
       </section>
 
     </form>
-    <p class="appfoot">© 2026 Wendell Gopaul. All rights reserved. AISG is not affiliated with or endorsed by the DfE. The DfE standards are written mainly for suppliers. This tool does not endorse any product and is not legal advice. The school is the data controller and makes the decision, with its DSL and DPO.</p>
     </div>
   </main>
 </div>
@@ -1549,6 +1552,7 @@ function renderNav(){
   h+=item('actions','School actions',null,'');
   h+='<div class="ngrp">Outputs</div>'+item('outcome','Outcome')+item('records','Records');
   h+='<div class="ngrp">Reference</div>'+item('glossary','Glossary');
+  h+='<div class="ngrp">Tools</div><a class="nitem" href="/"><span class="nlab">Evidence Review</span></a>';
   h+='<div class="ngrp">Administration</div>'+item('file','Save &amp; open a check')+item('mod','Moderated check');
   $('nav').innerHTML=h;
 }
@@ -1571,7 +1575,7 @@ function renderSwitcher(){
   var h=ids.map(function(id){var p=store.checks[id].product;
     var nm=p.name||'Unnamed', same=ids.filter(function(o){return (store.checks[o].product.name||'Unnamed')===nm;}).sort(), k=same.indexOf(id)+1;
     return '<option value="'+esc(id)+'"'+(id===st.id?' selected':'')+'>'+esc(nm)+(same.length>1?' ('+k+')':'')+'</option>';}).join('');
-  h+='<option value="example"'+(st.example?' selected':'')+'>Specimen (made-up product)</option>';
+  h+='<option value="example"'+(st.example?' selected':'')+'>Specimen</option>';
   $('checkSel').innerHTML=h;
 }
 var AUD_SUB={learners:'All 13 standards apply.',mixed:'9 standards apply, including filtering.',staff:'8 standards apply.'};
@@ -1589,20 +1593,20 @@ function renderProduct(){
      Object.keys(AUD).map(function(k){return '<label class="tick choice"><input type="radio" name="aud" id="aud-'+k+'" value="'+k+'"'+(p.audience===k?' checked':'')+'><span>'+esc(AUD[k])+'<span class="sub">'+AUD_SUB[k]+'</span></span></label>';}).join('')+
      '</div></fieldset><div class="fld" style="margin:16px 0 0">'+'<label class="f" for="p-ages">Pupils\' year groups</label><input type="text" id="p-ages" data-p="ages" value="'+esc(p.ages)+'" placeholder="If pupils use it"></div></div></div></div>';
   h+='<div class="step"><div class="stepno" aria-hidden="true">3</div><div><h2 class="steph">What it is for</h2><p class="stepd">The DfE use cases it covers and how the school will use it.</p><div class="panel">'+
-     '<fieldset class="plainfs"><legend class="f">DfE use cases (tick all that apply)</legend><div class="ticks two">'+
+     '<fieldset class="plainfs"><legend class="f" style="display:block;margin-bottom:8px">DfE use cases (tick all that apply)</legend><div class="ticks two">'+
      USES.map(function(u,i){var n=i+1;return '<label class="tick"><input type="checkbox" id="use-'+n+'" data-use="'+n+'"'+(p.uses.indexOf(n)>-1?' checked':'')+'><span>'+esc(u)+'</span></label>';}).join('')+'</div></fieldset>'+
      '<div class="fld" style="margin-top:16px"><label class="f" for="p-url">Supplier\'s statement against the DfE standards (link)</label><input type="url" id="p-url" data-p="url" value="'+esc(p.url)+'" placeholder="If they publish one"></div>'+
      '<div class="fld" style="margin-bottom:0"><label class="f" for="p-purpose">How the school will use it</label><textarea id="p-purpose" data-p="purpose" maxlength="'+MAX_NOTE+'">'+esc(p.purpose)+'</textarea></div>'+
      '</div></div></div>';
   $('productFields').innerHTML=h;
 }
-var SYM={v:'●',d:'◆',c:'▲',n:'■'}, SCLS={v:'s-full',d:'s-doc',c:'s-part',n:'s-not'};
+var SYM={v:'●',d:'◐',c:'▲',n:'■'}, SCLS={v:'s-full',d:'s-doc',c:'s-part',n:'s-not'};
 function renderStds(){
   var h='';
   STDS.forEach(function(s,si){
     var two=('0'+s.n).slice(-2); if(s.n===0) two='00';
     h+='<section class="view" id="v-s'+s.n+'" aria-label="Standard '+s.n+'"><div id="std-'+s.n+'">'+
-       '<header class="dhead"><div class="dkick"><span>Standard '+two+' · Review</span><span id="sprog-'+s.n+'"></span></div><h1 tabindex="-1">'+esc(s.name)+'</h1><p class="dpurp">'+esc(s.req)+'</p>'+
+       '<header class="dhead"><div class="dkick"><span>Standard '+two+' · Review</span><span id="sprog-'+s.n+'"></span></div><h1 tabindex="-1">'+esc(s.name)+'</h1><p class="dpurp">'+esc(s.req)+'</p><p class="dterms noprint">Terms used here: <span class="dfn" title="You saw it work in your own trial">tested</span> · <span class="dfn" title="You have it in writing and can file it">documented</span> · <span class="dfn" title="The supplier says so but has sent no evidence">claimed only</span> · <span class="dfn" title="Not in place, or the supplier cannot say">not met</span></p>'+
        '<dl class="dmeta"><div><dt>Applies to</dt><dd id="sapp-'+s.n+'"></dd></div><div><dt>Checks</dt><dd id="meta-'+s.n+'"></dd></div><div><dt>Source</dt><dd>'+(s.n===0?'LGfL SafeguardED AI Policy Toolkit 2026; KCSIE 2026':'DfE product safety standards, standard '+s.n)+'</dd></div></dl></header>'+
        '<p class="callout warn" id="na-'+s.n+'" hidden></p>'+
        '<div class="callout" id="call-'+s.n+'">'+(s.n===0?'These checks are about the school, not the product. Tested means you have checked it works; Documented means it is written down; Claimed means someone says so; Not met means it is not in place yet. A Not met here never blocks the outcome, but add a note saying how it will be managed.':'Rate what you can show, not what the supplier says. A sales page is not evidence. A document you can file is. Seeing it work in your own trial is better still.')+'</div>'+
@@ -1621,7 +1625,7 @@ function renderStds(){
   $('stds').innerHTML=h;
 }
 function renderActs(){
-  $('acts').innerHTML=ACTS.map(function(a){return '<div class="actrow" id="actrow-'+a.id+'"><input type="checkbox" id="act-'+a.id+'" data-act="'+a.id+'"'+(st.acts[a.id]?' checked':'')+'><label for="act-'+a.id+'">'+esc(a.t)+'<span class="why">'+esc(a.why)+(a.link?' · <a href="'+esc(a.link[1])+'" target="_blank" rel="noopener noreferrer">'+esc(a.link[0])+'</a>':'')+'</span></label>'+(a.gate?'<span class="reqtag">Required</span>':'<span></span>')+'</div>';}).join('');
+  $('acts').innerHTML=ACTS.map(function(a){return '<div class="actrow" id="actrow-'+a.id+'"><input type="checkbox" id="act-'+a.id+'" data-act="'+a.id+'"'+(st.acts[a.id]?' checked':'')+'><label for="act-'+a.id+'">'+esc(a.t)+'<span class="why">'+esc(a.why)+(a.link?' <a href="'+esc(a.link[1])+'" target="_blank" rel="noopener noreferrer">'+esc(a.link[0])+'</a>':'')+'</span></label>'+(a.gate?'<span class="reqtag">Required</span>':'<span></span>')+'</div>';}).join('');
 }
 
 /* update computed parts */
@@ -1663,7 +1667,7 @@ function update(){
   $('ctx-date').textContent=st.product.date?'Checked '+ukDate(st.product.date):'Date not set';
   $('ctx-status').textContent=r.answered?r.out.h+' · '+r.answered+' of '+r.total:'Not started';
   /* overview */
-  $('ovSub').textContent=st.example?'Specimen check of a made-up product.':(r.answered?'Check in progress for '+(st.product.name.trim()||'an unnamed product')+'.':'Check not started.');
+  $('ovSub').textContent=st.example?'Specimen. Start your own check from the banner below.':(r.answered?'Check in progress for '+(st.product.name.trim()||'an unnamed product')+'.':'Check not started.');
   $('ovBar').style.width=(r.total?Math.round(r.answered/r.total*100):0)+'%';
   $('ovNum').textContent=r.answered+' of '+r.total+' checks reviewed';
   var cc=critCounts(r);
@@ -1671,8 +1675,8 @@ function update(){
   var shown=r.reasons.filter(function(x){return x.sev!=='open'||r.out.cls==='idle';}).sort(function(a,b){return 'block open cond'.indexOf(a.sev)-'block open cond'.indexOf(b.sev);});
   function reasonsHtml(lim){var more=shown.length-lim;return shown.length?'<ol class="reasons">'+shown.slice(0,lim).map(function(x){var ref=/^S\d/.test(x.ref)?'<b>'+esc(x.ref)+'</b> ':'';return '<li>'+(x.jump?'<a href="#'+esc(x.jump)+'" data-jump="'+esc(x.jump)+'">'+ref+esc(x.text)+'</a>':ref+esc(x.text))+'</li>';}).join('')+'</ol>'+(more>0?'<p class="nv" style="font-style:normal">'+more+' more in the decision record (Records).</p>':''):'';}
   var posHtml='<div class="dsum-head"><span class="klab">Outcome</span>'+pill(r.out.cls,r.out.h)+'</div><p class="dsum-reason" id="decP">'+esc(r.out.p)+'</p>';
-  $('ovPos').innerHTML=posHtml+reasonsHtml(6)+'<p class="nv">Self-assessment · not independently verified.</p>';
-  $('outbox').innerHTML=posHtml.replace(' id="decP"','')+reasonsHtml(40)+'<dl class="dsum-counts"><div><dt>Standards evidenced</dt><dd id="covStd">'+r.stdsEv+' of '+r.stdsApp+'</dd></div><div><dt>Checks</dt><dd id="covSub">'+r.answered+' of '+r.total+' checks</dd></div><div><dt>Critical controls</dt><dd>'+cc.e+' evidenced, '+cc.w+' conditions, '+cc.n+' not met</dd></div><div><dt>Required actions open</dt><dd>'+gl+'</dd></div><div><dt>Reference</dt><dd>'+(st.example?'None':refOf())+'</dd></div></dl>';
+  $('ovPos').innerHTML=posHtml+(r.answered?reasonsHtml(6):'<p class="empty">No checks answered yet. Start with Product details, then Standard 0.</p>')+'<p class="nv">Self-assessment · not independently verified.</p>';
+  $('outbox').innerHTML='<p class="klab">Outcome of this check</p><p class="posv">'+esc(r.out.h)+'</p><p class="posr">'+esc(r.out.p)+'</p>'+(r.answered?reasonsHtml(40):'<p class="empty">No checks answered yet. Work through the standards and the conditions will appear here.</p>')+'<dl class="dsum-counts"><div><dt>Standards evidenced</dt><dd id="covStd">'+r.stdsEv+' of '+r.stdsApp+'</dd></div><div><dt>Checks reviewed</dt><dd id="covSub">'+r.answered+' of '+r.total+' checks</dd></div><div><dt>Critical evidenced</dt><dd>'+cc.e+'</dd></div><div><dt>Critical with conditions</dt><dd>'+cc.w+'</dd></div><div><dt>Critical not met</dt><dd>'+cc.n+'</dd></div><div><dt>Required actions open</dt><dd>'+gl+'</dd></div></dl><p class="nv">Self-assessment · not independently verified. Reference '+(st.example?'none (specimen)':refOf())+'.</p>';
   $('crits').innerHTML=r.crits.map(function(it){
     var a=st.ans[it.id], hasNote=noted(st,it.id), m;
     if(a==='n') m=['bad','Not met'];
@@ -1922,11 +1926,11 @@ if(!framed){
 }
 
 (function moderated(){
-  $('modPrice').innerHTML='<b>'+esc(CONFIG.price)+' per product</b>'+(CONFIG.vatNote?', '+esc(CONFIG.vatNote):'')+'.';
+  $('modPrice').innerHTML='<b>'+esc(CONFIG.price)+' per product'+(CONFIG.vatNote?', '+esc(CONFIG.vatNote):'')+'.</b>';
   $('modWho').textContent=CONFIG.provider; $('modWho').hidden=!CONFIG.provider;
   var dl='';
-  if(CONFIG.turnaround) dl+='<div><dt>Turnaround</dt><dd>'+esc(CONFIG.turnaround)+'</dd></div>';
-  dl+='<div><dt>What to send</dt><dd>Your save code or check file, the supplier\'s documents, and trial log-in details if you have them. Do not send pupils\' names or data.</dd></div>';
+  if(CONFIG.turnaround) dl+='<p class="stepd"><b>Turnaround:</b> '+esc(CONFIG.turnaround)+'</p>';
+  dl+='<p class="stepd"><b>What to send:</b> Your save code or check file, the supplier\'s documents, and trial log-in details if you have them. Do not send pupils\' names or data.</p>';
   $('modTerms').innerHTML=dl;
   var h='', safeUrl=/^https:\/\/[^\s"'<>]+$/.test(CONFIG.bookingUrl)?CONFIG.bookingUrl:'';
   if(safeUrl) h+='<a class="btn" href="'+esc(safeUrl)+'" target="_blank" rel="noopener noreferrer">Book a moderated check</a>';
