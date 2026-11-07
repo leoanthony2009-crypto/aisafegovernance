@@ -654,7 +654,7 @@ function assess(S,now){
     var ev=false; s.items.forEach(function(it){ items.push(it); var a=S.ans[it.id]||'u'; c[a]++; if(a==='v'||a==='d') ev=true; });
     if(ev) stdsEv++; });
   var total=items.length, answered=total-c.u, crits=items.filter(function(it){return isCrit(it,aud);});
-  var R=[]; function add(sev,ref,text,jump){R.push({sev:sev,ref:ref,text:text,jump:jump||''});}
+  var R=[]; function add(sev,ref,text,jump,weight){R.push({sev:sev,ref:ref,text:text,jump:jump||'',n:weight||1});}
   crits.forEach(function(it){var a=S.ans[it.id], r=REF[it.id];
     if(a==='n') add('block',r,it.k+': not met','item-'+it.id);
     else if(a==='c') add('cond',r,it.k+': supplier\'s claim, no evidence','item-'+it.id);
@@ -664,7 +664,7 @@ function assess(S,now){
   var unans=items.filter(function(it){return !S.ans[it.id];});
   if(unans.length) add('open','',unans.length+' check'+(unans.length>1?'s':'')+' still to answer','item-'+unans[0].id);
   var nmGap=items.filter(function(it){return !isCrit(it,aud)&&S.ans[it.id]==='n'&&!noted(S,it.id);});
-  if(nmGap.length) add('cond','','Not met, with no note of how the risk is managed: '+nmGap.map(function(it){return REF[it.id];}).join(', '),'item-'+nmGap[0].id);
+  if(nmGap.length) add('cond',nmGap.map(function(it){return REF[it.id];}).join(', '),'Not met, with no note of how the risk is managed','item-'+nmGap[0].id,nmGap.length);
   var ncClaim=items.filter(function(it){return !isCrit(it,aud)&&S.ans[it.id]==='c';}), ncTotal=items.filter(function(it){return !isCrit(it,aud);}).length;
   if(ncTotal&&ncClaim.length/ncTotal>0.25) add('cond','Evidence',ncClaim.length+' of '+ncTotal+' other checks are claims with no evidence','item-'+ncClaim[0].id);
   STDS.forEach(function(s){ if(!applies(s,aud)) return; var all=s.items.every(function(it){return S.ans[it.id];});
@@ -681,11 +681,11 @@ function assess(S,now){
   else if(S.product.date&&S.product.reviewBy<S.product.date) add('cond','Check','Review-by date is before the date checked','p-reviewBy');
   else if(S.product.date&&S.product.reviewBy>addYear(S.product.date)) add('cond','Check','Review-by date is more than a year after the check','p-reviewBy');
   if(S.stds!==STDS_VERSION) add('cond','Check','Made against an older edition of the standards','');
-  var blocks=R.filter(function(r){return r.sev==='block';}), conds=R.filter(function(r){return r.sev==='cond';});
+  var blocks=R.filter(function(r){return r.sev==='block';}), conds=R.filter(function(r){return r.sev==='cond';}), nConds=conds.reduce(function(t,r){return t+r.n;},0);
   var critClaim=crits.filter(function(it){return S.ans[it.id]==='c';}).length, out, useLine=aud!=='learners'?' This covers staff use only (A3). Check again if pupils will use it directly.':'';
   if(blocks.length) out={cls:'bad',h:'Blocking gaps',p:blocks.length+' blocking gap'+(blocks.length>1?'s':'')+'. Do not use it with pupils or personal data until they are resolved with written evidence.'};
   else if(unans.length) out={cls:'idle',h:'Not finished',p:answered+' of '+total+' checks answered.'+(critClaim?' '+critClaim+' critical control'+(critClaim>1?'s are':' is')+' a claim with no evidence so far.':'')};
-  else if(conds.length) out={cls:'warn',h:'Conditions before use',p:conds.length+' condition'+(conds.length>1?'s':'')+' to meet. '+(aud==='staff'?'Do not use it with personal data until they are met.':'Do not let pupils use it until they are met. Any pilot should use staff or test accounts and no personal data.')+useLine};
+  else if(conds.length) out={cls:'warn',h:'Conditions before use',p:nConds+' condition'+(nConds>1?'s':'')+' to meet. '+(aud==='staff'?'Do not use it with personal data until they are met.':'Do not let pupils use it until they are met. Any pilot should use staff or test accounts and no personal data.')+useLine};
   else out={cls:'good',h:'No blocking gaps found',p:'All critical controls have evidence on file, with trial results where a test is listed. The required school actions are ticked. The DSL and DPO decide whether to adopt.'+useLine};
   return {c:c,total:total,answered:answered,stdsApp:stdsApp,stdsEv:stdsEv,crits:crits,reasons:R,out:out,critClaim:critClaim};
 }
@@ -724,8 +724,8 @@ function setSaved(){
 /* render */
 function renderSwitcher(){
   var ids=Object.keys(store.checks).sort(function(a,b){return (store.checks[b].product.date||'').localeCompare(store.checks[a].product.date||'');});
-  var h=ids.map(function(id){var p=store.checks[id].product;var nm=p.name||'Unnamed', dup=ids.filter(function(o){return (store.checks[o].product.name||'Unnamed')===nm;}).length>1;
-    return '<option value="'+esc(id)+'"'+(id===st.id?' selected':'')+'>'+esc(nm)+(dup&&p.date?', '+esc(ukDate(p.date)):'')+'</option>';}).join('');
+  var h=ids.map(function(id){var p=store.checks[id].product;var nm=p.name||'Unnamed', same=ids.filter(function(o){return (store.checks[o].product.name||'Unnamed')===nm;}).sort(), k=same.indexOf(id)+1;
+    return '<option value="'+esc(id)+'"'+(id===st.id?' selected':'')+'>'+esc(nm)+(same.length>1?' ('+k+')':'')+'</option>';}).join('');
   h+='<option value="example"'+(st.example?' selected':'')+'>Specimen (made-up product)</option>';
   $('checkSel').innerHTML=h;
 }
