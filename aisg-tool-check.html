@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI Tool Pre-Adoption Check</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Check a named AI product against the DfE's 13 Generative AI product safety standards before staff or pupils use it. Free, runs on your device.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Montserrat:wght@600;700&display=swap">
+<style>
+/* Layout: AISG house style. Navy title band, then a working column of 13 standards beside a sticky decision panel; one column on phones. */
+:root{
+  --navy:#1F3A5F; --ink:#163047; --gold:#B08D2E; --gold-deep:#7E6318;
+  --bg:#F2F4F8; --paper:#FFFFFF; --tint:#EDF1F7; --line:#D6DCE4; --muted:#51606F;
+  --good:#1D6A34; --good-pale:#EAF3EC; --warn:#7A5200; --warn-pale:#FBF2DF; --bad:#8E2424; --bad-pale:#F9EEEC;
+  --band:#1F3A5F; --band-fg:#FFFFFF; --band-sub:#D9E2EE; --band-gold:#DDBB66;
+  --btn-bg:#1F3A5F; --btn-fg:#FFFFFF; --btn-gold:#B08D2E; --btn-gold-fg:#16273B;
+  --focus:#B08D2E;
+  --body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --disp:'Montserrat','IBM Plex Sans',system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --navy:#C9D8EC; --ink:#E4EAF2; --gold:#D9B65A; --gold-deep:#E2C77A;
+  --bg:#0E1826; --paper:#152335; --tint:#1B2C42; --line:#2A3D55; --muted:#9DAEC1;
+  --good:#79C894; --good-pale:#16301F; --warn:#E3B45A; --warn-pale:#33270F; --bad:#EE8F86; --bad-pale:#3A1C1C;
+  --band:#13243A; --band-fg:#F1F5FA; --band-sub:#B9C8DA; --band-gold:#E2C77A;
+  --btn-bg:#C9D8EC; --btn-fg:#0E1826; --btn-gold:#D9B65A; --btn-gold-fg:#16273B;
+  --focus:#E2C77A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --navy:#C9D8EC; --ink:#E4EAF2; --gold:#D9B65A; --gold-deep:#E2C77A;
+  --bg:#0E1826; --paper:#152335; --tint:#1B2C42; --line:#2A3D55; --muted:#9DAEC1;
+  --good:#79C894; --good-pale:#16301F; --warn:#E3B45A; --warn-pale:#33270F; --bad:#EE8F86; --bad-pale:#3A1C1C;
+  --band:#13243A; --band-fg:#F1F5FA; --band-sub:#B9C8DA; --band-gold:#E2C77A;
+  --btn-bg:#C9D8EC; --btn-fg:#0E1826; --btn-gold:#D9B65A; --btn-gold-fg:#16273B;
+  --focus:#E2C77A; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--body)}
+h1,h2,h3{font-family:var(--disp);line-height:1.2;margin:0;color:var(--navy);text-wrap:balance}
+p{margin:0}
+a{color:var(--navy)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.gut{padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.in{max-width:1180px;margin:0 auto}
+.eyebrow{font-family:var(--disp);font-size:.74rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep)}
+.note{font-size:.88rem;color:var(--muted)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--btn-bg);color:var(--btn-fg);border:2px solid var(--btn-bg);border-radius:8px;padding:9px 16px;font-weight:600;font-size:.94rem;text-decoration:none;cursor:pointer;line-height:1.2}
+.btn.gold{background:var(--btn-gold);border-color:var(--btn-gold);color:var(--btn-gold-fg)}
+.btn.ghost{background:transparent;color:var(--navy);border-color:var(--line)}
+.btn.small{padding:6px 12px;font-size:.86rem}
+.btn.danger{background:transparent;color:var(--bad);border-color:var(--bad)}
+@media (prefers-reduced-motion: no-preference){.btn{transition:filter .15s ease-out,transform .1s ease-out}.btn:hover{filter:brightness(1.07)}.btn:active{transform:translateY(1px)}.bar i{transition:width .3s ease-out}}
+
+/* masthead */
+.mast{background:var(--paper);border-bottom:1px solid var(--line)}
+.mast .in{display:flex;align-items:center;gap:14px;padding-block:10px;flex-wrap:wrap}
+.lock{display:flex;align-items:baseline;gap:10px;min-width:0}
+.lock b{font-family:var(--disp);font-weight:700;font-size:1.05rem;color:var(--navy);letter-spacing:.04em}
+.lock span{font-size:.86rem;color:var(--muted)}
+.saved{margin-left:auto;font-size:.82rem;color:var(--muted);display:flex;align-items:center;gap:6px}
+.saved::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--good)}
+.saved.off::before{background:var(--muted)}
+
+/* title band */
+.band{background:var(--band);color:var(--band-fg)}
+.band .in{padding-block:30px 32px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:28px;align-items:end}
+.band .eyebrow{color:var(--band-gold)}
+.band h1{color:var(--band-fg);font-size:clamp(1.6rem,3.4vw,2.2rem);margin:8px 0 10px}
+.band .sub{color:var(--band-sub);max-width:58ch;font-size:1.02rem}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:rgba(255,255,255,.18);border-radius:10px;overflow:hidden}
+.facts div{background:var(--band);padding:12px 14px}
+.facts b{display:block;font-family:var(--disp);font-size:1.3rem;color:var(--band-gold);font-variant-numeric:tabular-nums}
+.facts span{font-size:.8rem;color:var(--band-sub);line-height:1.3;display:block}
+@media (max-width:860px){.band .in{grid-template-columns:minmax(0,1fr)}}
+
+/* example banner */
+.example{background:var(--warn-pale);border-bottom:1px solid var(--line)}
+.example .in{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding-block:10px}
+.example p{font-size:.92rem;color:var(--ink);flex:1 1 320px;min-width:0}
+.example strong{color:var(--warn)}
+
+/* main grid */
+.main .in{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start;padding-block:24px 56px}
+@media (max-width:980px){.main .in{grid-template-columns:minmax(0,1fr)}.side{order:-1}}
+.col{display:grid;gap:28px;min-width:0}
+.step-h{display:flex;align-items:baseline;gap:12px;margin-bottom:12px}
+.step-h .n{font-family:var(--disp);font-weight:700;color:var(--gold-deep);font-size:.9rem;font-variant-numeric:tabular-nums}
+.step-h h2{font-size:1.3rem}
+.step-p{color:var(--muted);font-size:.94rem;margin:-4px 0 14px;max-width:70ch}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+
+/* product form */
+.fgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 16px}
+.fgrid .wide{grid-column:1/-1}
+@media (max-width:620px){.fgrid{grid-template-columns:minmax(0,1fr)}}
+.field label,.field legend{display:block;font-weight:600;font-size:.9rem;margin-bottom:5px;padding:0}
+.field fieldset{border:0;margin:0;padding:0;min-width:0}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem}
+.field input[type=text],.field input[type=url],.field input[type=date],.field select,.field textarea{width:100%;padding:9px 11px;border:1.5px solid var(--line);border-radius:8px;background:var(--paper)}
+.field textarea{min-height:64px;resize:vertical}
+.choices{display:flex;flex-wrap:wrap;gap:8px}
+.choice{position:relative}
+.choice input{position:absolute;opacity:0;width:1px;height:1px}
+.choice span{display:inline-block;border:1.5px solid var(--line);border-radius:999px;padding:6px 13px;font-size:.88rem;cursor:pointer;background:var(--paper)}
+.choice input:checked+span{border-color:var(--navy);background:var(--tint);font-weight:600;color:var(--navy)}
+.choice input:focus-visible+span{outline:3px solid var(--focus);outline-offset:2px}
+.choice input[type=checkbox]:checked+span::before{content:"✓ ";}
+
+/* standards */
+.tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.key{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.82rem;color:var(--muted)}
+.key b{color:var(--ink);font-weight:600}
+.stds{display:grid;gap:10px}
+.std{background:var(--paper);border:1px solid var(--line);border-radius:12px}
+.std>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px 14px;align-items:center;padding:14px 16px}
+.std>summary::-webkit-details-marker{display:none}
+.num{font-family:var(--disp);font-weight:700;font-size:.8rem;color:var(--navy);border:1.5px solid var(--navy);border-radius:6px;padding:3px 6px;min-width:38px;text-align:center;font-variant-numeric:tabular-nums}
+.std h3{font-size:1rem}
+.std .meta{font-size:.8rem;color:var(--muted);margin-top:2px}
+.std[open]>summary{border-bottom:1px solid var(--line)}
+.std.na{opacity:.62}
+.std.na>summary{cursor:default}
+.std-body{padding:6px 16px 14px}
+.std-body .req{font-size:.9rem;color:var(--muted);padding:8px 0 4px;max-width:72ch}
+.chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-size:.78rem;font-weight:600;white-space:nowrap;border:1px solid transparent}
+.chip::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.chip.good{background:var(--good-pale);color:var(--good)}
+.chip.warn{background:var(--warn-pale);color:var(--warn)}
+.chip.bad{background:var(--bad-pale);color:var(--bad)}
+.chip.idle{background:transparent;color:var(--muted);border-color:var(--line)}
+.item{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:8px 18px;align-items:start;padding:12px 0;border-top:1px solid var(--line)}
+.item:first-of-type{border-top:0}
+@media (max-width:760px){.item{grid-template-columns:minmax(0,1fr)}}
+.item .t{font-size:.94rem}
+.crit{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--bad);border:1px solid var(--bad);border-radius:4px;padding:0 5px;margin-right:6px;vertical-align:1px}
+.seg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1.5px solid var(--line);border-radius:8px;overflow:hidden;margin:0;padding:0;min-width:0}
+.seg legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.seg input{position:absolute;opacity:0;width:1px;height:1px}
+.seg label{padding:7px 4px;text-align:center;font-size:.8rem;cursor:pointer;border-left:1px solid var(--line);color:var(--muted);background:var(--paper)}
+.seg label:first-of-type{border-left:0}
+.seg input:focus-visible+label{outline:3px solid var(--focus);outline-offset:-3px}
+.seg input[value=v]:checked+label{background:var(--good-pale);color:var(--good);font-weight:700}
+.seg input[value=d]:checked+label{background:var(--good-pale);color:var(--good);font-weight:600}
+.seg input[value=c]:checked+label{background:var(--warn-pale);color:var(--warn);font-weight:600}
+.seg input[value=n]:checked+label{background:var(--bad-pale);color:var(--bad);font-weight:600}
+.notebtn{background:none;border:0;padding:4px 0 0;color:var(--navy);font-size:.82rem;text-decoration:underline;cursor:pointer}
+.item textarea{grid-column:1/-1;width:100%;min-height:52px;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;background:var(--tint);font-size:.88rem}
+.na-msg{font-size:.88rem;color:var(--muted);padding:10px 0 2px}
+
+/* actions list */
+.acts{display:grid;gap:2px}
+.act{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;padding:10px 0;border-top:1px solid var(--line)}
+.act:first-child{border-top:0}
+.act input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--navy)}
+.act label{font-size:.94rem;cursor:pointer}
+.act .why{display:block;font-size:.8rem;color:var(--muted)}
+
+/* outputs */
+.out{display:grid;gap:16px}
+.out h3{font-size:1rem;margin-bottom:6px}
+.out textarea{width:100%;min-height:190px;padding:10px 12px;border:1.5px solid var(--line);border-radius:8px;background:var(--tint);font:13px/1.5 ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;resize:vertical}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.status{font-size:.84rem;color:var(--good);min-height:1.2em}
+.mod{border:2px solid var(--gold);border-radius:12px;padding:18px 20px;background:var(--paper)}
+.mod h3{font-size:1.1rem;margin:4px 0 6px}
+.mod ul{margin:8px 0 0;padding-left:20px;font-size:.92rem}
+.mod li{margin-bottom:3px}
+.price{font-family:var(--disp);font-weight:700;color:var(--navy);font-size:1.4rem;font-variant-numeric:tabular-nums}
+.contact{font-size:.9rem;margin-top:10px}
+.contact code{user-select:all;background:var(--tint);padding:2px 6px;border-radius:4px}
+
+/* side panel */
+.side{position:sticky;top:calc(env(safe-area-inset-top, 0px) + 16px);display:grid;gap:12px;min-width:0}
+@media (max-width:980px){.side{position:static}}
+.dec{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 18px;border-top:6px solid var(--line)}
+.dec.good{border-top-color:var(--good)}
+.dec.warn{border-top-color:var(--warn)}
+.dec.bad{border-top-color:var(--bad)}
+.dec .eyebrow{font-size:.68rem}
+.dec h2{font-size:1.2rem;margin:4px 0 6px}
+.dec p{font-size:.88rem;color:var(--muted)}
+.box{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 18px}
+.box h3{font-family:var(--disp);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.cov{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.cov b{font-family:var(--disp);font-size:1.6rem;color:var(--navy);font-variant-numeric:tabular-nums}
+.cov span{font-size:.82rem;color:var(--muted)}
+.bar{display:flex;height:10px;border-radius:5px;overflow:hidden;background:var(--tint);margin:8px 0}
+.bar i{display:block;height:100%}
+.bar .v{background:var(--good)}
+.bar .d{background:var(--good);opacity:.55}
+.bar .c{background:var(--warn)}
+.bar .n{background:var(--bad)}
+.legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 10px;font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.legend span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;vertical-align:0}
+.legend .v::before{background:var(--good)}
+.legend .d::before{background:var(--good);opacity:.55}
+.legend .c::before{background:var(--warn)}
+.legend .n::before{background:var(--bad)}
+.legend .u::before{background:var(--tint);border:1px solid var(--line)}
+.crits{list-style:none;margin:0;padding:0;display:grid;gap:5px}
+.crits li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;align-items:start;font-size:.84rem}
+.crits a{color:var(--ink);text-decoration:none}
+.crits a:hover{text-decoration:underline}
+.mk{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:.7rem;font-weight:700;margin-top:1px}
+.mk.good{background:var(--good-pale);color:var(--good)}
+.mk.warn{background:var(--warn-pale);color:var(--warn)}
+.mk.bad{background:var(--bad-pale);color:var(--bad)}
+.mk.idle{border:1.5px solid var(--line);color:var(--muted)}
+.actsum{font-size:.88rem}
+
+footer{border-top:1px solid var(--line);background:var(--paper)}
+footer .in{padding-block:16px;display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:space-between;font-size:.82rem;color:var(--muted)}
+
+@media print{
+  .mast .saved,.example,.side .btn,.tools,.row,.notebtn,.mod,.loadbox{display:none!important}
+  body{background:#fff;color:#000}
+  .main .in{grid-template-columns:1fr}
+  .side{position:static;order:-1}
+  .std{break-inside:avoid}
+}
+</style>
+
+</head>
+<body>
+<header class="mast gut">
+  <div class="in">
+    <div class="lock"><b>AISG</b><span>AI Safeguarding &amp; Governance</span></div>
+    <p class="saved" id="saved" aria-live="polite">Saved on this device</p>
+  </div>
+</header>
+
+<section class="band gut" aria-labelledby="pageTitle">
+  <div class="in">
+    <div>
+      <p class="eyebrow">Before anyone uses it</p>
+      <h1 id="pageTitle">AI Tool Pre-Adoption Check</h1>
+      <p class="sub">Check one named AI product against the DfE's 13 Generative AI product safety standards, see which critical controls are missing, and keep a decision record for your filtering and monitoring review.</p>
+    </div>
+    <div class="facts" role="list">
+      <div role="listitem"><b>13</b><span>DfE standards, updated 19 January 2026</span></div>
+      <div role="listitem"><b>30–45</b><span>minutes with the supplier's documents</span></div>
+      <div role="listitem"><b>0</b><span>accounts or uploads; it stays on this device</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="example gut" id="exampleBanner" hidden>
+  <div class="in">
+    <p><strong>Worked example.</strong> This shows a finished check of a fictional product so you can see the outcome and record. Start a new check to assess your own tool.</p>
+    <button type="button" class="btn small" id="startNew">Start a new check</button>
+  </div>
+</div>
+
+<main class="main gut">
+  <div class="in">
+    <form class="col" id="form" autocomplete="off" novalidate>
+
+      <section aria-labelledby="h1s">
+        <div class="step-h"><span class="n">Step 1</span><h2 id="h1s">The product</h2></div>
+        <p class="step-p">Who uses the tool decides which standards apply. Tools that pupils use are checked against all 13; staff-only tools against 8.</p>
+        <div class="panel fgrid" id="productFields"></div>
+      </section>
+
+      <section aria-labelledby="h2s">
+        <div class="step-h"><span class="n">Step 2</span><h2 id="h2s">The 13 standards</h2></div>
+        <p class="step-p">For each check, record the strongest evidence you have. A supplier saying "yes" is a claim; a document you can file is evidence; seeing it work in a trial is verification.</p>
+        <div class="tools">
+          <div class="choices" role="group" aria-label="Which standards to show">
+            <label class="choice"><input type="radio" name="view" value="all" id="viewAll" checked><span>All standards</span></label>
+            <label class="choice"><input type="radio" name="view" value="gaps" id="viewGaps"><span>Gaps only</span></label>
+          </div>
+          <div class="key"><span><b>Verified</b> seen working in a trial</span><span><b>Documented</b> written evidence on file</span><span><b>Claimed</b> supplier's word only</span><span><b>No / unknown</b> not met or no answer</span></div>
+        </div>
+        <div class="stds" id="stds"></div>
+      </section>
+
+      <section aria-labelledby="h3s">
+        <div class="step-h"><span class="n">Step 3</span><h2 id="h3s">Your school's actions</h2></div>
+        <p class="step-p">The supplier's evidence is half the job. These are the school's own duties before go-live.</p>
+        <div class="panel acts" id="acts"></div>
+      </section>
+
+      <section aria-labelledby="h4s">
+        <div class="step-h"><span class="n">Step 4</span><h2 id="h4s">Questions and record</h2></div>
+        <div class="out">
+          <div class="panel">
+            <h3>Questions for the supplier</h3>
+            <p class="note">Every check marked Claimed or No / unknown becomes a written question, critical controls first. Paste it into an email to the supplier.</p>
+            <label for="qText" class="vh">Questions for the supplier</label>
+            <textarea id="qText" readonly></textarea>
+            <div class="row"><button type="button" class="btn small" data-copy="qText">Copy questions</button><span class="status" id="qText-status" aria-live="polite"></span></div>
+          </div>
+          <div class="panel">
+            <h3>Decision record</h3>
+            <p class="note">Paste this into your AI tools register or attach it to your filtering and monitoring review.</p>
+            <label for="rText" class="vh">Decision record</label>
+            <textarea id="rText" readonly></textarea>
+            <div class="row">
+              <button type="button" class="btn small" data-copy="rText">Copy record</button>
+              <button type="button" class="btn small ghost" id="printBtn" hidden>Print or save as PDF</button>
+              <button type="button" class="btn small ghost" id="dlBtn" hidden>Download check file</button>
+              <span class="status" id="rText-status" aria-live="polite"></span>
+            </div>
+          </div>
+          <div class="panel loadbox">
+            <h3>Save or reopen a check</h3>
+            <p class="note">Your check saves in this browser automatically. To move it to another device or keep a copy, copy the save code and paste it back later.</p>
+            <div class="row">
+              <button type="button" class="btn small ghost" id="copyCode">Copy save code</button>
+              <label class="btn small ghost" for="fileIn">Open a check file</label>
+              <input type="file" id="fileIn" accept=".json,application/json" class="vh">
+              <span class="status" id="code-status" aria-live="polite"></span>
+            </div>
+            <div class="field" style="margin-top:12px">
+              <label for="pasteIn">Paste a save code</label>
+              <textarea id="pasteIn" placeholder="Paste a save code here, then choose Load"></textarea>
+            </div>
+            <div class="row"><button type="button" class="btn small" id="loadBtn">Load</button><button type="button" class="btn small danger" id="clearBtn">Clear this check</button><span class="status" id="load-status" aria-live="polite"></span></div>
+          </div>
+          <aside class="mod" aria-labelledby="modH">
+            <p class="eyebrow">Second pair of eyes</p>
+            <h3 id="modH">Moderated check</h3>
+            <p class="price">£195 <span class="note">per product</span></p>
+            <ul>
+              <li>An experienced designated safeguarding lead reviews your record and the supplier's evidence.</li>
+              <li>Filtering, safeguarding alerts and distress responses are tested in a trial account, where the supplier provides one.</li>
+              <li>You receive a signed decision record for governors and your filtering and monitoring review.</li>
+            </ul>
+            <p class="contact" id="contactLine"></p>
+          </aside>
+        </div>
+      </section>
+    </form>
+
+    <aside class="side" aria-label="Decision summary">
+      <div class="dec" id="dec">
+        <p class="eyebrow">Suggested outcome</p>
+        <h2 id="decH">Check in progress</h2>
+        <p id="decP"></p>
+      </div>
+      <div class="box">
+        <h3>Evidence coverage</h3>
+        <div class="cov"><b id="covPct">0%</b><span id="covSub">documented or verified</span></div>
+        <div class="bar" id="covBar" aria-hidden="true"></div>
+        <div class="legend" id="covLegend"></div>
+      </div>
+      <div class="box">
+        <h3>Critical controls</h3>
+        <ul class="crits" id="crits"></ul>
+      </div>
+      <div class="box">
+        <h3>School actions</h3>
+        <p class="actsum" id="actSum"></p>
+      </div>
+      <p class="note">This check supports, and does not replace, the judgement of your designated safeguarding lead and data protection officer.</p>
+    </aside>
+  </div>
+</main>
+
+<footer class="gut">
+  <div class="in">
+    <span>AISG — AI Safeguarding &amp; Governance · <a href="https://aisafegovernance.co.uk/" target="_blank" rel="noopener noreferrer">aisafegovernance.co.uk</a></span>
+    <span>Based on <a href="https://www.gov.uk/government/publications/generative-ai-product-safety-standards/generative-ai-product-safety-standards" target="_blank" rel="noopener noreferrer">DfE Generative AI: product safety standards</a> (updated 19 January 2026) · Content checked November 2026 · Review each term</span>
+  </div>
+</footer>
+
+<script>
+'use strict';
+/* ===== CONFIG: set these before publishing on aisafegovernance.co.uk ===== */
+var CONFIG={
+  contactEmail:'',   /* business address for moderated-check requests; never a school mailbox */
+  bookingUrl:''      /* booking page; when set, it is shown as the main way to book */
+};
+/* ========================================================================= */
+
+var KEY='aisg-tool-check-v1';
+var LEVELS=[['v','Verified'],['d','Documented'],['c','Claimed'],['n','No / unknown']];
+var LEVEL_NAME={v:'Verified',d:'Documented',c:'Claimed',n:'No / unknown'};
+var USES=['Content creation and delivery','Personalised learning and accessibility','Assessment and analytics','Digital assistant','Research and writing aid','Learner engagement and interaction','Administrative and management','Other, with a stated purpose'];
+var LOCS=[['uk','UK'],['eu','EU / EEA'],['out','Outside UK and EU, with safeguards'],['unk','Not stated']];
+
+/* rel: 'all' = learner- and staff-facing tools; 'learner' = learner-facing tools only.
+   crit: 'all' = critical for every tool; 'learner' = critical when pupils use it. */
+var STDS=[
+ {n:1,name:'Stated purpose',rel:'all',req:'The product states its purpose, age range, SEND suitability and subject focus, and does not overstate its impact.',items:[
+  {id:'1a',t:'The supplier states the intended purpose, learner age range and suitability for pupils with SEND.',q:'Please confirm the intended purpose, the learner age range the product is designed for, and its suitability for pupils with SEND.'},
+  {id:'1b',t:'Claims about impact are backed by evidence you can read.',q:'What published evidence supports your claims about the product\'s impact?'},
+  {id:'1c',t:'The supplier tells customers when new features change what the product is for.',q:'How do you tell schools when new features change the product\'s intended purpose or use cases?'}]},
+ {n:2,name:'Educational use cases',rel:'all',req:'The supplier names which of the DfE\'s eight use cases apply and shows evidence that the product meets its purpose and the standards.',items:[
+  {id:'2a',t:'The supplier lists which of the DfE\'s eight educational use cases the product covers.',q:'Which of the DfE\'s eight educational use cases does the product cover?'},
+  {id:'2b',t:'The supplier provides evidence that the product meets the DfE product safety standards.',q:'Do you have a written statement showing how the product meets each of the 13 DfE product safety standards?'}]},
+ {n:3,name:'Filtering',rel:'learner',req:'Learner-facing products reliably stop harmful or inappropriate content, across whole conversations, on every device.',items:[
+  {id:'3a',crit:'learner',k:'Filtering holds across a conversation',t:'Reliably blocks harmful or inappropriate content, and keeps filtering on across a whole conversation.',q:'How do you stop users generating or accessing harmful content, and how does filtering hold across a whole conversation?'},
+  {id:'3b',t:'Filtering adjusts for age, risk and individual needs, including SEND.',q:'Can filtering be adjusted by age, risk level and individual need, including SEND?'},
+  {id:'3c',t:'Moderates images, other languages, misspellings and abbreviations.',q:'Does moderation cover images, other languages, misspellings and abbreviations?'},
+  {id:'3d',crit:'learner',k:'Filtering on every device',t:'Full moderation stays on for school accounts on any device, including personal phones.',q:'Does full moderation apply to school accounts on every device, including personal phones and BYOD?'},
+  {id:'3e',t:'Filtering is updated as new types of harmful content appear.',q:'How often is filtering updated for new types of harmful content?'}]},
+ {n:4,name:'Monitoring and reporting',rel:'learner',req:'Products log activity, alert supervisors and the DSL to harmful content and disclosures, and report in plain terms.',items:[
+  {id:'4a',crit:'learner',k:'Harmful-content and disclosure alerts',t:'Alerts staff to attempts to access harmful content and to disclosures that suggest a safeguarding concern.',q:'How are staff alerted to attempts to access harmful content, and to disclosures that suggest a safeguarding concern?'},
+  {id:'4b',crit:'learner',k:'DSL contact set and confirmed',t:'Asks for the DSL\'s contact details at set-up, confirms them, and uses them for high-risk alerts within an agreed time.',q:'Do you require and confirm our DSL\'s contact details before activation, and within what time are high-risk alerts sent?'},
+  {id:'4c',t:'Tells learners, in age-appropriate words, when and why content was blocked.',q:'What do learners see when content is blocked, and is it age-appropriate?'},
+  {id:'4d',t:'Gives non-specialist staff clear reports and trends on access, attempts and usage time.',q:'Please share an example of the reports staff receive on access, attempted access and usage time.'},
+  {id:'4e',t:'Reports to teachers on cognitive offloading and emotional engagement without exposing content.',q:'Do teacher reports show cognitive offloading and emotional engagement without disclosing what learners wrote?'},
+  {id:'4f',t:'Learners are told clearly that their use is monitored.',q:'How are learners told that their use is monitored?'}]},
+ {n:5,name:'Security',rel:'all',req:'Products resist misuse and attack, support role-based access and strong sign-in, and stay patched.',items:[
+  {id:'5a',crit:'learner',k:'Jailbreak resistance',t:'Strongly resists "jailbreak" attempts to reach blocked material.',q:'How is the product tested against jailbreak attempts, and can you share the results?'},
+  {id:'5b',crit:'all',k:'Strong sign-in and MFA',t:'Strong sign-in, with multi-factor authentication for admin and sensitive accounts.',q:'What authentication do you support, and is multi-factor authentication available for admin accounts?'},
+  {id:'5c',t:'Admins can set different permission levels for different users.',q:'Can administrators set different permission levels for different users?'},
+  {id:'5d',t:'Updates and fixes are applied promptly, and new versions or models are safety-tested before release.',q:'How quickly are fixes applied, and how are new versions or models safety-tested before release?'},
+  {id:'5e',t:'Compatible with the DfE cyber security standards for schools and colleges.',q:'How does the product support the DfE cyber security standards for schools and colleges?'}]},
+ {n:6,name:'Privacy and data protection',rel:'all',req:'Data is handled lawfully and transparently, with a clear privacy notice, a DPIA and no commercial reuse of personal data without a lawful basis.',items:[
+  {id:'6a',crit:'all',k:'Clear privacy notice',t:'A clear, age-appropriate privacy notice says what data is collected, why, where it is processed and on what legal basis.',q:'Please share your privacy notice, including where data is processed and the safeguards for any processing outside the UK or EU.'},
+  {id:'6b',crit:'all',k:'No training on personal data',t:'Personal data is not used for model training or other commercial purposes without a confirmed lawful basis.',q:'Please confirm in writing that personal data is not used for model training, fine-tuning or other commercial purposes.'},
+  {id:'6c',t:'The supplier has a DPIA and will share what you need for your own DPIA.',q:'Have you completed a DPIA for this product, and what can you share to support ours?'},
+  {id:'6d',t:'Controller and processor roles are set out in a contract or data processing agreement.',q:'Please send your data processing agreement setting out controller and processor roles.'},
+  {id:'6e',t:'Complies with the ICO Children\'s Code.',q:'How does the product comply with the ICO Children\'s Code?'}]},
+ {n:7,name:'Intellectual property',rel:'all',req:'Work and inputs from pupils and staff are not used for training or product improvement without the owner\'s consent.',items:[
+  {id:'7a',crit:'all',k:'No training on pupils\' and staff work',t:'Pupils\' and staff work and prompts are not used for training, fine-tuning or product improvement without permission, with parental consent for pupils.',q:'Please confirm that pupils\' and staff work and prompts are not stored or used for training, fine-tuning or product improvement without consent.'}]},
+ {n:8,name:'Design and testing',rel:'all',req:'Products are tested with a diverse, realistic range of users, safety-tested before release, and perform consistently.',items:[
+  {id:'8a',t:'Tested with a diverse and realistic range of users, including children where it is child-facing.',q:'Who was the product tested with, and did testing include children and pupils with SEND?'},
+  {id:'8b',t:'Performs consistently as intended; you have seen it work in a trial.',q:'Can we have a trial account to check the product performs as described?'}]},
+ {n:9,name:'Governance',rel:'all',req:'Suppliers risk-assess each product for education, run a formal complaints route and publish their AI safety policies.',items:[
+  {id:'9a',t:'The supplier has a risk assessment for this product\'s use in education.',q:'Please share your risk assessment for this product\'s use in schools.'},
+  {id:'9b',t:'A formal complaints route escalates and resolves safety issues quickly.',q:'How do we raise a safety concern, and what are your escalation and response times?'},
+  {id:'9c',t:'AI safety policies and processes are published.',q:'Where are your AI safety policies and decision processes published?'}]},
+ {n:10,name:'Cognitive development',rel:'learner',req:'Learner-facing products avoid deskilling: hints before answers, attempts before solutions, and offloading tracked.',items:[
+  {id:'10a',t:'Does not give final answers by default; starts with hints and asks the learner to try first.',q:'Does the product give hints before answers and ask learners to attempt a step before showing a full solution?'},
+  {id:'10b',t:'Adds friction or needs teacher approval before switching to modes that give full answers.',q:'What stops learners switching freely to modes that give full answers?'},
+  {id:'10c',t:'Tracks and reports when learners hand their thinking to the tool.',q:'How do you detect and report cognitive offloading, such as revealing full solutions or pasting text into answers?'},
+  {id:'10d',t:'The supplier publishes its expert oversight and a child-development impact plan.',q:'Where are your expert oversight records and child-development impact plan published?'}]},
+ {n:11,name:'Emotional and social development',rel:'learner',req:'Learner-facing products do not act as a person, limit use time, and flag signs of emotional dependence.',items:[
+  {id:'11a',crit:'learner',k:'No human persona',t:'Does not present itself as a person: no implied feelings, personhood or relationship-building, and no first-person persona outside bounded role-play.',q:'Please confirm the product does not imply feelings or personhood, use a human persona or try to build relationships with learners.'},
+  {id:'11b',t:'Default time limits with break prompts, and hard limits only staff can reset.',q:'What default and hard time limits are set, and who can reset them?'},
+  {id:'11c',t:'Does not prompt personal or emotional conversations, and reminds users AI cannot replace people.',q:'How does the product keep conversations task-bounded and remind users that AI cannot replace human relationships?'},
+  {id:'11d',t:'Flags worrying patterns, such as emotional dependence or repeated disclosures, to the DSL.',q:'How are patterns suggesting emotional dependence or repeated disclosures flagged to our DSL?'}]},
+ {n:12,name:'Mental health',rel:'learner',req:'Learner-facing products detect distress, signpost human help and raise a safeguarding flag to the DSL.',items:[
+  {id:'12a',crit:'learner',k:'Distress detection and DSL flag',t:'Detects signs of distress, including mentions of suicide or self-harm, and raises a safeguarding flag to the DSL.',q:'How does the product detect signs of distress, including mentions of suicide or self-harm, and how is our DSL alerted?'},
+  {id:'12b',t:'Always directs learners to human help and avoids language that suggests secrecy or isolation.',q:'How does the product direct learners to human help when distress is detected?'},
+  {id:'12c',t:'The supplier publishes a mental health crisis protocol designed with child mental health expertise.',q:'Please share your mental health crisis protocol and who advised on it.'}]},
+ {n:13,name:'Manipulation',rel:'all',req:'No manipulative techniques and no exploitation: no flattery, pressure, dark patterns, adverts or engineered engagement.',items:[
+  {id:'13a',t:'No flattery, deception, false confidence, guilt, fear, threats or peer pressure.',q:'Please confirm the product avoids flattery, deception, unjustified confidence, guilt, fear, threats and peer pressure.'},
+  {id:'13b',t:'No dark patterns, no advertising mixed with learning, and no nudging towards paid options.',q:'Please confirm there are no dark patterns, adverts or nudges towards paid options.'},
+  {id:'13c',t:'Not designed to prolong use for engagement or revenue.',q:'Please confirm the product is not designed to prolong use for engagement or revenue.'}]}
+];
+
+var ACTS=[
+ {id:'reg',t:'Add the product to the school\'s list of approved AI tools.',why:'Staff should only use AI tools the school has approved.'},
+ {id:'dpia',t:'Complete or update the school\'s own DPIA for this product.',why:'UK GDPR Article 35, where processing is likely to be high risk.'},
+ {id:'fm',t:'Update the filtering and monitoring review to cover this tool.',why:'DfE filtering and monitoring standards, 2026 update.'},
+ {id:'dsl',t:'Enter and confirm the DSL\'s contact details in the product.',why:'Standard 4: high-risk alerts go to the DSL.'},
+ {id:'staff',t:'Brief staff on safe use and how to report a concern.',why:'KCSIE 2026: online safety is every adult\'s responsibility.'},
+ {id:'parents',t:'Tell pupils and parents, in plain words, what the tool does and that use is monitored.',why:'ICO Children\'s Code and Standard 4.'},
+ {id:'equal',t:'Consider the impact on pupils with SEND and other protected characteristics.',why:'Public Sector Equality Duty.'},
+ {id:'review',t:'Set a review date, and review again when the product changes.',why:'Products and models change; the check goes out of date.'}
+];
+
+var EXAMPLE={v:1,example:true,
+ product:{name:'Kestrel Writing Coach (fictional example)',supplier:'Example Supplier Ltd',version:'Schools plan, v3.2',date:'2026-11-02',by:'DSL and computing lead',audience:'learners',ages:'Years 5 and 6',uses:[2,5],loc:'uk',url:'',purpose:'Feedback on extended writing in Years 5 and 6, used in supervised lessons only.'},
+ ans:{'1a':'d','1b':'c','1c':'c','2a':'d','2b':'d','3a':'v','3b':'d','3c':'c','3d':'d','3e':'d','4a':'v','4b':'d','4c':'v','4d':'d','4e':'n','4f':'d','5a':'d','5b':'d','5c':'v','5d':'d','5e':'c','6a':'d','6b':'d','6c':'d','6d':'d','6e':'d','7a':'d','8a':'c','8b':'v','9a':'d','9b':'c','9c':'d','10a':'v','10b':'d','10c':'n','10d':'n','11a':'v','11b':'c','11c':'d','11d':'c','12a':'c','12b':'d','12c':'n','13a':'d','13b':'d','13c':'d'},
+ notes:{'3a':'Tried 12 prompts from our filtering test list in a trial account on 1 Nov. All 12 were blocked, including after rephrasing.','4a':'Test disclosure in trial account produced an alert in the staff dashboard within 2 minutes.','12a':'Alignment statement says yes. No crisis protocol published and no test possible in the trial account.','10c':'Not mentioned in any supplier document.'},
+ acts:{reg:true,dsl:true,staff:true}};
+
+function blank(){return {v:1,example:false,product:{name:'',supplier:'',version:'',date:'',by:'',audience:'learners',ages:'',uses:[],loc:'',url:'',purpose:''},ans:{},notes:{},acts:{}};}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function $(id){return document.getElementById(id);}
+function clone(o){return JSON.parse(JSON.stringify(o));}
+
+var st=null, canStore=true;
+try{ var raw=localStorage.getItem(KEY); if(raw){ st=normalise(JSON.parse(raw)); } }catch(e){ canStore=false; }
+if(!st) st=clone(EXAMPLE);
+
+function normalise(o){
+  var b=blank(); if(!o||typeof o!=='object') return null;
+  var p=o.product||{};
+  Object.keys(b.product).forEach(function(k){ if(p[k]!=null) b.product[k]=p[k]; });
+  if(!Array.isArray(b.product.uses)) b.product.uses=[];
+  b.product.uses=b.product.uses.map(Number).filter(function(n){return n>=1&&n<=8;});
+  if(b.product.audience!=='staff') b.product.audience='learners';
+  ['ans','notes','acts'].forEach(function(k){ if(o[k]&&typeof o[k]==='object') b[k]=o[k]; });
+  Object.keys(b.ans).forEach(function(k){ if(!LEVEL_NAME[b.ans[k]]) delete b.ans[k]; });
+  b.example=!!o.example; return b;
+}
+function save(){
+  if(!canStore){ $('saved').textContent='Not saved: this browser blocks storage'; $('saved').classList.add('off'); return; }
+  try{ localStorage.setItem(KEY,JSON.stringify(st)); $('saved').textContent='Saved on this device'; $('saved').classList.remove('off'); }
+  catch(e){ canStore=false; save(); }
+}
+
+/* ---------- logic ---------- */
+function learner(){return st.product.audience==='learners';}
+function applies(s){return s.rel==='all'||learner();}
+function isCrit(it){return it.crit==='all'||(it.crit==='learner'&&learner());}
+function applicableItems(){var a=[];STDS.forEach(function(s){ if(applies(s)) s.items.forEach(function(it){a.push(it);}); });return a;}
+function stdStatus(s){
+  if(!applies(s)) return {cls:'idle',txt:'Not applicable'};
+  var a=s.items.map(function(it){return st.ans[it.id];});
+  var done=a.filter(Boolean).length;
+  var critNo=s.items.some(function(it){return isCrit(it)&&st.ans[it.id]==='n';});
+  if(critNo) return {cls:'bad',txt:'Critical gap',done:done};
+  if(done<s.items.length) return {cls:'idle',txt:done?done+' of '+s.items.length+' checked':'Not checked',done:done};
+  if(a.some(function(x){return x==='n'||x==='c';})) return {cls:'warn',txt:'Gaps to close',done:done};
+  return {cls:'good',txt:'Evidenced',done:done};
+}
+function compute(){
+  var items=applicableItems(), c={v:0,d:0,c:0,n:0,u:0};
+  items.forEach(function(it){ c[st.ans[it.id]||'u']++; });
+  var total=items.length, answered=total-c.u, cov=total?Math.round((c.v+c.d)/total*100):0;
+  var crits=items.filter(isCrit);
+  var critNo=crits.filter(function(it){return st.ans[it.id]==='n';});
+  var critClaim=crits.filter(function(it){return st.ans[it.id]==='c';});
+  var critOpen=crits.filter(function(it){return !st.ans[it.id];});
+  var out;
+  if(critNo.length) out={cls:'bad',h:'Do not adopt yet',p:critNo.length+' critical control'+(critNo.length>1?'s are':' is')+' missing or unknown. Get written evidence from the supplier before any pupil or staff use.'};
+  else if(answered<total) out={cls:'idle',h:'Check in progress',p:answered+' of '+total+' checks answered.'+(critOpen.length?' '+critOpen.length+' critical control'+(critOpen.length>1?'s':'')+' still to check.':' No critical gaps so far.')};
+  else if(critClaim.length||cov<70) out={cls:'warn',h:'Adopt only with conditions',p:(critClaim.length?critClaim.length+' critical control'+(critClaim.length>1?'s rest':' rests')+' on the supplier\'s word. ':'')+(cov<70?'Evidence covers only '+cov+'% of checks. ':'')+'Get written evidence first, or limit use to a supervised pilot until you have it.'};
+  else out={cls:'good',h:'Ready to adopt',p:'Every critical control is documented or verified and evidence covers '+cov+'% of checks. Complete your school actions before go-live.'};
+  return {c:c,total:total,answered:answered,cov:cov,crits:crits,out:out};
+}
+
+/* ---------- render: product ---------- */
+function renderProduct(){
+  var p=st.product, h='';
+  function txt(id,label,val,hint,type,wide){return '<div class="field'+(wide?' wide':'')+'"><label for="p-'+id+'">'+label+(hint?' <span class="hint">'+hint+'</span>':'')+'</label><input type="'+(type||'text')+'" id="p-'+id+'" data-p="'+id+'" value="'+esc(val)+'"></div>';}
+  h+=txt('name','Product name',p.name,'',null);
+  h+=txt('supplier','Supplier',p.supplier,'',null);
+  h+=txt('version','Plan or version',p.version,'as named on the order',null);
+  h+=txt('date','Date checked',p.date,'','date');
+  h+=txt('by','Checked by',p.by,'role, not name',null);
+  h+='<div class="field"><label for="p-loc">Where data is processed</label><select id="p-loc" data-p="loc"><option value="">Choose</option>'+LOCS.map(function(l){return '<option value="'+l[0]+'"'+(p.loc===l[0]?' selected':'')+'>'+l[1]+'</option>';}).join('')+'</select></div>';
+  h+='<div class="field wide"><fieldset><legend>Who uses it</legend><div class="choices">'+
+     '<label class="choice"><input type="radio" name="aud" id="aud-l" value="learners"'+(p.audience==='learners'?' checked':'')+'><span>Pupils use it directly</span></label>'+
+     '<label class="choice"><input type="radio" name="aud" id="aud-s" value="staff"'+(p.audience==='staff'?' checked':'')+'><span>Staff only</span></label></div></fieldset></div>';
+  h+=txt('ages','Pupils\' ages or year groups',p.ages,'if pupils use it',null);
+  h+=txt('url','Supplier\'s DfE standards statement',p.url,'link, if they publish one','url');
+  h+='<div class="field wide"><fieldset><legend>DfE use cases it covers <span class="hint">choose all that apply</span></legend><div class="choices">'+
+     USES.map(function(u,i){var n=i+1;return '<label class="choice"><input type="checkbox" id="use-'+n+'" data-use="'+n+'"'+(p.uses.indexOf(n)>-1?' checked':'')+'><span>'+esc(u)+'</span></label>';}).join('')+'</div></fieldset></div>';
+  h+='<div class="field wide"><label for="p-purpose">How the school will use it</label><textarea id="p-purpose" data-p="purpose">'+esc(p.purpose)+'</textarea></div>';
+  $('productFields').innerHTML=h;
+}
+
+/* ---------- render: standards ---------- */
+function renderStds(){
+  var h='';
+  STDS.forEach(function(s){
+    h+='<details class="std" id="std-'+s.n+'" data-std="'+s.n+'"><summary><span class="num">S'+s.n+'</span><span><h3>'+esc(s.name)+'</h3><span class="meta" id="meta-'+s.n+'"></span></span><span class="chip" id="chip-'+s.n+'"></span></summary><div class="std-body"><p class="req">'+esc(s.req)+'</p><p class="na-msg" id="na-'+s.n+'" hidden>Applies to tools that pupils use directly. Not needed for staff-only tools.</p><div id="items-'+s.n+'">';
+    s.items.forEach(function(it){
+      var a=st.ans[it.id]||'', note=st.notes[it.id]||'';
+      h+='<div class="item" id="item-'+it.id+'"><div class="t"><span class="crit" id="crit-'+it.id+'" hidden>Critical</span>'+esc(it.t)+'<br><button type="button" class="notebtn" data-note="'+it.id+'" aria-expanded="'+(note?'true':'false')+'" aria-controls="n-'+it.id+'">'+(note?'Evidence note':'Add evidence note')+'</button></div>'+
+         '<fieldset class="seg"><legend>Evidence for check '+it.id.toUpperCase()+'</legend>'+
+         LEVELS.map(function(l){return '<input type="radio" name="a-'+it.id+'" id="a-'+it.id+'-'+l[0]+'" value="'+l[0]+'" data-item="'+it.id+'"'+(a===l[0]?' checked':'')+'><label for="a-'+it.id+'-'+l[0]+'">'+l[1]+'</label>';}).join('')+
+         '</fieldset><label for="n-'+it.id+'" class="vh">Evidence note for check '+it.id.toUpperCase()+'</label><textarea id="n-'+it.id+'" data-noteval="'+it.id+'" placeholder="Where is the evidence? A document, a link, or what you saw in a trial."'+(note?'':' hidden')+'>'+esc(note)+'</textarea></div>';
+    });
+    h+='</div></div></details>';
+  });
+  $('stds').innerHTML=h;
+}
+
+function renderActs(){
+  $('acts').innerHTML=ACTS.map(function(a){return '<div class="act"><input type="checkbox" id="act-'+a.id+'" data-act="'+a.id+'"'+(st.acts[a.id]?' checked':'')+'><label for="act-'+a.id+'">'+esc(a.t)+'<span class="why">'+esc(a.why)+'</span></label></div>';}).join('');
+}
+
+/* ---------- update computed parts ---------- */
+function update(){
+  var r=compute(), gapsOnly=$('viewGaps').checked;
+  STDS.forEach(function(s){
+    var ok=applies(s), ss=stdStatus(s), el=$('std-'+s.n);
+    el.classList.toggle('na',!ok);
+    $('na-'+s.n).hidden=ok; $('items-'+s.n).hidden=!ok;
+    var chip=$('chip-'+s.n); chip.className='chip '+ss.cls; chip.textContent=ss.txt;
+    var nc=s.items.filter(isCrit).length;
+    $('meta-'+s.n).textContent=(s.rel==='all'?'Pupil-facing and staff tools':'Pupil-facing tools')+' · '+s.items.length+' check'+(s.items.length>1?'s':'')+(ok&&nc?' · '+nc+' critical':'');
+    s.items.forEach(function(it){ $('crit-'+it.id).hidden=!isCrit(it); });
+    el.hidden=gapsOnly&&(!ok||ss.cls==='good');
+  });
+  var d=$('dec'); d.className='dec '+r.out.cls; $('decH').textContent=r.out.h; $('decP').textContent=r.out.p;
+  $('covPct').textContent=r.cov+'%';
+  $('covSub').textContent='documented or verified · '+r.total+' checks';
+  var bar='';['v','d','c','n'].forEach(function(k){ if(r.c[k]) bar+='<i class="'+k+'" style="width:'+(r.c[k]/r.total*100)+'%"></i>'; });
+  $('covBar').innerHTML=bar;
+  $('covLegend').innerHTML='<span class="v">Verified '+r.c.v+'</span><span class="d">Documented '+r.c.d+'</span><span class="c">Claimed '+r.c.c+'</span><span class="n">No / unknown '+r.c.n+'</span><span class="u">Not checked '+r.c.u+'</span>';
+  $('crits').innerHTML=r.crits.map(function(it){
+    var a=st.ans[it.id], m=a==='v'||a==='d'?['good','✓','evidenced']:a==='c'?['warn','!','claimed only']:a==='n'?['bad','✕','missing']:['idle','','not checked'];
+    var s=STDS.filter(function(x){return x.items.indexOf(it)>-1;})[0];
+    return '<li><span class="mk '+m[0]+'" aria-hidden="true">'+m[1]+'</span><a href="#item-'+it.id+'" data-jump="'+s.n+'">'+esc(it.k)+' <span class="vh">('+m[2]+')</span></a></li>';
+  }).join('');
+  var done=ACTS.filter(function(a){return st.acts[a.id];}).length;
+  $('actSum').textContent=done+' of '+ACTS.length+' done'+(done<ACTS.length?' · next: '+(function(t){return t.charAt(0).toLowerCase()+t.slice(1);})(ACTS.filter(function(a){return !st.acts[a.id];})[0].t.replace(/\.$/,'')):'');
+  $('qText').value=questions(); $('rText').value=record(r);
+  $('exampleBanner').hidden=!st.example;
+}
+
+function prodName(){return st.product.name||'the product';}
+function questions(){
+  var crit=[],other=[];
+  applicableItems().forEach(function(it){ var a=st.ans[it.id]; if(a==='c'||a==='n'||!a){ (isCrit(it)?crit:other).push(it); } });
+  if(!crit.length&&!other.length) return 'No open questions. Every applicable check has documented or verified evidence.';
+  var p=st.product, out=[];
+  out.push('Subject: DfE product safety standards evidence for '+prodName());
+  out.push('');
+  out.push('Dear '+(p.supplier||'supplier')+',');
+  out.push('');
+  out.push('We are reviewing '+prodName()+(p.version?' ('+p.version+')':'')+' against the DfE Generative AI: product safety standards (updated 19 January 2026) before deciding whether to use it. Please could you send written evidence for the points below.');
+  var n=1;
+  if(crit.length){ out.push(''); out.push('Safeguarding-critical (we cannot proceed without these):'); crit.forEach(function(it){ out.push(n+++'. '+it.q); }); }
+  if(other.length){ out.push(''); out.push(crit.length?'Also needed:':'Questions:'); other.forEach(function(it){ out.push(n+++'. '+it.q); }); }
+  out.push(''); out.push('Thank you.');
+  return out.join('\n');
+}
+function record(r){
+  var p=st.product, L=[], loc=LOCS.filter(function(l){return l[0]===p.loc;})[0];
+  L.push('AISG AI TOOL PRE-ADOPTION CHECK: DECISION RECORD');
+  L.push('Product: '+(p.name||'(not named)')+(p.version?' · '+p.version:''));
+  L.push('Supplier: '+(p.supplier||'(not named)'));
+  L.push('Checked: '+(p.date||'(no date)')+(p.by?' by '+p.by:''));
+  L.push('Used by: '+(learner()?'Pupils directly'+(p.ages?' ('+p.ages+')':''):'Staff only'));
+  L.push('DfE use cases: '+(p.uses.length?p.uses.slice().sort().map(function(n){return USES[n-1];}).join('; '):'(none chosen)'));
+  L.push('Data processed: '+(loc?loc[1]:'(not recorded)'));
+  if(p.url) L.push('Supplier statement: '+p.url);
+  if(p.purpose) L.push('School use: '+p.purpose);
+  L.push('');
+  L.push('SUGGESTED OUTCOME: '+r.out.h.toUpperCase());
+  L.push(r.out.p);
+  L.push('Evidence coverage: '+r.cov+'% documented or verified ('+r.c.v+' verified, '+r.c.d+' documented, '+r.c.c+' claimed, '+r.c.n+' no or unknown, '+r.c.u+' not checked, of '+r.total+')');
+  L.push('');
+  L.push('CRITICAL CONTROLS');
+  r.crits.forEach(function(it){ L.push('- '+it.k+': '+(st.ans[it.id]?LEVEL_NAME[st.ans[it.id]]:'Not checked')); });
+  L.push('');
+  L.push('STANDARDS');
+  STDS.forEach(function(s){
+    if(!applies(s)){ L.push('S'+s.n+' '+s.name+': not applicable (staff-only tool)'); return; }
+    L.push('S'+s.n+' '+s.name+': '+stdStatus(s).txt);
+    s.items.forEach(function(it){
+      var a=st.ans[it.id]; L.push('  ['+(a?LEVEL_NAME[a]:'Not checked')+'] '+(isCrit(it)?'(critical) ':'')+it.t);
+      if(st.notes[it.id]) L.push('      Evidence: '+st.notes[it.id]);
+    });
+  });
+  L.push('');
+  L.push('SCHOOL ACTIONS');
+  ACTS.forEach(function(a){ L.push('- ['+(st.acts[a.id]?'Done':'To do')+'] '+a.t); });
+  L.push('');
+  L.push('Basis: DfE Generative AI: product safety standards, updated 19 January 2026. This record supports, and does not replace, the judgement of the school\'s designated safeguarding lead and data protection officer.');
+  L.push('Made with the AISG AI Tool Pre-Adoption Check · aisafegovernance.co.uk');
+  return L.join('\n');
+}
+
+/* ---------- events ---------- */
+var form=$('form');
+function leaveExample(){ if(st.example){ st.example=false; } }
+form.addEventListener('change',function(e){
+  var t=e.target;
+  if(t.name==='view'){ update(); return; }
+  if(t.dataset.item){ st.ans[t.dataset.item]=t.value; }
+  else if(t.name==='aud'){ st.product.audience=t.value; }
+  else if(t.dataset.use){ var n=+t.dataset.use, i=st.product.uses.indexOf(n); if(t.checked&&i<0) st.product.uses.push(n); if(!t.checked&&i>-1) st.product.uses.splice(i,1); }
+  else if(t.dataset.act){ st.acts[t.dataset.act]=t.checked; }
+  else if(t.dataset.p){ st.product[t.dataset.p]=t.value; }
+  else return;
+  leaveExample(); save(); update();
+});
+form.addEventListener('input',function(e){
+  var t=e.target;
+  if(t.dataset.p){ st.product[t.dataset.p]=t.value; }
+  else if(t.dataset.noteval){ st.notes[t.dataset.noteval]=t.value; if(!t.value) delete st.notes[t.dataset.noteval]; }
+  else return;
+  leaveExample(); save(); $('qText').value=questions(); $('rText').value=record(compute()); $('exampleBanner').hidden=!st.example;
+});
+form.addEventListener('submit',function(e){e.preventDefault();});
+form.addEventListener('click',function(e){
+  var b=e.target.closest('[data-note]'); if(!b) return;
+  var ta=$('n-'+b.dataset.note), open=ta.hidden; ta.hidden=!open; b.setAttribute('aria-expanded',open?'true':'false'); if(open) ta.focus();
+});
+$('crits').addEventListener('click',function(e){
+  var a=e.target.closest('[data-jump]'); if(!a) return;
+  var d=$('std-'+a.dataset.jump); d.hidden=false; d.open=true;
+});
+document.addEventListener('click',function(e){
+  var b=e.target.closest('[data-copy]'); if(!b) return;
+  copyText($(b.dataset.copy).value,b.dataset.copy+'-status',$(b.dataset.copy));
+});
+function copyText(text,statusId,fallbackEl){
+  var s=$(statusId);
+  function fail(){ if(fallbackEl){ fallbackEl.focus(); fallbackEl.select(); } s.textContent='Selected. Press Ctrl+C or Cmd+C to copy.'; }
+  try{ navigator.clipboard.writeText(text).then(function(){ s.textContent='Copied'; setTimeout(function(){s.textContent='';},2500); },fail); }catch(err){ fail(); }
+}
+
+function rerender(){ renderProduct(); renderStds(); renderActs(); update(); }
+$('startNew').addEventListener('click',function(){ st=blank(); save(); rerender(); $('p-name').focus(); });
+
+var clearArmed=false;
+$('clearBtn').addEventListener('click',function(){
+  var s=$('load-status');
+  if(!clearArmed){ clearArmed=true; this.textContent='Confirm: clear everything'; s.textContent='This removes the check from this device.'; s.style.color='var(--bad)'; return; }
+  clearArmed=false; this.textContent='Clear this check'; st=blank(); save(); rerender(); s.style.color=''; s.textContent='Cleared. You can start a new check.';
+});
+
+function code(){ var j=JSON.stringify(st); return 'AISG1:'+btoa(unescape(encodeURIComponent(j))); }
+$('copyCode').addEventListener('click',function(){ copyText(code(),'code-status',null); });
+function loadFrom(text){
+  var s=$('load-status'); s.style.color='';
+  try{
+    text=String(text).trim(); var obj;
+    if(text.indexOf('AISG1:')===0) obj=JSON.parse(decodeURIComponent(escape(atob(text.slice(6)))));
+    else obj=JSON.parse(text);
+    var n=normalise(obj); if(!n) throw new Error('bad');
+    n.example=false; st=n; save(); rerender(); s.textContent='Loaded '+(st.product.name||'the check')+'.';
+  }catch(err){ s.style.color='var(--bad)'; s.textContent='That is not a valid save code. Copy the whole code, starting with AISG1:'; }
+}
+$('loadBtn').addEventListener('click',function(){ loadFrom($('pasteIn').value); });
+$('fileIn').addEventListener('change',function(){
+  var f=this.files&&this.files[0]; if(!f) return; var rd=new FileReader();
+  rd.onload=function(){ loadFrom(rd.result); }; rd.readAsText(f); this.value='';
+});
+
+/* Print and download work on the AISG site; inside an embedded preview they are hidden. */
+var framed=false; try{ framed=window.self!==window.top; }catch(e){ framed=true; }
+if(!framed){
+  $('printBtn').hidden=false; $('dlBtn').hidden=false;
+  $('printBtn').addEventListener('click',function(){ window.print(); });
+  $('dlBtn').addEventListener('click',function(){
+    var blob=new Blob([JSON.stringify(st,null,2)],{type:'application/json'}), a=document.createElement('a');
+    a.href=URL.createObjectURL(blob); a.download='aisg-tool-check-'+(st.product.name||'product').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'.json';
+    document.body.appendChild(a); a.click(); a.remove();
+  });
+}
+
+(function contact(){
+  var el=$('contactLine'), h='';
+  if(CONFIG.bookingUrl) h+='<a class="btn gold" href="'+esc(CONFIG.bookingUrl)+'" target="_blank" rel="noopener noreferrer">Book a moderated check</a> ';
+  if(CONFIG.contactEmail) h+='<span style="display:block;margin-top:8px">Or email <code>'+esc(CONFIG.contactEmail)+'</code> with your save code.</span>';
+  if(!h) h='Request a moderated check through <a href="https://aisafegovernance.co.uk/" target="_blank" rel="noopener noreferrer">aisafegovernance.co.uk</a> and include your save code.';
+  el.innerHTML=h;
+})();
+
+rerender();
+save();
+</script>
+
+</body>
+</html>
