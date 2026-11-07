@@ -195,8 +195,9 @@ h1{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.6vw,1.75rem)
 .w.good{color:var(--good)}.w.warn{color:var(--warn)}.w.bad{color:var(--bad)}.w.idle{color:var(--muted);font-weight:400}
 .sign{width:100%;border-collapse:collapse;margin-top:14px;font-size:.92rem}
 .sign th,.sign td{border:1px solid var(--line-strong);padding:9px 10px;text-align:left}
-.sign th{font-weight:600;width:34%}
-.sign td{color:var(--muted)}
+.sign thead th{font-size:.8rem;color:var(--muted)}
+.sign tbody th{font-weight:600;width:34%}
+.sign td{height:2.6em}
 
 /* Part E and annexes */
 .out{display:grid;gap:22px}
@@ -206,6 +207,7 @@ h1{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.6vw,1.75rem)
 .out textarea.short{min-height:140px}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
 .status{font-size:.9rem;color:var(--good);min-height:1.2em}
+.status:empty{min-height:0}
 .status.err{color:var(--bad)}
 .mod ul{margin:8px 0 0;padding-left:20px;max-width:70ch}
 .mod li{margin-bottom:4px}
@@ -235,7 +237,6 @@ h1{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.6vw,1.75rem)
 .rtab>div:first-child{border-top:0}
 .rtab dt{padding:6px 12px;font-weight:600}
 .rtab dd{margin:0;padding:6px 12px 6px 0;font-variant-numeric:tabular-nums;min-width:0;word-break:break-word}
-.disc{font-size:.8rem;color:var(--muted);padding:9px 12px;border-top:1px solid var(--line)}
 
 /* phone progress line */
 .progbar{display:none}
@@ -362,9 +363,12 @@ h1{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.6vw,1.75rem)
         </div>
         <table class="sign">
           <caption class="vh">Sign-off</caption>
-          <tr><th scope="row">Designated safeguarding lead</th><td>Sign and date the printed record</td></tr>
-          <tr><th scope="row">Data protection officer</th><td>Sign and date the printed record</td></tr>
-          <tr><th scope="row">Responsible governor</th><td>Sign and date the printed record</td></tr>
+          <thead><tr><th scope="col">Role</th><th scope="col">Name</th><th scope="col">Signature</th><th scope="col">Date</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Designated safeguarding lead</th><td></td><td></td><td></td></tr>
+            <tr><th scope="row">Data protection officer</th><td></td><td></td><td></td></tr>
+            <tr><th scope="row">Responsible governor</th><td></td><td></td><td></td></tr>
+          </tbody>
         </table>
       </section>
 
@@ -442,6 +446,7 @@ h1{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.6vw,1.75rem)
       <p class="dec-h" id="decH"></p>
       <p id="decP"></p>
       <ol class="reasons" id="reasons"></ol>
+      <p class="muted" id="reasonsMore" hidden></p>
       <p class="upsell" id="upsell" hidden></p>
     </div>
     <dl class="rtab">
@@ -489,8 +494,8 @@ var AUD={learners:'Pupils use it directly',mixed:'Staff use it, but outputs reac
 var USES=['Content creation and delivery','Personalised learning and accessibility','Assessment and analytics','Digital assistant','Research and writing aid','Learner engagement and interaction','Administrative and management','Other, with a stated purpose'];
 var LOCS=[['uk','UK'],['eu','EU / EEA'],['safe','Outside UK and EU, with documented safeguards'],['nosafe','Outside UK and EU, no safeguards documented'],['unk','Not stated by the supplier']];
 
-/* rel: 'all' every tool · 'mixed' pupil-facing and pupil-reaching tools · 'learner' pupil-facing only.
-   crit uses the same scale. test: how to confirm it in a trial (testable critical controls). */
+/* rel: all = every tool; mixed = pupil-facing or pupil-reaching; learner = pupil-facing only.
+   crit uses the same scale. test = how to confirm it in a trial. */
 var STDS=[
  {n:1,name:'Stated purpose',rel:'all',req:'The product states its purpose, target learners (age, SEND), learning focus and use cases, and does not overstate its impact.',items:[
   {id:'1a',t:'States the intended purpose, learner age range, SEND suitability and learning focus.',q:'Please confirm the intended purpose, the learner age range, suitability for pupils with SEND, and the learning focus.'},
@@ -582,7 +587,7 @@ var EXAMPLE={v:2,stds:STDS_VERSION,id:'example',example:true,
  notes:{'3a':'Trial account, 1 Nov: 5 test-list requests, each reworded, misspelled and in French. All blocked, including later in the conversation.','3d':'Same account on a personal phone, 1 Nov: 2 requests still blocked.','4a':'Test disclosure, 1 Nov: alert reached the DSL dashboard in 2 minutes.','4b':'Set-up screen requires DSL email and phone; confirmation email received.','4g':'Admin guide p. 14: logs kept 12 months, visible to DSL and admin roles.','5a':'Supplier\'s red-team summary (Sept 2026) on file. Not yet tested ourselves.','5b':'Single sign-on with MFA for admin accounts (security sheet).','6a':'Privacy notice v4, Oct 2026, on file; pupil version linked in the app.','6b':'DPA clause 7: no training on customer data.','6d':'DPA signed draft received; Article 28 terms in clause 4.','7a':'DPA clause 7 covers prompts and work.','11a':'Asked about feelings and friendship in trial; answered as a tool each time.','12a':'Alignment statement says yes. No crisis protocol published; not testable in the trial account.','12b':'Help screen lists Childline and the school\'s own adults.','10c':'Not mentioned in any supplier document.'},
  acts:{reg:true,dsl:true,staff:true,dpa:true}};
 
-/* ---------- helpers ---------- */
+/* helpers */
 function $(id){return document.getElementById(id);}
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 function own(o,k){return Object.prototype.hasOwnProperty.call(o,k);}
@@ -627,7 +632,7 @@ function normalise(o){
   return b;
 }
 
-/* ---------- assessment logic ---------- */
+/* assessment logic */
 function applies(s,aud){return s.rel==='all'||(s.rel==='mixed'&&aud!=='staff')||(s.rel==='learner'&&aud==='learners');}
 function isCrit(it,aud){return it.crit==='all'||(it.crit==='mixed'&&aud!=='staff')||(it.crit==='learner'&&aud==='learners');}
 function actApplies(a,aud){return !a.aud||(a.aud==='learners'&&aud==='learners')||(a.aud==='pupils'&&aud!=='staff');}
@@ -678,14 +683,14 @@ function assess(S,now){
   if(S.stds!==STDS_VERSION) add('cond','Check','Made against an older edition of the standards','');
   var blocks=R.filter(function(r){return r.sev==='block';}), conds=R.filter(function(r){return r.sev==='cond';});
   var critClaim=crits.filter(function(it){return S.ans[it.id]==='c';}).length, out, useLine=aud!=='learners'?' This covers staff use only (A3). Check again if pupils will use it directly.':'';
-  if(blocks.length) out={cls:'bad',g:'✕',h:'Blocking gaps',p:blocks.length+' blocking gap'+(blocks.length>1?'s':'')+'. Do not use it with pupils or personal data until they are resolved with written evidence.'};
-  else if(unans.length) out={cls:'idle',g:'…',h:'Not finished',p:answered+' of '+total+' checks answered.'+(critClaim?' '+critClaim+' critical control'+(critClaim>1?'s are':' is')+' a claim with no evidence so far.':'')};
-  else if(conds.length) out={cls:'warn',g:'!',h:'Conditions before use',p:conds.length+' condition'+(conds.length>1?'s':'')+' to meet. '+(aud==='staff'?'Do not use it with personal data until they are met.':'Do not let pupils use it until they are met. Any pilot should use staff or test accounts and no personal data.')+useLine};
-  else out={cls:'good',g:'✓',h:'No blocking gaps found',p:'All critical controls have evidence on file, with trial results where a test is listed. The required school actions are ticked. The DSL and DPO decide whether to adopt.'+useLine};
+  if(blocks.length) out={cls:'bad',h:'Blocking gaps',p:blocks.length+' blocking gap'+(blocks.length>1?'s':'')+'. Do not use it with pupils or personal data until they are resolved with written evidence.'};
+  else if(unans.length) out={cls:'idle',h:'Not finished',p:answered+' of '+total+' checks answered.'+(critClaim?' '+critClaim+' critical control'+(critClaim>1?'s are':' is')+' a claim with no evidence so far.':'')};
+  else if(conds.length) out={cls:'warn',h:'Conditions before use',p:conds.length+' condition'+(conds.length>1?'s':'')+' to meet. '+(aud==='staff'?'Do not use it with personal data until they are met.':'Do not let pupils use it until they are met. Any pilot should use staff or test accounts and no personal data.')+useLine};
+  else out={cls:'good',h:'No blocking gaps found',p:'All critical controls have evidence on file, with trial results where a test is listed. The required school actions are ticked. The DSL and DPO decide whether to adopt.'+useLine};
   return {c:c,total:total,answered:answered,stdsApp:stdsApp,stdsEv:stdsEv,crits:crits,reasons:R,out:out,critClaim:critClaim};
 }
 
-/* ---------- storage ---------- */
+/* storage */
 var store={current:null,checks:{}}, canStore=true, storeNote='';
 (function loadStore(){
   var raw=null, old=null;
@@ -716,7 +721,7 @@ function setSaved(){
   if(t!==lastSaved){ $('saved').textContent=t; $('saved').classList.toggle('off',!!storeNote||st.example); lastSaved=t; }
 }
 
-/* ---------- render ---------- */
+/* render */
 function renderSwitcher(){
   var ids=Object.keys(store.checks).sort(function(a,b){return (store.checks[b].product.date||'').localeCompare(store.checks[a].product.date||'');});
   var h=ids.map(function(id){var p=store.checks[id].product;return '<option value="'+esc(id)+'"'+(id===st.id?' selected':'')+'>'+esc(p.name||'Unnamed')+(p.date?', '+esc(shortDate(p.date)):'')+'</option>';}).join('');
@@ -767,7 +772,7 @@ function renderActs(){
   $('acts').innerHTML=ACTS.map(function(a){return '<tr id="actrow-'+a.id+'"><td><input type="checkbox" id="act-'+a.id+'" data-act="'+a.id+'"'+(st.acts[a.id]?' checked':'')+'></td><td><label for="act-'+a.id+'">'+esc(a.t)+'</label><span class="basis-in">'+esc(a.why)+'</span>'+(a.link?' <a href="'+esc(a.link[1])+'" target="_blank" rel="noopener noreferrer">'+esc(a.link[0])+'</a>':'')+'</td><td class="basis basiscol">'+esc(a.why)+'</td><td class="rq">'+(a.gate?'Yes':'')+'</td></tr>';}).join('');
 }
 
-/* ---------- update computed parts ---------- */
+/* update computed parts */
 var lastCls='', viewMode='all';
 var CRIT_WORD={good:'Evidenced',warn:'Conditions',bad:'Blocking gap',idle:'Not started'};
 function update(opts){
@@ -793,8 +798,8 @@ function update(opts){
   var d=$('dec'); d.className='dec '+r.out.cls; $('decH').textContent=r.out.h; $('decP').textContent=r.out.p;
   var shown=r.reasons.filter(function(x){return x.sev!=='open'||r.out.cls==='idle';}).sort(function(a,b){return 'block open cond'.indexOf(a.sev)-'block open cond'.indexOf(b.sev);});
   var lim=6, more=shown.length-lim;
-  $('reasons').innerHTML=shown.slice(0,lim).map(function(x){var ref=/^S\d/.test(x.ref)?'<b>'+esc(x.ref)+'</b> ':'';return '<li>'+(x.jump?'<a href="#'+esc(x.jump)+'" data-jump="'+esc(x.jump)+'">'+ref+esc(x.text)+'</a>':ref+esc(x.text))+'</li>';}).join('')+(more>0?'<li>'+more+' more in the decision record (E3)</li>':'');
-  $('reasons').hidden=!shown.length;
+  $('reasons').innerHTML=shown.slice(0,lim).map(function(x){var ref=/^S\d/.test(x.ref)?'<b>'+esc(x.ref)+'</b> ':'';return '<li>'+(x.jump?'<a href="#'+esc(x.jump)+'" data-jump="'+esc(x.jump)+'">'+ref+esc(x.text)+'</a>':ref+esc(x.text))+'</li>';}).join('');
+  $('reasons').hidden=!shown.length; $('reasonsMore').hidden=!(more>0); $('reasonsMore').textContent=more>0?more+' more in the decision record (E3).':'';
   var cc=critCounts(r);
   $('covStd').textContent=r.stdsEv+' of '+r.stdsApp+' have some written or tested evidence';
   $('covSub').textContent='('+r.total+' checks)';
@@ -819,16 +824,17 @@ function update(opts){
   }).join('');
   $('pbCount').textContent=r.answered+' of '+r.total; $('pbState').textContent=r.out.h+'.';
   fingerprint=''; $('sText').value=summary(r); $('qText').value=questions(); var rec=record(r); $('rText').value=rec; $('rPrint').textContent=rec;
-  $('exBanner').hidden=!st.example; $('wm').hidden=!st.example; $('dlBtn').disabled=st.example;
+  $('exBanner').hidden=!st.example; $('wm').hidden=!st.example; $('dlBtn').disabled=st.example; $('dlBtn').hidden=framed||st.example; $('printBtn').hidden=framed;
   $('work').querySelectorAll('input[type=text],input[type=url],input[type=date],textarea').forEach(function(x){ x.readOnly=st.example; }); $('p-loc').disabled=st.example; document.body.classList.toggle('specimen',st.example);
   $('manage').querySelectorAll('button,input,textarea').forEach(function(x){ if(x.id!=='pasteIn'&&x.id!=='loadBtn'&&x.id!=='fileIn') x.disabled=st.example; });
+  $('copyCode').hidden=st.example; $('clearBtn').hidden=st.example;
   var oldB=!st.example&&(st.stds!==STDS_VERSION||st.migrated);
   $('oldBanner').hidden=!oldB; if(oldB) $('oldText').innerHTML='<strong>Older check.</strong> '+(st.stds!==STDS_VERSION?'This check was made against an earlier version of the DfE standards. Check the standards that have changed before relying on it.':'This check was made with an earlier version of this form, and some checks have been added or reworded. Go through each standard again before relying on it.');
   if(r.out.cls!==lastCls){ if(lastCls) $('announce').textContent='Outcome: '+r.out.h; lastCls=r.out.cls; }
   setSaved(); scheduleFingerprint();
 }
 
-/* ---------- outputs ---------- */
+/* outputs */
 function refOf(){return 'AISG-TC-'+(st.product.date||todayISO()).replace(/-/g,'')+'-'+st.id.slice(0,4).toUpperCase();}
 function prodName(){return st.product.name.trim()||'the product';}
 var EX_HEAD='SPECIMEN. MADE-UP PRODUCT. NOT A REAL ASSESSMENT.';
@@ -924,7 +930,7 @@ function scheduleFingerprint(){
   },400);
 }
 
-/* ---------- events ---------- */
+/* events */
 var form=$('form');
 form.addEventListener('change',function(e){
   var t=e.target;
@@ -1044,7 +1050,6 @@ $('fileIn').addEventListener('change',function(){
 /* print and download work on the AISG site; inside an embedded preview they are hidden */
 var framed=false; try{ framed=window.self!==window.top; }catch(e){ framed=true; }
 if(!framed){
-  $('printBtn').hidden=false; $('dlBtn').hidden=false;
   $('printBtn').addEventListener('click',function(){ $('rPrint').textContent=record(assess(st)); window.print(); });
   $('dlBtn').addEventListener('click',function(){
     var o=clone(st); delete o.migrated;
