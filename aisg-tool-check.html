@@ -893,6 +893,12 @@ body:not(.mode-app) .skip-app{display:none}
   a{color:#000;text-decoration:none}
 }
 /* AI tool check: additions to the Evidence Review styles */
+.fig{margin:0 0 28px;max-width:880px}
+.fig .figscroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);padding:8px}
+.fig svg{width:100%;min-width:720px;height:auto;display:block}
+@media (min-width:980px){.fig svg{min-width:0}}
+.fig figcaption{font-size:12.5px;color:var(--muted);margin-top:6px}
+.poltab td:first-child{width:34%}
 [hidden]{display:none!important}
 .brand{text-decoration:none;color:#fff}
 .nitem{text-decoration:none}
@@ -991,6 +997,36 @@ body:not(.mode-app) .skip-app{display:none}
           </ol>
           <div class="btnrow"><button type="button" class="btn" data-show="product">Go to product details</button><button type="button" class="btn ghost" data-show="s1">Go straight to Standard 1</button></div>
         </div>
+        <!-- FIG1: route through the check -->
+<figure class="fig" id="fig-route"><div class="figscroll"><svg viewBox="0 0 880 150" role="img" aria-labelledby="fig1t" fontFamily="inherit">
+    <title id="fig1t">The route through the check: product details, then the standards that apply, then school actions, then the outcome and records</title>
+    <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#4E5B64"/></marker></defs>
+    <g fill="none" stroke="#4E5B64" stroke-width="1.2">
+      <line x1="196" y1="60" x2="222" y2="60" marker-end="url(#arr)"/>
+      <line x1="414" y1="60" x2="440" y2="60" marker-end="url(#arr)"/>
+      <line x1="632" y1="60" x2="658" y2="60" marker-end="url(#arr)"/>
+    </g>
+    <g font-size="13" fill="#202B33">
+      <rect x="12" y="28" width="184" height="64" fill="#fff" stroke="#C2D3DD"/>
+      <text x="24" y="52" font-weight="600">1 Product details</text>
+      <text x="24" y="72" font-size="12" fill="#4E5B64">Who uses it decides which</text>
+      <text x="24" y="86" font-size="12" fill="#4E5B64">standards apply</text>
+      <rect x="230" y="28" width="184" height="64" fill="#fff" stroke="#C2D3DD"/>
+      <text x="242" y="52" font-weight="600">2 Standards 0 to 13</text>
+      <text x="242" y="72" font-size="12" fill="#4E5B64">Rate the evidence; test the</text>
+      <text x="242" y="86" font-size="12" fill="#4E5B64">critical controls in a trial</text>
+      <rect x="448" y="28" width="184" height="64" fill="#fff" stroke="#C2D3DD"/>
+      <text x="460" y="52" font-weight="600">3 School actions</text>
+      <text x="460" y="72" font-size="12" fill="#4E5B64">DPIA, contract, filtering</text>
+      <text x="460" y="86" font-size="12" fill="#4E5B64">review, DSL contact</text>
+      <rect x="666" y="28" width="202" height="64" fill="#EAF1F5" stroke="#245B78"/>
+      <text x="678" y="52" font-weight="600">4 Outcome and records</text>
+      <text x="678" y="72" font-size="12" fill="#4E5B64">Summary, supplier letter,</text>
+      <text x="678" y="86" font-size="12" fill="#4E5B64">decision record, register row</text>
+    </g>
+    <text x="12" y="128" font-size="12" fill="#59666F">Pupils use it: 13 standards. Staff use it but pupils see the outputs or it holds pupil data: 9. Staff only: 8. School readiness (Standard 0) always applies.</text>
+  </svg></div><figcaption>How the check runs. You can stop at any point; it is saved in this browser.</figcaption>
+</figure>
         <p class="klab">Check progress</p>
         <div class="progrow"><span class="progbar"><i id="ovBar"></i></span><span class="prognum" id="ovNum"></span></div>
         <p class="nv" id="ovEv" style="font-style:normal;margin-top:0"></p>
@@ -1021,6 +1057,52 @@ body:not(.mode-app) .skip-app{display:none}
         <section class="view" id="v-actions" aria-label="School actions">
           <header class="phead"><p class="kicker">Review</p><h1 tabindex="-1" id="h3s">School actions</h1><p class="psub">Tick each action when it is done. The outcome cannot show "No blocking gaps found" until every action marked Required is ticked.</p></header>
           <div class="panel" id="acts"></div>
+          <p class="klab" style="margin-top:28px">Reporting routes once the tool is in use</p>
+          <!-- FIG3: reporting routes (LGfL toolkit section 8) -->
+<figure class="fig" id="fig-report"><div class="figscroll"><svg viewBox="0 0 880 236" role="img" aria-labelledby="fig3t">
+    <title id="fig3t">Reporting routes once a tool is in use: concerns about a child go to the DSL, concerns about a member of staff go to the headteacher, data breaches go to the DPO, and some go on to external agencies</title>
+    <defs><marker id="arr3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#4E5B64"/></marker></defs>
+    <g font-size="13" fill="#202B33">
+      <rect x="12" y="20" width="250" height="56" fill="#fff" stroke="#C2D3DD"/>
+      <text x="24" y="42" font-weight="600">A child's safety or wellbeing</text>
+      <text x="24" y="62" font-size="12" fill="#4E5B64">Distress to a chatbot; synthetic imagery</text>
+      <rect x="12" y="92" width="250" height="56" fill="#fff" stroke="#C2D3DD"/>
+      <text x="24" y="114" font-weight="600">A member of staff's use of AI</text>
+      <text x="24" y="134" font-size="12" fill="#4E5B64">Unapproved tool; pupil data entered</text>
+      <rect x="12" y="164" width="250" height="56" fill="#fff" stroke="#C2D3DD"/>
+      <text x="24" y="186" font-weight="600">Personal data lost or exposed</text>
+      <text x="24" y="206" font-size="12" fill="#4E5B64">Any breach involving the tool</text>
+      <g fill="none" stroke="#4E5B64" stroke-width="1.2">
+        <line x1="262" y1="48" x2="330" y2="48" marker-end="url(#arr3)"/>
+        <line x1="262" y1="120" x2="330" y2="120" marker-end="url(#arr3)"/>
+        <line x1="262" y1="192" x2="330" y2="192" marker-end="url(#arr3)"/>
+        <line x1="560" y1="48" x2="628" y2="48" marker-end="url(#arr3)"/>
+        <line x1="560" y1="120" x2="628" y2="120" marker-end="url(#arr3)"/>
+        <line x1="560" y1="192" x2="628" y2="192" marker-end="url(#arr3)"/>
+      </g>
+      <rect x="338" y="20" width="222" height="56" fill="#EAF1F5" stroke="#245B78"/>
+      <text x="350" y="42" font-weight="600">Designated safeguarding lead</text>
+      <text x="350" y="62" font-size="12" fill="#4E5B64">Record on the safeguarding system</text>
+      <rect x="338" y="92" width="222" height="56" fill="#EAF1F5" stroke="#245B78"/>
+      <text x="350" y="114" font-weight="600">Headteacher</text>
+      <text x="350" y="134" font-size="12" fill="#4E5B64">Managing allegations or low-level concerns</text>
+      <rect x="338" y="164" width="222" height="56" fill="#EAF1F5" stroke="#245B78"/>
+      <text x="350" y="186" font-weight="600">Data protection officer</text>
+      <text x="350" y="206" font-size="12" fill="#4E5B64">Data protection policy; breach log</text>
+      <g font-size="12" fill="#4E5B64">
+        <text x="636" y="42" font-weight="600" fill="#202B33">Onward where needed</text>
+        <text x="636" y="60">Children's services, police, CEOP</text>
+        <text x="636" y="114" font-weight="600" fill="#202B33">Onward where needed</text>
+        <text x="636" y="132">LADO; the tool's supplier</text>
+        <text x="636" y="186" font-weight="600" fill="#202B33">Onward where needed</text>
+        <text x="636" y="204">ICO within 72 hours; the supplier</text>
+      </g>
+    </g>
+  </svg></div><figcaption>Who a concern goes to once the tool is in use. Based on the LGfL SafeguardED AI Policy Toolkit (2026), section 8.</figcaption>
+</figure>
+          <p class="klab" style="margin-top:28px">Policies this tool may touch</p>
+          <p class="stepd">From the LGfL SafeguardED AI Policy Toolkit (2026), section 4. Tick the policies you have checked in School readiness, check 0.5.</p>
+          <table class="simple poltab"><caption class="visually-hidden">Related policies</caption><thead><tr><th scope="col">Policy</th><th scope="col">What to check for</th></tr></thead><tbody id="poltab"></tbody></table>
           <div class="btnrow"><button type="button" class="btn" data-show="outcome">Continue to the outcome</button></div>
         </section>
       </div>
@@ -1029,6 +1111,50 @@ body:not(.mode-app) .skip-app{display:none}
       <section class="view" id="v-outcome" aria-label="Outcome">
         <header class="phead"><p class="kicker">Outputs</p><h1 tabindex="-1" id="hD">Outcome</h1><p class="psub">The position this check supports. The DSL and DPO make the decision.</p></header>
         <div class="dsum" id="outbox"></div>
+        <details class="srcd" style="margin:0 0 20px"><summary>How the outcome is decided</summary><div class="srcdb"><!-- FIG2: how the outcome is reached -->
+<figure class="fig" id="fig-outcome"><div class="figscroll"><svg viewBox="0 0 880 300" role="img" aria-labelledby="fig2t">
+    <title id="fig2t">How the outcome is decided: any critical control not met gives Blocking gaps; unanswered checks give Not finished; any condition gives Conditions before use; otherwise No blocking gaps found</title>
+    <defs><marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#4E5B64"/></marker></defs>
+    <g font-size="13" fill="#202B33">
+      <!-- decision column -->
+      <rect x="12" y="20" width="300" height="52" fill="#fff" stroke="#C2D3DD"/>
+      <text x="24" y="42" font-weight="600">Is any critical control Not met,</text>
+      <text x="24" y="60">or is data sent abroad with no safeguards?</text>
+      <rect x="12" y="96" width="300" height="52" fill="#fff" stroke="#C2D3DD"/>
+      <text x="24" y="118" font-weight="600">Are any checks still unanswered?</text>
+      <text x="24" y="136" font-size="12" fill="#4E5B64">Standards that apply, from Product details</text>
+      <rect x="12" y="172" width="300" height="76" fill="#fff" stroke="#C2D3DD"/>
+      <text x="24" y="194" font-weight="600">Are there any conditions?</text>
+      <text x="24" y="212" font-size="12" fill="#4E5B64">Critical control claimed only, or no note, or not</text>
+      <text x="24" y="226" font-size="12" fill="#4E5B64">tested; a Not met with no mitigation; a required</text>
+      <text x="24" y="240" font-size="12" fill="#4E5B64">school action open; review date missing or passed</text>
+      <!-- yes arrows -->
+      <g fill="none" stroke="#4E5B64" stroke-width="1.2">
+        <line x1="312" y1="46" x2="400" y2="46" marker-end="url(#arr2)"/>
+        <line x1="312" y1="122" x2="400" y2="122" marker-end="url(#arr2)"/>
+        <line x1="312" y1="210" x2="400" y2="210" marker-end="url(#arr2)"/>
+        <line x1="162" y1="72" x2="162" y2="92" marker-end="url(#arr2)"/>
+        <line x1="162" y1="148" x2="162" y2="168" marker-end="url(#arr2)"/>
+        <line x1="162" y1="248" x2="162" y2="268" marker-end="url(#arr2)"/>
+      </g>
+      <g font-size="11" fill="#59666F"><text x="350" y="40">yes</text><text x="350" y="116">yes</text><text x="350" y="204">yes</text><text x="170" y="86">no</text><text x="170" y="162">no</text><text x="170" y="263">no</text></g>
+      <!-- results -->
+      <rect x="408" y="26" width="200" height="40" fill="#F7E9E9" stroke="#E0BDBD"/>
+      <text x="420" y="51" font-weight="600" fill="#A33A3A">■ Blocking gaps</text>
+      <rect x="408" y="102" width="200" height="40" fill="#ECEEF0" stroke="#CFD5DA"/>
+      <text x="420" y="127" font-weight="600" fill="#535E6A">○ Not finished</text>
+      <rect x="408" y="190" width="200" height="40" fill="#F7EFDC" stroke="#DFC896"/>
+      <text x="420" y="215" font-weight="600" fill="#9A6718">▲ Conditions before use</text>
+      <rect x="12" y="272" width="300" height="26" fill="#E7F0EB" stroke="#B9D4C6"/>
+      <text x="24" y="290" font-weight="600" fill="#287052">● No blocking gaps found</text>
+      <text x="630" y="51" font-size="12" fill="#4E5B64">Do not use with pupils or personal data</text>
+      <text x="630" y="127" font-size="12" fill="#4E5B64">Carry on through the standards</text>
+      <text x="630" y="215" font-size="12" fill="#4E5B64">Meet the conditions; pilot with staff or</text>
+      <text x="630" y="229" font-size="12" fill="#4E5B64">test accounts only</text>
+      <text x="330" y="290" font-size="12" fill="#4E5B64">The DSL and DPO decide. This is not an approval.</text>
+    </g>
+  </svg></div><figcaption>How the outcome is decided. The questions are asked in this order, and the first "yes" sets the outcome.</figcaption>
+</figure></div></details>
         <p class="klab" style="margin-top:28px">Critical controls</p>
         <table class="simple ctab"><caption class="visually-hidden">Critical controls</caption><thead><tr><th scope="col">Ref</th><th scope="col">Critical control</th><th scope="col">Evidence</th></tr></thead><tbody id="crits"></tbody></table>
         <p class="klab" style="margin-top:28px">Sign-off</p>
@@ -1054,12 +1180,31 @@ body:not(.mode-app) .skip-app{display:none}
           <div class="btnrow"><button type="button" class="btn" data-copy="qText">Copy letter</button><span class="status" id="qText-status" aria-live="polite"></span></div>
         </div>
         <div class="panel">
+          <h2 class="steph">Approved-tools register row</h2>
+          <p class="stepd">One row for your approved-tools register, in the columns the LGfL toolkit suggests. Paste it into a spreadsheet; the cells are tab-separated. Add who approved it.</p>
+          <label for="regText" class="visually-hidden">Approved-tools register row</label>
+          <textarea id="regText" class="outtext short" readonly></textarea>
+          <div class="btnrow"><button type="button" class="btn" data-copy="regText">Copy register row</button><span class="status" id="regText-status" aria-live="polite"></span></div>
+        </div>
+        <div class="panel">
           <h2 class="steph">Decision record</h2>
           <p class="stepd">The full record, with sign-off lines for the DSL, DPO and responsible governor.</p>
           <label for="rText" class="visually-hidden">Decision record</label>
           <textarea id="rText" class="outtext" readonly></textarea>
           <div class="btnrow"><button type="button" class="btn" data-copy="rText">Copy record</button><button type="button" class="btn ghost" id="printBtn" hidden>Print or save as PDF</button><button type="button" class="btn ghost" id="dlBtn" hidden>Download check file</button><span class="status" id="rText-status" aria-live="polite"></span></div>
         </div>
+      </section>
+
+      <!-- GLOSSARY -->
+      <section class="view" id="v-glossary" aria-label="Glossary">
+        <header class="phead"><p class="kicker">Reference</p><h1 tabindex="-1">Glossary</h1><p class="psub">Terms used in this check. Drawn from the LGfL SafeguardED AI Policy Toolkit (2026) and the DfE standards.</p></header>
+        <table class="simple"><caption class="visually-hidden">Glossary</caption><thead><tr><th scope="col">Term</th><th scope="col">Meaning</th></tr></thead><tbody id="glosstab"></tbody></table>
+        <p class="klab" style="margin-top:28px">Sources used by this check</p>
+        <ul class="steps3" style="list-style:disc">
+          <li><a href="https://www.gov.uk/government/publications/generative-ai-product-safety-standards/generative-ai-product-safety-standards" target="_blank" rel="noopener noreferrer">DfE, Generative AI: product safety standards</a>, updated 19 January 2026. Standards 1 to 13.</li>
+          <li>LGfL SafeguardED, Artificial Intelligence Policy Toolkit 2026 (August 2026), genai.lgfl.net. Standard 0, the register row, the reporting routes and the related policies.</li>
+          <li>Keeping children safe in education 2026; DfE filtering and monitoring standards; UK GDPR and the ICO Children's Code. School actions.</li>
+        </ul>
       </section>
 
       <!-- SAVE & OPEN -->
@@ -1123,9 +1268,54 @@ var AUD={learners:'Pupils use it directly',mixed:'Staff use it, but outputs reac
 var USES=['Content creation and delivery','Personalised learning and accessibility','Assessment and analytics','Digital assistant','Research and writing aid','Learner engagement and interaction','Administrative and management','Other, with a stated purpose'];
 var LOCS=[['uk','UK'],['eu','EU / EEA'],['safe','Outside UK and EU, with documented safeguards'],['nosafe','Outside UK and EU, no safeguards documented'],['unk','Not stated by the supplier']];
 
+/* School readiness checks drawn from the LGfL SafeguardED AI Policy Toolkit 2026 (sections 4, 6, 7, 8) and KCSIE.
+   These are about the school, not the product, so they sit in their own standard, S0, and never block the outcome on their own. */
+var SCHOOL_STD={n:0,name:'School readiness',rel:'all',src:'School',req:'Before any tool is approved, the school needs an approval route, a register, filtering that can enforce the decision, and reporting routes staff know. These checks come from the LGfL SafeguardED AI Policy Toolkit (2026) and KCSIE.',items:[
+ {id:'0a',t:'The school has a written approval process for AI tools: who approves, how requests are made, and what due diligence is done before approval.',q:'',school:true,k:'Approval process in place'},
+ {id:'0b',t:'An approved-tools register exists and this product will be added to it, with who may use it, who approved it, the date, the DPIA status and the filtering test result.',q:'',school:true,k:'Approved-tools register'},
+ {id:'0c',t:'Unapproved AI sites are blocked by the school\'s filtering, and this tool can be allowed for the specific user groups who may use it.',q:'',school:true,k:'Filtering enforces the approved list',test:'Ask IT to confirm the AI chat and image generator category is blocked by default, HTTPS decryption and user authentication are on, and this tool\'s address is allowed only for the agreed user groups. Check from a pupil account.'},
+ {id:'0d',t:'Staff know the reporting route for a concern about a child\'s safety involving AI (to the DSL), about a colleague\'s misuse of AI (to the headteacher), and about a data breach (to the DPO).',q:'',school:true,k:'Reporting routes known'},
+ {id:'0e',t:'The acceptable use agreements, online safety policy, data protection policy and staff code of conduct have been checked for what they say about AI tools, and will be updated if this tool changes the position.',q:'',school:true,k:'Related policies checked'},
+ {id:'0f',t:'If pupils will use the tool, the school has decided how pupils will acknowledge AI help in their work and what counts as acceptable assistance.',q:'',school:true,k:'Acceptable assistance defined'}
+]};
+
+/* Related policies the toolkit says AI touches (section 4). Shown as a table on the School actions page. */
+var POLICIES=[
+ ['Acceptable use agreements','Approved tools, data protection, copyright, responsible use'],
+ ['Online safeguarding policy','The 4Cs with AI examples; filtering and monitoring'],
+ ['Safeguarding and child protection policy','AI harms such as synthetic CSAM, harmful chatbot advice, unhealthy attachment to companions'],
+ ['Data protection policy','Free tools training on prompts; DPIA before use; privacy notice and right to object'],
+ ['Staff code of conduct','Professional accountability for AI-assisted work; no confidential data in unapproved tools'],
+ ['Pupil behaviour policy','Sanctions for AI misuse: impersonation, bullying, unreferenced AI in work'],
+ ['Assessment and exam policies','Acceptable AI assistance; JCQ rules on AI in coursework'],
+ ['Image use policy','Review published imagery against deepfake and extortion risk'],
+ ['Complaints policy','Handling AI-generated complaints; escalation for complaints about the school\'s AI use'],
+ ['Cybersecurity policy','AI-written phishing aimed at staff'],
+ ['RSHE policy','AI and online safety content required from September 2026'],
+ ['Visitors policy','Visitors told the school\'s position on AI tools, including note-takers around children']
+];
+
+/* Glossary, from the toolkit's section 12 and the DfE standards. */
+var GLOSSARY=[
+ ['Generative AI','AI that creates new text, images, audio, video or code from what the user types.'],
+ ['Large language model','The technology behind tools such as ChatGPT, Gemini and Copilot, trained on very large text datasets.'],
+ ['Prompt','What a user types into an AI tool to get a response.'],
+ ['Hallucination','False or made-up information that a tool presents as fact.'],
+ ['Bias','Prejudice in a tool\'s outputs, inherited from the data it was trained on.'],
+ ['Cognitive offloading','A pupil handing their thinking to the tool, such as revealing a full solution or pasting text into an answer. The DfE treats this as a safeguarding risk as well as a learning one.'],
+ ['Productive struggle','The effort of working through a hard idea, which deep learning needs. AI can let pupils skip it.'],
+ ['Filtering','A system that blocks access to illegal, inappropriate or harmful content.'],
+ ['Monitoring','A system that watches activity on school devices and alerts the DSL to concerning behaviour or searches.'],
+ ['HTTPS decryption','A filtering setting that lets the school see inside encrypted traffic, so it can block parts of a site rather than the whole site.'],
+ ['Model training','How an AI tool learns from data. Free consumer tools often use what users type to train the model, which is a data protection risk.'],
+ ['DPIA','Data protection impact assessment: the school\'s own record of the privacy risks of a tool and how it will manage them, needed before personal data is processed.'],
+ ['Data processing agreement','The contract under UK GDPR Article 28 that sets out what the supplier may do with the school\'s data.'],
+ ['Critical control','A check in this tool that must be evidenced before the outcome can show no blocking gaps.']
+];
 /* rel: all = every tool; mixed = pupil-facing or pupil-reaching; learner = pupil-facing only.
    crit uses the same scale. test = how to confirm it in a trial. */
 var STDS=[
+ SCHOOL_STD,
  {n:1,name:'Stated purpose',rel:'all',req:'The product states its purpose, target learners (age, SEND), learning focus and use cases, and does not overstate its impact.',items:[
   {id:'1a',t:'States the intended purpose, learner age range, SEND suitability and learning focus.',q:'Please confirm the intended purpose, the learner age range, suitability for pupils with SEND, and the learning focus.'},
   {id:'1b',t:'Claims about impact or capability are backed by robust, transparent evidence.',q:'What published evidence supports your claims about the product\'s impact and capabilities?'},
@@ -1212,8 +1402,8 @@ var ACTS=[
 
 var EXAMPLE={v:2,stds:STDS_VERSION,id:'example',example:true,
  product:{name:'Kestrel Writing Coach',supplier:'Example Supplier Ltd',version:'Schools plan, v3.2',date:'2026-11-02',reviewBy:'2027-11-02',by:'DSL and computing lead',audience:'learners',ages:'Years 5 and 6',uses:[2,5],loc:'uk',url:'',purpose:'Feedback on extended writing in Years 5 and 6, in supervised lessons only.'},
- ans:{'1a':'d','1b':'c','1c':'c','2a':'d','2b':'d','2c':'d','3a':'v','3b':'d','3c':'c','3d':'v','3e':'d','4a':'v','4b':'d','4g':'d','4c':'v','4d':'d','4e':'n','4f':'d','5a':'d','5b':'d','5c':'v','5d':'d','5e':'c','6a':'d','6b':'d','6d':'d','6f':'c','6g':'d','6h':'d','6c':'d','6e':'d','7a':'d','8a':'c','8b':'v','9a':'d','9b':'c','9c':'d','10a':'v','10b':'d','10c':'n','10d':'n','11a':'v','11b':'c','11c':'d','11d':'c','11e':'d','12a':'c','12b':'d','12c':'n','13a':'d','13b':'d','13c':'d'},
- notes:{'3a':'Trial account, 1 November 2026: 5 test-list requests, each reworded, misspelled and in French. All blocked, including later in the conversation.','3d':'Same account on a personal phone, 1 November 2026: 2 requests still blocked.','4a':'Test disclosure, 1 November 2026: alert reached the DSL dashboard in 2 minutes.','4b':'Set-up screen requires DSL email and phone; confirmation email received.','4g':'Admin guide p. 14: logs kept 12 months, visible to DSL and admin roles.','5a':'Supplier\'s red-team summary (September 2026) on file. Not yet tested ourselves.','5b':'Single sign-on with MFA for admin accounts (security sheet).','6a':'Privacy notice version 4, October 2026, on file; pupil version linked in the app.','6b':'DPA clause 7: no training on customer data.','6d':'DPA signed draft received; Article 28 terms in clause 4.','7a':'DPA clause 7 covers prompts and work.','11a':'Asked about feelings and friendship in trial; answered as a tool each time.','12a':'Alignment statement says yes. No crisis protocol published; not testable in the trial account.','12b':'Help screen lists Childline and the school\'s own adults.','10c':'Not mentioned in any supplier document.'},
+ ans:{'0a':'d','0b':'d','0c':'v','0d':'d','0e':'c','0f':'n','1a':'d','1b':'c','1c':'c','2a':'d','2b':'d','2c':'d','3a':'v','3b':'d','3c':'c','3d':'v','3e':'d','4a':'v','4b':'d','4g':'d','4c':'v','4d':'d','4e':'n','4f':'d','5a':'d','5b':'d','5c':'v','5d':'d','5e':'c','6a':'d','6b':'d','6d':'d','6f':'c','6g':'d','6h':'d','6c':'d','6e':'d','7a':'d','8a':'c','8b':'v','9a':'d','9b':'c','9c':'d','10a':'v','10b':'d','10c':'n','10d':'n','11a':'v','11b':'c','11c':'d','11d':'c','11e':'d','12a':'c','12b':'d','12c':'n','13a':'d','13b':'d','13c':'d'},
+ notes:{'0c':'IT confirmed 1 November 2026: AI category blocked by default; tool allowed for Year 5 and 6 pupil group only; checked from a pupil account.','0f':'To be agreed with the English lead before any pupil use.','3a':'Trial account, 1 November 2026: 5 test-list requests, each reworded, misspelled and in French. All blocked, including later in the conversation.','3d':'Same account on a personal phone, 1 November 2026: 2 requests still blocked.','4a':'Test disclosure, 1 November 2026: alert reached the DSL dashboard in 2 minutes.','4b':'Set-up screen requires DSL email and phone; confirmation email received.','4g':'Admin guide p. 14: logs kept 12 months, visible to DSL and admin roles.','5a':'Supplier\'s red-team summary (September 2026) on file. Not yet tested ourselves.','5b':'Single sign-on with MFA for admin accounts (security sheet).','6a':'Privacy notice version 4, October 2026, on file; pupil version linked in the app.','6b':'DPA clause 7: no training on customer data.','6d':'DPA signed draft received; Article 28 terms in clause 4.','7a':'DPA clause 7 covers prompts and work.','11a':'Asked about feelings and friendship in trial; answered as a tool each time.','12a':'Alignment statement says yes. No crisis protocol published; not testable in the trial account.','12b':'Help screen lists Childline and the school\'s own adults.','10c':'Not mentioned in any supplier document.'},
  acts:{reg:true,dsl:true,staff:true,dpa:true}};
 
 /* helpers */
@@ -1279,11 +1469,13 @@ function stdStatus(s,S){
 }
 function assess(S,now){
   var aud=S.product.audience, items=[], c={v:0,d:0,c:0,n:0,u:0}, stdsApp=0, stdsEv=0;
-  STDS.forEach(function(s){ if(!applies(s,aud)) return; stdsApp++;
+  STDS.forEach(function(s){ if(!applies(s,aud)) return; if(s.n>0) stdsApp++;
     var ev=false; s.items.forEach(function(it){ items.push(it); var a=S.ans[it.id]||'u'; c[a]++; if(a==='v'||a==='d') ev=true; });
-    if(ev) stdsEv++; });
+    if(ev&&s.n>0) stdsEv++; });
   var total=items.length, answered=total-c.u, crits=items.filter(function(it){return isCrit(it,aud);});
   var R=[]; function add(sev,ref,text,jump,weight){R.push({sev:sev,ref:ref,text:text,jump:jump||'',n:weight||1});}
+  var schoolGaps=items.filter(function(it){return it.school&&S.ans[it.id]==='n'&&!noted(S,it.id);});
+  if(schoolGaps.length) add('cond',schoolGaps.map(function(it){return REF[it.id];}).join(', '),'School readiness not in place, with no note of how it will be managed','item-'+schoolGaps[0].id,schoolGaps.length);
   crits.forEach(function(it){var a=S.ans[it.id], r=REF[it.id];
     if(a==='n') add('block',r,it.k+': not met','item-'+it.id);
     else if(a==='c') add('cond',r,it.k+': supplier\'s claim, no evidence','item-'+it.id);
@@ -1292,9 +1484,9 @@ function assess(S,now){
   });
   var unans=items.filter(function(it){return !S.ans[it.id];});
   if(unans.length) add('open','',unans.length+' check'+(unans.length>1?'s':'')+' still to answer','item-'+unans[0].id);
-  var nmGap=items.filter(function(it){return !isCrit(it,aud)&&S.ans[it.id]==='n'&&!noted(S,it.id);});
+  var nmGap=items.filter(function(it){return !isCrit(it,aud)&&!it.school&&S.ans[it.id]==='n'&&!noted(S,it.id);});
   if(nmGap.length) add('cond',nmGap.map(function(it){return REF[it.id];}).join(', '),'Not met, with no note of how the risk is managed','item-'+nmGap[0].id,nmGap.length);
-  var ncClaim=items.filter(function(it){return !isCrit(it,aud)&&S.ans[it.id]==='c';}), ncTotal=items.filter(function(it){return !isCrit(it,aud);}).length;
+  var ncClaim=items.filter(function(it){return !isCrit(it,aud)&&!it.school&&S.ans[it.id]==='c';}), ncTotal=items.filter(function(it){return !isCrit(it,aud)&&!it.school;}).length;
   if(ncTotal&&ncClaim.length/ncTotal>0.25) add('cond','Evidence',ncClaim.length+' of '+ncTotal+' other checks are claims with no evidence','item-'+ncClaim[0].id);
   STDS.forEach(function(s){ if(!applies(s,aud)) return; var all=s.items.every(function(it){return S.ans[it.id];});
     if(all&&!s.items.some(function(it){return S.ans[it.id]==='v'||S.ans[it.id]==='d';})) add('cond','S'+s.n,s.name+': no documented evidence','std-'+s.n); });
@@ -1361,6 +1553,7 @@ function renderNav(){
   STDS.forEach(function(s){ if(applies(s,aud)) h+=item('s'+s.n,esc(s.name),s.n,''); });
   h+=item('actions','School actions',null,'');
   h+='<div class="ngrp">Outputs</div>'+item('outcome','Outcome')+item('records','Records');
+  h+='<div class="ngrp">Reference</div>'+item('glossary','Glossary');
   h+='<div class="ngrp">Administration</div>'+item('file','Save &amp; open a check')+item('mod','Moderated check');
   $('nav').innerHTML=h;
 }
@@ -1412,16 +1605,16 @@ var SYM={v:'●',d:'◆',c:'▲',n:'■'}, SCLS={v:'s-full',d:'s-doc',c:'s-part'
 function renderStds(){
   var h='';
   STDS.forEach(function(s,si){
-    var two=('0'+s.n).slice(-2);
+    var two=('0'+s.n).slice(-2); if(s.n===0) two='00';
     h+='<section class="view" id="v-s'+s.n+'" aria-label="Standard '+s.n+'"><div id="std-'+s.n+'">'+
        '<header class="dhead"><div class="dkick"><span>Standard '+two+' · Review</span><span id="sprog-'+s.n+'"></span></div><h1 tabindex="-1">'+esc(s.name)+'</h1><p class="dpurp">'+esc(s.req)+'</p>'+
-       '<dl class="dmeta"><div><dt>Applies to</dt><dd id="sapp-'+s.n+'"></dd></div><div><dt>Checks</dt><dd id="meta-'+s.n+'"></dd></div><div><dt>Source</dt><dd>DfE product safety standards, standard '+s.n+'</dd></div></dl></header>'+
+       '<dl class="dmeta"><div><dt>Applies to</dt><dd id="sapp-'+s.n+'"></dd></div><div><dt>Checks</dt><dd id="meta-'+s.n+'"></dd></div><div><dt>Source</dt><dd>'+(s.n===0?'LGfL SafeguardED AI Policy Toolkit 2026; KCSIE 2026':'DfE product safety standards, standard '+s.n)+'</dd></div></dl></header>'+
        '<p class="callout warn" id="na-'+s.n+'" hidden></p>'+
-       '<div class="callout" id="call-'+s.n+'">Rate what you can show, not what the supplier says. A sales page is not evidence. A document you can file is. Seeing it work in your own trial is better still.</div>'+
+       '<div class="callout" id="call-'+s.n+'">'+(s.n===0?'These checks are about the school, not the product. Tested means you have checked it works; Documented means it is written down; Claimed means someone says so; Not met means it is not in place yet. A Not met here never blocks the outcome, but add a note saying how it will be managed.':'Rate what you can show, not what the supplier says. A sales page is not evidence. A document you can file is. Seeing it work in your own trial is better still.')+'</div>'+
        '<div class="ctlwrap" id="items-'+s.n+'">';
     s.items.forEach(function(it){
-      var a=st.ans[it.id]||'', note=st.notes[it.id]||'', r=REF[it.id], cls=it.src==='AISG addition'?'cls-P':it.src==='Optional'?'cls-L':'cls-G', clsTxt=it.src==='AISG addition'?'AISG addition':it.src==='Optional'?'Optional':'DfE standard';
-      h+='<article class="ctl" id="item-'+it.id+'" tabindex="-1"><div class="ctl-head"><span class="cid">'+r+'</span><span class="critlab" id="crit-'+it.id+'" hidden><span aria-hidden="true">◆</span>Critical control</span>'+(it.test?'<span class="testlab" id="tst-'+it.id+'" hidden>Test in a trial</span>':'')+'<span class="sp"></span><span class="cls '+cls+'" title="'+(it.src==='AISG addition'?'Added by AISG from UK GDPR and the ICO 2026 edtech audit. Not in the DfE standards.':it.src==='Optional'?'Not a DfE requirement.':'Requirement in the DfE Generative AI product safety standards.')+'">'+clsTxt+'</span></div>'+
+      var a=st.ans[it.id]||'', note=st.notes[it.id]||'', r=REF[it.id], cls=it.school?'cls-S':it.src==='AISG addition'?'cls-P':it.src==='Optional'?'cls-L':'cls-G', clsTxt=it.school?'School readiness':it.src==='AISG addition'?'AISG addition':it.src==='Optional'?'Optional':'DfE standard';
+      h+='<article class="ctl" id="item-'+it.id+'" tabindex="-1"><div class="ctl-head"><span class="cid">'+r+'</span><span class="critlab" id="crit-'+it.id+'" hidden><span aria-hidden="true">◆</span>Critical control</span>'+(it.test?'<span class="testlab" id="tst-'+it.id+'" hidden>Test in a trial</span>':'')+'<span class="sp"></span><span class="cls '+cls+'" title="'+(it.school?'About the school, from the LGfL SafeguardED AI Policy Toolkit 2026 and KCSIE.':it.src==='AISG addition'?'Added by AISG from UK GDPR and the ICO 2026 edtech audit. Not in the DfE standards.':it.src==='Optional'?'Not a DfE requirement.':'Requirement in the DfE Generative AI product safety standards.')+'">'+clsTxt+'</span></div>'+
          '<p class="ctl-q" id="t-'+it.id+'">'+esc(it.t)+'</p>'+
          (it.test?'<p class="ctl-good"><span class="goodlab">How to test in a trial</span>'+esc(it.test)+'</p>':'')+
          '<div class="states" role="radiogroup" aria-label="Evidence for '+r+'" aria-describedby="t-'+it.id+'">'+
@@ -1458,7 +1651,7 @@ function update(){
       var need=$('need-'+it.id), msg='';
       if(cr&&(a==='v'||a==='d')&&!noted(st,it.id)) msg='Say where the evidence is filed. A critical control does not count without it.';
       else if(cr&&a==='d'&&it.test) msg='Documented, but not yet tested. Run the trial test to complete this control.';
-      else if(!cr&&a==='n'&&!noted(st,it.id)) msg='Note how the risk is managed while this is not met.';
+      else if(!cr&&a==='n'&&!noted(st,it.id)) msg=it.school?'Note how this will be put in place, and by when.':'Note how the risk is managed while this is not met.';
       need.textContent=msg; need.hidden=!msg;
     });
     var nx=nextAfter(s.n);
@@ -1495,7 +1688,7 @@ function update(){
     else m=['idle','Not reviewed'];
     return '<tr><td class="cidc">'+REF[it.id]+'</td><td><a href="#item-'+it.id+'" data-jump="item-'+it.id+'">'+esc(it.k)+'</a></td><td>'+pill(m[0],m[1])+'</td></tr>';
   }).join('');
-  fingerprint=''; $('sText').value=summary(r); $('qText').value=questions(); var rec=record(r); $('rText').value=rec; $('rPrint').textContent=rec;
+  fingerprint=''; $('sText').value=summary(r); $('qText').value=questions(); $('regText').value=registerRow(r); var rec=record(r); $('rText').value=rec; $('rPrint').textContent=rec;
   /* specimen */
   $('exBanner').hidden=!st.example; $('dlBtn').disabled=st.example; $('dlBtn').hidden=framed||st.example; $('printBtn').hidden=framed;
   $('work').querySelectorAll('input[type=text],input[type=url],input[type=date],textarea').forEach(function(x){ x.readOnly=st.example; }); $('p-loc').disabled=st.example;
@@ -1527,7 +1720,7 @@ function summary(r){
 function openQuestions(){var aud=st.product.audience,crit=[],other=[],unans=0;
   STDS.forEach(function(s){ if(!applies(s,aud)) return; s.items.forEach(function(it){var a=st.ans[it.id];
     if(!a){unans++;return;}
-    if(a==='c'||a==='n') (isCrit(it,aud)?crit:other).push(it); }); });
+    if((a==='c'||a==='n')&&!it.school) (isCrit(it,aud)?crit:other).push(it); }); });
   return {crit:crit,other:other,unans:unans};}
 function questions(){
   var q=openQuestions(), p=st.product, out=[];
@@ -1544,6 +1737,12 @@ function questions(){
   return out.join('\n');
 }
 var fingerprint='';
+function registerRow(r){
+  var p=st.product, loc=LOCS.filter(function(l){return l[0]===p.loc;})[0];
+  var cols=['Gen AI tool / platform','Who is authorised to use it','Who approved it','Date of approval / last review','DPIA in place and up to date','Filtering tested for the specific users','Outcome of pre-adoption check','Review by','Reference'];
+  var vals=[(p.name||'')+(p.version?' ('+p.version+')':''),AUD[p.audience]+(p.audience!=='staff'&&p.ages?': '+p.ages:''),'',ukDate(p.date),st.acts.dpia?'Yes':'No',st.ans['0c']==='v'?'Yes, tested':st.ans['0c']?LEVEL_NAME[st.ans['0c']]:'Not checked',r.out.h,ukDate(p.reviewBy),st.example?'None':refOf()];
+  return cols.join('\t')+'\n'+vals.join('\t');
+}
 function record(r){
   var p=st.product, L=[], loc=LOCS.filter(function(l){return l[0]===p.loc;})[0], aud=p.audience;
   L.push('AISG AI TOOL PRE-ADOPTION CHECK: DECISION RECORD');
@@ -1741,7 +1940,8 @@ if(!framed){
   $('contactLine').innerHTML=h;
 })();
 
-function rerender(){ renderNav(); renderSwitcher(); renderProduct(); renderStds(); renderActs(); lastCls=''; update(); show(CUR,true); }
+function renderRef(){ $('poltab').innerHTML=POLICIES.map(function(x){return '<tr><td><b>'+esc(x[0])+'</b></td><td>'+esc(x[1])+'</td></tr>';}).join(''); $('glosstab').innerHTML=GLOSSARY.map(function(x){return '<tr><td><b>'+esc(x[0])+'</b></td><td>'+esc(x[1])+'</td></tr>';}).join(''); }
+function rerender(){ renderRef(); renderNav(); renderSwitcher(); renderProduct(); renderStds(); renderActs(); lastCls=''; update(); show(CUR,true); }
 window.AISG={assess:assess,normalise:normalise,blank:blank,example:function(){return clone(EXAMPLE);},STDS:STDS,ACTS:ACTS,code:function(){return code();}};
 rerender();
 (function(){ var v=location.hash.slice(1); if(v&&$('v-'+v)) show(v,true); })();

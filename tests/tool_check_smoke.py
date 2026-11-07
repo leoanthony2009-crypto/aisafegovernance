@@ -58,9 +58,9 @@ async def main():
         check('fully evidenced check reaches No blocking gaps found', h == 'No blocking gaps found', [h, await pg.evaluate("[...document.querySelectorAll('#reasons li')].map(l=>l.textContent)")])
         # 6 staff-only drops pupil standards; mixed keeps filtering
         await pg.click('#nav [data-v="product"]'); await pg.wait_for_timeout(150); await pg.check('#aud-mixed'); await pg.wait_for_timeout(150)
-        check('mixed audience applies 33 checks', '33 checks' in await pg.text_content('#covSub'), await pg.text_content('#covSub'))
+        check('mixed audience applies 33 checks', '39 checks' in await pg.text_content('#covSub'), await pg.text_content('#covSub'))
         await pg.click('#nav [data-v="product"]'); await pg.wait_for_timeout(150); await pg.check('#aud-staff'); await pg.wait_for_timeout(150)
-        check('staff-only applies 28 checks', '28 checks' in await pg.text_content('#covSub'), await pg.text_content('#covSub'))
+        check('staff-only applies 28 checks', '34 checks' in await pg.text_content('#covSub'), await pg.text_content('#covSub'))
         await pg.click('#nav [data-v="product"]'); await pg.wait_for_timeout(150); await pg.check('#aud-learners'); await pg.wait_for_timeout(150)
         # 7 save code round trip into a second check
         code = await pg.evaluate("window.AISG.code()")
