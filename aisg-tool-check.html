@@ -894,7 +894,7 @@ body:not(.mode-app) .skip-app{display:none}
 }
 /* AI tool check: additions to the Evidence Review styles */
 input[type=url]{width:100%;padding:7px 10px;border:1px solid var(--line);background:var(--surface);font-family:var(--sans);font-size:13.5px;color:var(--ink);border-radius:2px}
-.fig{margin:0 0 28px;max-width:880px}
+.fig{margin:0 0 8px;max-width:none}
 .fig .figscroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);padding:8px}
 .fig svg{width:100%;min-width:720px;height:auto;display:block}
 @media (min-width:980px){.fig svg{min-width:0}}
@@ -903,7 +903,8 @@ input[type=url]{width:100%;padding:7px 10px;border:1px solid var(--line);backgro
 .tblscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 8px}
 [hidden]{display:none!important}
 .brand{text-decoration:none;color:#fff;min-width:0;overflow:hidden}
-.brand .wm{overflow:hidden;text-overflow:ellipsis;display:block;max-width:100%}
+.brand>span{display:block;min-width:0;overflow:hidden}
+.brand .wm,.brand .we{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .nitem{text-decoration:none}
 .testlab{font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--slate);display:inline-flex;gap:5px;align-items:center;white-space:nowrap}
 .states label.s-doc:has(input:checked){background:var(--green-bg);color:var(--green)}
@@ -957,7 +958,7 @@ input[type=url]{width:100%;padding:7px 10px;border:1px solid var(--line);backgro
 <a class="skip" href="#main">Skip to content</a>
 <header class="topbar" role="banner">
   <button class="menubtn" id="menuBtn" type="button" aria-expanded="false" aria-controls="rail" aria-label="Open navigation">☰</button>
-  <a class="brand" href="/" aria-label="AISG home"><span><span class="wm">AISG — AI Safeguarding &amp; Governance</span><br><span class="we">AI tool check</span></span></a>
+  <a class="brand" href="/" aria-label="AISG home"><span><span class="wm">AISG — AI Safeguarding &amp; Governance</span><span class="we">AI tool check</span></span></a>
   <button class="ctx" id="ctxBtn" type="button" data-show="product" title="Product details">
     <b id="ctx-name"></b>
     <span class="sep hidesm" aria-hidden="true">·</span><span class="hidesm" id="ctx-date"></span>
@@ -1001,35 +1002,6 @@ input[type=url]{width:100%;padding:7px 10px;border:1px solid var(--line);backgro
           <div class="btnrow"><button type="button" class="btn" data-show="product">Go to product details</button><button type="button" class="btn ghost" data-show="s1">Go straight to Standard 1</button></div>
         </div>
         <!-- FIG1: route through the check -->
-<figure class="fig" id="fig-route"><div class="figscroll"><svg viewBox="0 0 880 150" role="img" aria-labelledby="fig1t" fontFamily="inherit">
-    <title id="fig1t">The route through the check: product details, then the standards that apply, then school actions, then the outcome and records</title>
-    <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#4E5B64"/></marker></defs>
-    <g fill="none" stroke="#4E5B64" stroke-width="1.2">
-      <line x1="196" y1="60" x2="222" y2="60" marker-end="url(#arr)"/>
-      <line x1="414" y1="60" x2="440" y2="60" marker-end="url(#arr)"/>
-      <line x1="632" y1="60" x2="658" y2="60" marker-end="url(#arr)"/>
-    </g>
-    <g font-size="13" fill="#202B33">
-      <rect x="12" y="28" width="184" height="64" fill="#fff" stroke="#C2D3DD"/>
-      <text x="24" y="52" font-weight="600">1 Product details</text>
-      <text x="24" y="72" font-size="12" fill="#4E5B64">Who uses it decides which</text>
-      <text x="24" y="86" font-size="12" fill="#4E5B64">standards apply</text>
-      <rect x="230" y="28" width="184" height="64" fill="#fff" stroke="#C2D3DD"/>
-      <text x="242" y="52" font-weight="600">2 Standards 0 to 13</text>
-      <text x="242" y="72" font-size="12" fill="#4E5B64">Rate the evidence; test the</text>
-      <text x="242" y="86" font-size="12" fill="#4E5B64">critical controls in a trial</text>
-      <rect x="448" y="28" width="184" height="64" fill="#fff" stroke="#C2D3DD"/>
-      <text x="460" y="52" font-weight="600">3 School actions</text>
-      <text x="460" y="72" font-size="12" fill="#4E5B64">DPIA, contract, filtering</text>
-      <text x="460" y="86" font-size="12" fill="#4E5B64">review, DSL contact</text>
-      <rect x="666" y="28" width="202" height="64" fill="#EAF1F5" stroke="#245B78"/>
-      <text x="678" y="52" font-weight="600">4 Outcome and records</text>
-      <text x="678" y="72" font-size="12" fill="#4E5B64">Summary, supplier letter,</text>
-      <text x="678" y="86" font-size="12" fill="#4E5B64">decision record, register row</text>
-    </g>
-    <text x="12" y="128" font-size="12" fill="#59666F">Pupils use it: 13 standards. Staff use it but pupils see the outputs or it holds pupil data: 9. Staff only: 8. School readiness (Standard 0) always applies.</text>
-  </svg></div><figcaption>How the check runs. You can stop at any point; it is saved in this browser.</figcaption>
-</figure>
         <p class="klab">Check progress</p>
         <div class="progrow"><span class="progbar"><i id="ovBar"></i></span><span class="prognum" id="ovNum"></span></div>
         <p class="nv" id="ovEv" style="font-style:normal;margin-top:0"></p>
@@ -1043,7 +1015,7 @@ input[type=url]{width:100%;padding:7px 10px;border:1px solid var(--line);backgro
           </div>
           <p class="nv" style="font-style:normal;margin-top:0">Each product is a separate check, saved in this browser only. Record roles, not names, and do not enter pupils' details.</p>
         </div>
-        <p class="methline">AISG is not affiliated with or endorsed by the DfE. The DfE standards are written mainly for suppliers. This tool does not endorse any product and is not legal advice. The school is the data controller and makes the decision, with its DSL and DPO. Form AISG-TC 5.0 · DfE standards of 19 January 2026 · © 2026 Wendell Gopaul. All rights reserved.</p>
+        <p class="methline">Self-assessment tool, not an approval or legal advice. Not affiliated with or endorsed by the DfE. Form AISG-TC 5.0 · © 2026 Wendell Gopaul. All rights reserved.</p>
       </section>
 
       <div id="work">
@@ -1063,47 +1035,13 @@ input[type=url]{width:100%;padding:7px 10px;border:1px solid var(--line);backgro
           <div class="panel" id="acts"></div>
           <p class="klab" style="margin-top:28px">Reporting routes once the tool is in use</p>
           <!-- FIG3: reporting routes (LGfL toolkit section 8) -->
-<figure class="fig" id="fig-report"><div class="figscroll"><svg viewBox="0 0 880 236" role="img" aria-labelledby="fig3t">
-    <title id="fig3t">Reporting routes once a tool is in use: concerns about a child go to the DSL, concerns about a member of staff go to the headteacher, data breaches go to the DPO, and some go on to external agencies</title>
-    <defs><marker id="arr3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#4E5B64"/></marker></defs>
-    <g font-size="13" fill="#202B33">
-      <rect x="12" y="20" width="250" height="56" fill="#fff" stroke="#C2D3DD"/>
-      <text x="24" y="42" font-weight="600">A child's safety or wellbeing</text>
-      <text x="24" y="62" font-size="12" fill="#4E5B64">Distress to a chatbot; synthetic imagery</text>
-      <rect x="12" y="92" width="250" height="56" fill="#fff" stroke="#C2D3DD"/>
-      <text x="24" y="114" font-weight="600">A member of staff's use of AI</text>
-      <text x="24" y="134" font-size="12" fill="#4E5B64">Unapproved tool; pupil data entered</text>
-      <rect x="12" y="164" width="250" height="56" fill="#fff" stroke="#C2D3DD"/>
-      <text x="24" y="186" font-weight="600">Personal data lost or exposed</text>
-      <text x="24" y="206" font-size="12" fill="#4E5B64">Any breach involving the tool</text>
-      <g fill="none" stroke="#4E5B64" stroke-width="1.2">
-        <line x1="262" y1="48" x2="330" y2="48" marker-end="url(#arr3)"/>
-        <line x1="262" y1="120" x2="330" y2="120" marker-end="url(#arr3)"/>
-        <line x1="262" y1="192" x2="330" y2="192" marker-end="url(#arr3)"/>
-        <line x1="560" y1="48" x2="628" y2="48" marker-end="url(#arr3)"/>
-        <line x1="560" y1="120" x2="628" y2="120" marker-end="url(#arr3)"/>
-        <line x1="560" y1="192" x2="628" y2="192" marker-end="url(#arr3)"/>
-      </g>
-      <rect x="338" y="20" width="222" height="56" fill="#EAF1F5" stroke="#245B78"/>
-      <text x="350" y="42" font-weight="600">Designated safeguarding lead</text>
-      <text x="350" y="62" font-size="12" fill="#4E5B64">Record on the safeguarding system</text>
-      <rect x="338" y="92" width="222" height="56" fill="#EAF1F5" stroke="#245B78"/>
-      <text x="350" y="114" font-weight="600">Headteacher</text>
-      <text x="350" y="134" font-size="12" fill="#4E5B64">Managing allegations or low-level concerns</text>
-      <rect x="338" y="164" width="222" height="56" fill="#EAF1F5" stroke="#245B78"/>
-      <text x="350" y="186" font-weight="600">Data protection officer</text>
-      <text x="350" y="206" font-size="12" fill="#4E5B64">Data protection policy; breach log</text>
-      <g font-size="12" fill="#4E5B64">
-        <text x="636" y="42" font-weight="600" fill="#202B33">Onward where needed</text>
-        <text x="636" y="60">Children's services, police, CEOP</text>
-        <text x="636" y="114" font-weight="600" fill="#202B33">Onward where needed</text>
-        <text x="636" y="132">LADO; the tool's supplier</text>
-        <text x="636" y="186" font-weight="600" fill="#202B33">Onward where needed</text>
-        <text x="636" y="204">ICO within 72 hours; the supplier</text>
-      </g>
-    </g>
-  </svg></div><figcaption>Who a concern goes to once the tool is in use. Based on the LGfL SafeguardED AI Policy Toolkit (2026), section 8.</figcaption>
-</figure>
+<p class="stepd">From the LGfL SafeguardED AI Policy Toolkit (2026), section 8.</p>
+          <div class="tblscroll"><table class="simple" style="min-width:560px"><caption class="visually-hidden">Reporting routes</caption><thead><tr><th scope="col">Concern</th><th scope="col">Goes to</th><th scope="col">Onward where needed</th></tr></thead><tbody>
+            <tr><td><b>A child's safety or wellbeing</b><br><span class="basis-in" style="display:block;font-size:12.5px;color:var(--muted)">Distress to a chatbot; synthetic imagery; grooming</span></td><td>Designated safeguarding lead. Record on the safeguarding system.</td><td>Children's services, police, CEOP, Report Remove</td></tr>
+            <tr><td><b>A member of staff's use of AI</b><br><span style="display:block;font-size:12.5px;color:var(--muted)">Unapproved tool; pupil data entered into it</span></td><td>Headteacher, under managing allegations or low-level concerns.</td><td>LADO; the tool's supplier</td></tr>
+            <tr><td><b>Personal data lost or exposed</b><br><span style="display:block;font-size:12.5px;color:var(--muted)">Any breach involving the tool</span></td><td>Data protection officer. Follow the data protection policy; log the breach.</td><td>ICO within 72 hours; the supplier under the data processing agreement</td></tr>
+            <tr><td><b>A pupil's concerning use with no risk to a child</b><br><span style="display:block;font-size:12.5px;color:var(--muted)">Misinformation; fake imagery of an adult</span></td><td>As set out in the behaviour policy; decide where it is recorded.</td><td></td></tr>
+          </tbody></table></div>
           <p class="klab" style="margin-top:28px">Policies this tool may touch</p>
           <p class="stepd">From the LGfL SafeguardED AI Policy Toolkit (2026), section 4. Tick the policies you have checked in School readiness, check 0.5.</p>
           <table class="simple poltab"><caption class="visually-hidden">Related policies</caption><thead><tr><th scope="col">Policy</th><th scope="col">What to check for</th></tr></thead><tbody id="poltab"></tbody></table>
@@ -1115,8 +1053,8 @@ input[type=url]{width:100%;padding:7px 10px;border:1px solid var(--line);backgro
       <section class="view" id="v-outcome" aria-label="Outcome">
         <header class="phead"><p class="kicker">Outputs</p><h1 tabindex="-1" id="hD">Outcome</h1><p class="psub">The position this check supports. The DSL and DPO make the decision.</p></header>
         <div class="posbox" id="outbox"></div>
-        <details class="srcd" style="margin:0 0 20px"><summary>How the outcome is decided</summary><div class="srcdb"><!-- FIG2: how the outcome is reached -->
-<figure class="fig" id="fig-outcome"><div class="figscroll"><svg viewBox="0 0 880 300" role="img" aria-labelledby="fig2t">
+        <details class="srcd" style="margin:0 0 20px"><summary>How the outcome is decided</summary><div class="srcdb" style="max-width:none"><!-- FIG2: how the outcome is reached -->
+<figure class="fig" id="fig-outcome"><div class="figscroll"><svg viewBox="0 0 880 312" role="img" aria-labelledby="fig2t">
     <title id="fig2t">How the outcome is decided: any critical control not met gives Blocking gaps; unanswered checks give Not finished; any condition gives Conditions before use; otherwise No blocking gaps found</title>
     <defs><marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#4E5B64"/></marker></defs>
     <g font-size="13" fill="#202B33">
@@ -1127,7 +1065,7 @@ input[type=url]{width:100%;padding:7px 10px;border:1px solid var(--line);backgro
       <rect x="12" y="96" width="300" height="52" fill="#fff" stroke="#C2D3DD"/>
       <text x="24" y="118" font-weight="600">Are any checks still unanswered?</text>
       <text x="24" y="136" font-size="12" fill="#4E5B64">Standards that apply, from Product details</text>
-      <rect x="12" y="172" width="300" height="76" fill="#fff" stroke="#C2D3DD"/>
+      <rect x="12" y="172" width="300" height="84" fill="#fff" stroke="#C2D3DD"/>
       <text x="24" y="194" font-weight="600">Are there any conditions?</text>
       <text x="24" y="212" font-size="12" fill="#4E5B64">Critical control claimed only, or no note, or not</text>
       <text x="24" y="226" font-size="12" fill="#4E5B64">tested; a Not met with no mitigation; a required</text>
@@ -1139,9 +1077,9 @@ input[type=url]{width:100%;padding:7px 10px;border:1px solid var(--line);backgro
         <line x1="312" y1="210" x2="400" y2="210" marker-end="url(#arr2)"/>
         <line x1="162" y1="72" x2="162" y2="92" marker-end="url(#arr2)"/>
         <line x1="162" y1="148" x2="162" y2="168" marker-end="url(#arr2)"/>
-        <line x1="162" y1="248" x2="162" y2="268" marker-end="url(#arr2)"/>
+        <line x1="162" y1="256" x2="162" y2="272" marker-end="url(#arr2)"/>
       </g>
-      <g font-size="11" fill="#59666F"><text x="350" y="40">yes</text><text x="350" y="116">yes</text><text x="350" y="204">yes</text><text x="170" y="86">no</text><text x="170" y="162">no</text><text x="170" y="263">no</text></g>
+      <g font-size="11" fill="#59666F"><text x="350" y="40">yes</text><text x="350" y="116">yes</text><text x="350" y="204">yes</text><text x="170" y="86">no</text><text x="170" y="162">no</text><text x="170" y="268">no</text></g>
       <!-- results -->
       <rect x="408" y="26" width="200" height="40" fill="#F7E9E9" stroke="#E0BDBD"/>
       <text x="420" y="51" font-weight="600" fill="#A33A3A">■ Blocking gaps</text>
@@ -1149,15 +1087,15 @@ input[type=url]{width:100%;padding:7px 10px;border:1px solid var(--line);backgro
       <text x="420" y="127" font-weight="600" fill="#535E6A">○ Not finished</text>
       <rect x="408" y="190" width="200" height="40" fill="#F7EFDC" stroke="#DFC896"/>
       <text x="420" y="215" font-weight="600" fill="#9A6718">▲ Conditions before use</text>
-      <rect x="12" y="272" width="300" height="26" fill="#E7F0EB" stroke="#B9D4C6"/>
-      <text x="24" y="290" font-weight="600" fill="#287052">● No blocking gaps found</text>
+      <rect x="12" y="276" width="300" height="26" fill="#E7F0EB" stroke="#B9D4C6"/>
+      <text x="24" y="294" font-weight="600" fill="#287052">● No blocking gaps found</text>
       <text x="630" y="51" font-size="12" fill="#4E5B64">Do not use with pupils or personal data</text>
       <text x="630" y="127" font-size="12" fill="#4E5B64">Carry on through the standards</text>
       <text x="630" y="215" font-size="12" fill="#4E5B64">Meet the conditions; pilot with staff or</text>
       <text x="630" y="229" font-size="12" fill="#4E5B64">test accounts only</text>
-      <text x="330" y="290" font-size="12" fill="#4E5B64">The DSL and DPO decide. This is not an approval.</text>
+      <text x="330" y="294" font-size="12" fill="#4E5B64">The DSL and DPO decide. This is not an approval.</text>
     </g>
-  </svg></div><figcaption>How the outcome is decided. The questions are asked in this order, and the first "yes" sets the outcome.</figcaption>
+  </svg></div><figcaption>The questions are asked in this order. The first "yes" sets the outcome.</figcaption>
 </figure></div></details>
         <h2 class="seclab">Critical controls</h2>
         <div class="tblscroll"><table class="simple ctab" style="min-width:560px"><caption class="visually-hidden">Critical controls</caption><thead><tr><th scope="col">Ref</th><th scope="col">Critical control</th><th scope="col">Evidence</th></tr></thead><tbody id="crits"></tbody></table></div>
@@ -1605,7 +1543,7 @@ function renderProduct(){
      '</div></div></div>';
   $('productFields').innerHTML=h;
 }
-var SYM={v:'●',d:'◐',c:'▲',n:'■'}, SCLS={v:'s-full',d:'s-doc',c:'s-part',n:'s-not'};
+var SYM={v:'●',d:'◇',c:'▲',n:'■'}, SCLS={v:'s-full',d:'s-doc',c:'s-part',n:'s-not'};
 function renderStds(){
   var h='';
   STDS.forEach(function(s,si){
