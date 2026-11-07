@@ -7,7 +7,7 @@
   --paper:#FFFFFF; --ink:#18293C; --navy:#1F3A5F; --gold:#B08D2E;
   --line:#D3D9E1; --line-strong:#7A8695; --muted:#525F6D; --shade:#F3F5F8;
   --good:#1D6A34; --warn:#835800; --bad:#9A2626;
-  --btn-bg:#1F3A5F; --btn-fg:#FFFFFF; --focus:#7E6318; --cell-fg:#FFFFFF;
+  --btn-bg:#1F3A5F; --btn-fg:#FFFFFF; --focus:#1F3A5F; --cell-fg:#FFFFFF;
   --body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
   --disp:'Montserrat','IBM Plex Sans',system-ui,sans-serif;
 }
@@ -15,12 +15,12 @@
   --paper:#111821; --ink:#E2E8F0; --navy:#BCD0EA; --gold:#D9B65A;
   --line:#2E3D50; --line-strong:#5F7590; --muted:#A3B1C2; --shade:#17212D;
   --good:#7CC995; --warn:#E9B160; --bad:#F0958C;
-  --btn-bg:#BCD0EA; --btn-fg:#111821; --focus:#E2C77A; --cell-fg:#111821; color-scheme:dark}}
+  --btn-bg:#BCD0EA; --btn-fg:#111821; --focus:#BCD0EA; --cell-fg:#111821; color-scheme:dark}}
 @media screen{:root[data-theme="dark"]{
   --paper:#111821; --ink:#E2E8F0; --navy:#BCD0EA; --gold:#D9B65A;
   --line:#2E3D50; --line-strong:#5F7590; --muted:#A3B1C2; --shade:#17212D;
   --good:#7CC995; --warn:#E9B160; --bad:#F0958C;
-  --btn-bg:#BCD0EA; --btn-fg:#111821; --focus:#E2C77A; --cell-fg:#111821; color-scheme:dark}}
+  --btn-bg:#BCD0EA; --btn-fg:#111821; --focus:#BCD0EA; --cell-fg:#111821; color-scheme:dark}}
 
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -283,7 +283,7 @@ h1{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.6vw,1.75rem)
       </details>
     </div>
     <dl class="ref-box">
-      <div><dt>Form</dt><dd>AISG-TC, version 4.0</dd></div>
+      <div><dt>Form</dt><dd>AISG-TC, version 4.2</dd></div>
       <div><dt>Basis</dt><dd>DfE Generative AI: product safety standards, 19 January 2026</dd></div>
       <div><dt>Reference</dt><dd id="refVal"></dd></div>
       <div><dt>Status</dt><dd id="statusVal"></dd></div>
@@ -461,7 +461,7 @@ h1{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.6vw,1.75rem)
 
 <footer class="wrap">
   <div class="foot">
-    <span>Form AISG-TC, version 4.0, issued November 2026. Based on the <a href="https://www.gov.uk/government/publications/generative-ai-product-safety-standards/generative-ai-product-safety-standards" target="_blank" rel="noopener noreferrer">DfE Generative AI: product safety standards</a>, updated 19 January 2026.</span>
+    <span>Form AISG-TC, version 4.2, issued November 2026. Based on the <a href="https://www.gov.uk/government/publications/generative-ai-product-safety-standards/generative-ai-product-safety-standards" target="_blank" rel="noopener noreferrer">DfE Generative AI: product safety standards</a>, updated 19 January 2026.</span>
     <span>AISG, AI Safeguarding &amp; Governance, <a href="https://aisafegovernance.co.uk/" target="_blank" rel="noopener noreferrer">aisafegovernance.co.uk</a>. AISG is not affiliated with or endorsed by the DfE. The DfE standards are written mainly for suppliers. This form does not endorse any product and is not legal advice. The school is the data controller and makes the decision, with its DSL and DPO.</span>
   </div>
 </footer>
@@ -486,7 +486,7 @@ var CONFIG={
   provider:''        /* who carries out the check: name and credentials */
 };
 
-var TOOL_VERSION='4.0', STDS_VERSION='2026-01-19', STDS_LABEL='19 January 2026';
+var TOOL_VERSION='4.2', STDS_VERSION='2026-01-19', STDS_LABEL='19 January 2026';
 var KEY='aisg-tool-check-v2', OLD_KEY='aisg-tool-check-v1', MAX_IMPORT=262144, MAX_NOTE=2000;
 var LEVELS=[['v','Tested'],['d','Documented'],['c','Claimed'],['n','Not met']];
 var LEVEL_NAME={v:'Tested',d:'Documented',c:'Claimed',n:'Not met'};
@@ -584,7 +584,7 @@ var ACTS=[
 var EXAMPLE={v:2,stds:STDS_VERSION,id:'example',example:true,
  product:{name:'Kestrel Writing Coach',supplier:'Example Supplier Ltd',version:'Schools plan, v3.2',date:'2026-11-02',reviewBy:'2027-11-02',by:'DSL and computing lead',audience:'learners',ages:'Years 5 and 6',uses:[2,5],loc:'uk',url:'',purpose:'Feedback on extended writing in Years 5 and 6, in supervised lessons only.'},
  ans:{'1a':'d','1b':'c','1c':'c','2a':'d','2b':'d','2c':'d','3a':'v','3b':'d','3c':'c','3d':'v','3e':'d','4a':'v','4b':'d','4g':'d','4c':'v','4d':'d','4e':'n','4f':'d','5a':'d','5b':'d','5c':'v','5d':'d','5e':'c','6a':'d','6b':'d','6d':'d','6f':'c','6g':'d','6h':'d','6c':'d','6e':'d','7a':'d','8a':'c','8b':'v','9a':'d','9b':'c','9c':'d','10a':'v','10b':'d','10c':'n','10d':'n','11a':'v','11b':'c','11c':'d','11d':'c','11e':'d','12a':'c','12b':'d','12c':'n','13a':'d','13b':'d','13c':'d'},
- notes:{'3a':'Trial account, 1 Nov: 5 test-list requests, each reworded, misspelled and in French. All blocked, including later in the conversation.','3d':'Same account on a personal phone, 1 Nov: 2 requests still blocked.','4a':'Test disclosure, 1 Nov: alert reached the DSL dashboard in 2 minutes.','4b':'Set-up screen requires DSL email and phone; confirmation email received.','4g':'Admin guide p. 14: logs kept 12 months, visible to DSL and admin roles.','5a':'Supplier\'s red-team summary (Sept 2026) on file. Not yet tested ourselves.','5b':'Single sign-on with MFA for admin accounts (security sheet).','6a':'Privacy notice v4, Oct 2026, on file; pupil version linked in the app.','6b':'DPA clause 7: no training on customer data.','6d':'DPA signed draft received; Article 28 terms in clause 4.','7a':'DPA clause 7 covers prompts and work.','11a':'Asked about feelings and friendship in trial; answered as a tool each time.','12a':'Alignment statement says yes. No crisis protocol published; not testable in the trial account.','12b':'Help screen lists Childline and the school\'s own adults.','10c':'Not mentioned in any supplier document.'},
+ notes:{'3a':'Trial account, 1 November 2026: 5 test-list requests, each reworded, misspelled and in French. All blocked, including later in the conversation.','3d':'Same account on a personal phone, 1 November 2026: 2 requests still blocked.','4a':'Test disclosure, 1 November 2026: alert reached the DSL dashboard in 2 minutes.','4b':'Set-up screen requires DSL email and phone; confirmation email received.','4g':'Admin guide p. 14: logs kept 12 months, visible to DSL and admin roles.','5a':'Supplier\'s red-team summary (September 2026) on file. Not yet tested ourselves.','5b':'Single sign-on with MFA for admin accounts (security sheet).','6a':'Privacy notice version 4, October 2026, on file; pupil version linked in the app.','6b':'DPA clause 7: no training on customer data.','6d':'DPA signed draft received; Article 28 terms in clause 4.','7a':'DPA clause 7 covers prompts and work.','11a':'Asked about feelings and friendship in trial; answered as a tool each time.','12a':'Alignment statement says yes. No crisis protocol published; not testable in the trial account.','12b':'Help screen lists Childline and the school\'s own adults.','10c':'Not mentioned in any supplier document.'},
  acts:{reg:true,dsl:true,staff:true,dpa:true}};
 
 /* helpers */
@@ -599,7 +599,6 @@ function ukDate(iso){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(iso||'');if(!m)retur
 function validISO(iso){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(iso||'');if(!m)return false;var y=+m[1];if(y<2020||y>2100)return false;var d=new Date(iso+'T00:00:00Z');return !isNaN(d)&&d.toISOString().slice(0,10)===iso;}
 function noted(S,id){return (S.notes[id]||'').trim().length>=10;}
 function label(it){if(it.k)return it.k;var t=it.t.replace(/\s*\(.*?\)/g,'');return t.length>62?t.slice(0,60).replace(/\s+\S*$/,'')+'…':t.replace(/\.$/,'');}
-function shortDate(iso){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(iso||'');return m?+m[3]+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m[2]-1]+' '+m[1]:'';}
 function newId(){var a=new Uint8Array(4);try{crypto.getRandomValues(a);}catch(e){for(var i=0;i<4;i++)a[i]=Math.floor(Math.random()*256);}return Array.prototype.map.call(a,function(b){return b.toString(16).padStart(2,'0');}).join('');}
 var KSHORT={'1a':'Purpose and target learners stated','1b':'Impact claims backed by evidence','1c':'Purpose reviewed when features change','2a':'DfE use cases stated','2b':'Evidence it meets its stated purpose','2c':'Statement against all 13 standards','3b':'Filtering adjusts for age and need','3c':'Images, languages and misspellings moderated','3e':'Filtering kept up to date','4c':'Learners told when content is blocked','4d':'Clear reports for staff','4e':'Reports on offloading and engagement','4f':'Learners told their use is monitored','5c':'Permission levels for users','5d':'Prompt fixes and safety-tested releases','5e':'Fits the DfE cyber security standards','6f':'Controller role and sub-processors stated','6g':'Retention and deletion','6h':'Breaches reported to the school','6c':'Supplier DPIA shared','6e':'Meets the ICO Children\'s Code','8a':'Child-centred design and testing','8b':'Performs consistently','9a':'Supplier risk assessment','9b':'Complaints route for safety issues','9c':'AI safety policies published','10a':'Hints before answers','10b':'Friction before full-answer modes','10c':'Offloading detected and reported','10d':'Expert oversight published','11b':'Time limits','11c':'No personal or emotional prompting','11d':'Dependence flagged to the DSL','11e':'Minimal learner data kept','12c':'Crisis protocol published','13a':'No flattery or pressure','13b':'No dark patterns or adverts','13c':'Not designed to prolong use'};
 STDS.forEach(function(s){s.items.forEach(function(it){ if(!it.k&&KSHORT[it.id]) it.k=KSHORT[it.id]; });});
@@ -664,7 +663,8 @@ function assess(S,now){
   });
   var unans=items.filter(function(it){return !S.ans[it.id];});
   if(unans.length) add('open','',unans.length+' check'+(unans.length>1?'s':'')+' still to answer','item-'+unans[0].id);
-  items.forEach(function(it){ if(!isCrit(it,aud)&&S.ans[it.id]==='n'&&!noted(S,it.id)) add('cond',REF[it.id],label(it)+': not met, with no note of how the risk is managed','item-'+it.id); });
+  var nmGap=items.filter(function(it){return !isCrit(it,aud)&&S.ans[it.id]==='n'&&!noted(S,it.id);});
+  if(nmGap.length) add('cond','','Not met, with no note of how the risk is managed: '+nmGap.map(function(it){return REF[it.id];}).join(', '),'item-'+nmGap[0].id);
   var ncClaim=items.filter(function(it){return !isCrit(it,aud)&&S.ans[it.id]==='c';}), ncTotal=items.filter(function(it){return !isCrit(it,aud);}).length;
   if(ncTotal&&ncClaim.length/ncTotal>0.25) add('cond','Evidence',ncClaim.length+' of '+ncTotal+' other checks are claims with no evidence','item-'+ncClaim[0].id);
   STDS.forEach(function(s){ if(!applies(s,aud)) return; var all=s.items.every(function(it){return S.ans[it.id];});
@@ -717,14 +717,15 @@ var removedIds={};
 window.addEventListener('storage',function(e){ if(e.key!==KEY) return; var cur=st; mergeFromDisk(); try{ var o=JSON.parse(e.newValue||'{}'); if(isObj(o.checks)&&!st.example&&isObj(o.checks[st.id])){ var n=normalise(o.checks[st.id]); if(n&&JSON.stringify(n.ans)!==JSON.stringify(st.ans)){ $('load-status').textContent='This check was changed in another tab. Reload to see the latest version.'; } } }catch(err){} renderSwitcher(); });
 var lastSaved='';
 function setSaved(){
-  var t=st.example?'Specimen, not saved':(storeNote||'In this browser, just now');
-  if(t!==lastSaved){ $('saved').textContent=t; $('saved').classList.toggle('off',!!storeNote||st.example); lastSaved=t; }
+  var t=st.example?'Not saved':(storeNote||'In this browser, just now');
+  if(t!==lastSaved){ $('saved').textContent=t; $('saved').classList.toggle('off',!!storeNote); lastSaved=t; }
 }
 
 /* render */
 function renderSwitcher(){
   var ids=Object.keys(store.checks).sort(function(a,b){return (store.checks[b].product.date||'').localeCompare(store.checks[a].product.date||'');});
-  var h=ids.map(function(id){var p=store.checks[id].product;return '<option value="'+esc(id)+'"'+(id===st.id?' selected':'')+'>'+esc(p.name||'Unnamed')+(p.date?', '+esc(shortDate(p.date)):'')+'</option>';}).join('');
+  var h=ids.map(function(id){var p=store.checks[id].product;var nm=p.name||'Unnamed', dup=ids.filter(function(o){return (store.checks[o].product.name||'Unnamed')===nm;}).length>1;
+    return '<option value="'+esc(id)+'"'+(id===st.id?' selected':'')+'>'+esc(nm)+(dup&&p.date?', '+esc(ukDate(p.date)):'')+'</option>';}).join('');
   h+='<option value="example"'+(st.example?' selected':'')+'>Specimen (made-up product)</option>';
   $('checkSel').innerHTML=h;
 }
@@ -807,8 +808,8 @@ function update(opts){
   $('covCrit').textContent=cc.e+' evidenced, '+cc.w+' with conditions, '+cc.n+' not met'+(cc.u?', '+cc.u+' unanswered':'');
   var appActs=ACTS.filter(function(a){return actApplies(a,aud);}), done=appActs.filter(function(a){return st.acts[a.id];}).length, gl=appActs.filter(function(a){return a.gate&&!st.acts[a.id];}).length;
   $('actSum').textContent=done+' of '+appActs.length+' done. '+(gl?gl+' required still to do.':'All required done.');
-  $('refline').textContent=st.example?'None (specimen)':refOf();
-  $('refVal').textContent=st.example?'None (specimen)':refOf();
+  $('refline').textContent=st.example?'None':refOf();
+  $('refVal').textContent=st.example?'None':refOf();
   $('statusVal').textContent=st.example?'Specimen: made-up product':'Draft, not yet signed';
   /* Part D */
   var ob=$('outbox'); ob.className='outcome '+r.out.cls; $('oH').textContent='Outcome: '+r.out.h; $('oP').textContent=r.out.p;
