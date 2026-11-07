@@ -35,6 +35,7 @@
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{scroll-padding-top:16px}
+@media (max-width:980px){html{scroll-padding-bottom:88px}}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--body)}
 h1,h2,h3{font-family:var(--disp);line-height:1.2;margin:0;color:var(--navy);text-wrap:balance}
 p{margin:0}
@@ -220,7 +221,11 @@ button,input,select,textarea{font:inherit;color:inherit}
 .price{font-family:var(--disp);font-weight:700;color:var(--navy);font-size:1.4rem;font-variant-numeric:tabular-nums}
 .contact{font-size:.92rem;margin-top:12px}
 .contact code{user-select:all;background:var(--tint);padding:2px 6px;border-radius:var(--r-sm);font-family:var(--mono)}
-.toast{display:flex;gap:10px;align-items:center;background:var(--tint);border:1px solid var(--line-strong);border-radius:var(--r-md);padding:8px 12px;font-size:var(--fs-sm);margin-top:10px}
+.toast{position:fixed;z-index:30;right:max(16px, env(safe-area-inset-right, 0px));bottom:calc(16px + env(safe-area-inset-bottom, 0px));display:flex;gap:12px;align-items:center;background:var(--paper);border:1.5px solid var(--navy);border-radius:var(--r-lg);padding:10px 14px;font-size:var(--fs-sm);box-shadow:0 6px 20px rgba(10,20,35,.18);max-width:calc(100% - 32px)}
+@media (max-width:980px){.toast{bottom:calc(72px + env(safe-area-inset-bottom, 0px));left:max(16px, env(safe-area-inset-left, 0px))}}
+#fileIn:focus-visible+#fileLbl{outline:3px solid var(--focus);outline-offset:2px}
+.item:focus{outline:3px solid var(--focus);outline-offset:2px}
+.tag.src{border-color:var(--line-strong);color:var(--muted);background:transparent;text-transform:none;letter-spacing:0;font-weight:600}
 
 /* side panel */
 .side{position:sticky;top:calc(env(safe-area-inset-top, 0px) + 16px);display:grid;gap:12px;min-width:0}
@@ -314,8 +319,8 @@ footer .in{padding-block:16px;display:flex;flex-wrap:wrap;gap:6px 18px;justify-c
     </div>
     <div class="facts" role="list">
       <div role="listitem"><b>13</b><span>DfE standards, January 2026 edition</span></div>
-      <div role="listitem"><b>30–45</b><span>minutes with the supplier's documents</span></div>
-      <div role="listitem"><b>0</b><span>data sent: no accounts, uploads or tracking</span></div>
+      <div role="listitem"><b>45–90</b><span>minutes, or about 20 for the critical controls first</span></div>
+      <div role="listitem"><b>0</b><span>check data sent: no accounts, uploads or tracking</span></div>
     </div>
   </div>
 </section>
@@ -347,6 +352,7 @@ footer .in{padding-block:16px;display:flex;flex-wrap:wrap;gap:6px 18px;justify-c
         <section aria-labelledby="h2s">
           <div class="step-h"><span class="n">Step 2</span><h2 id="h2s">The 13 standards</h2></div>
           <p class="step-p">For each check, record the strongest evidence you have and add a note saying where it is. Critical controls need a note to count, and the ones you can test need a trial result.</p>
+          <span class="vh" id="keyShort">Choose Tested, Documented, Claimed or Not met.</span>
           <div class="key" id="key">
             <div><b>Tested</b>seen working in your own trial</div>
             <div><b>Documented</b>written evidence you can file</div>
@@ -368,6 +374,7 @@ footer .in{padding-block:16px;display:flex;flex-wrap:wrap;gap:6px 18px;justify-c
           <div class="tools">
             <div class="choices" role="group" aria-label="Which standards to show">
               <label class="choice"><input type="radio" name="view" value="all" id="viewAll" checked><span>All standards</span></label>
+              <label class="choice"><input type="radio" name="view" value="crit" id="viewCrit"><span>Critical controls only</span></label>
               <label class="choice"><input type="radio" name="view" value="gaps" id="viewGaps"><span>Gaps and open checks</span></label>
             </div>
           </div>
@@ -418,7 +425,7 @@ footer .in{padding-block:16px;display:flex;flex-wrap:wrap;gap:6px 18px;justify-c
             <ul>
               <li>Your check and the supplier's evidence reviewed against every critical control.</li>
               <li>Filtering, disclosure alerts, jailbreak resistance and distress responses tested in a trial account, where the supplier provides one.</li>
-              <li>Written findings, the questions still to put to the supplier, and a record marked "Moderated by AISG" for governors.</li>
+              <li>Written findings, the questions still to put to the supplier, and a record marked "Moderated by AISG: evidence reviewed on [date]". This is not a certification or endorsement; the decision remains the school's.</li>
             </ul>
             <dl id="modTerms"></dl>
             <p class="contact" id="contactLine"></p>
@@ -443,7 +450,6 @@ footer .in{padding-block:16px;display:flex;flex-wrap:wrap;gap:6px 18px;justify-c
               <textarea id="pasteIn" placeholder="Starts with AISG2: or AISG1:"></textarea>
             </div>
             <div class="row"><button type="button" class="btn small" id="loadBtn">Open save code</button><button type="button" class="btn small danger" id="clearBtn">Remove this check</button><span class="status" id="load-status" aria-live="polite"></span></div>
-            <div class="toast" id="toast" hidden><span id="toastText"></span><button type="button" class="linkbtn" id="undoBtn">Undo</button></div>
           </div>
         </div>
       </section>
@@ -482,6 +488,7 @@ footer .in{padding-block:16px;display:flex;flex-wrap:wrap;gap:6px 18px;justify-c
   <a href="#side" class="btn small ghost">Outcome</a>
 </div>
 <p class="vh" id="announce" aria-live="polite"></p>
+<div class="toast" id="toast" role="status" hidden><span id="toastText"></span><button type="button" class="btn small ghost" id="undoBtn">Undo</button></div>
 <pre class="print-rec" id="rPrint"></pre>
 
 <footer class="gut">
@@ -500,7 +507,7 @@ var CONFIG={
   price:'£195',
   vatNote:'',       /* e.g. 'No VAT charged' or 'plus VAT' once confirmed */
   turnaround:'',    /* e.g. '10 school days from receiving everything' once confirmed */
-  provider:'Carried out by an experienced designated safeguarding lead, independently of any school role.'
+  provider:'Carried out by an experienced designated safeguarding lead, separately from their own school employment.'  /* add a no-supplier-relationship statement only once confirmed */
 };
 /* ========================================================================= */
 
@@ -522,7 +529,7 @@ var STDS=[
  {n:2,name:'Educational use cases',rel:'all',req:'The supplier makes clear which of the DfE\'s eight use cases apply, with evidence the product does what its stated purpose says.',items:[
   {id:'2a',t:'States which of the DfE\'s eight educational use cases the product covers.',q:'Which of the DfE\'s eight educational use cases does the product cover?'},
   {id:'2b',t:'Gives evidence that the product does what its stated purpose says.',q:'What evidence shows the product does what its stated purpose says?'},
-  {id:'2c',t:'Optional: publishes a statement against all 13 DfE standards.',q:'Do you publish a statement showing how the product meets each of the 13 DfE product safety standards?'}]},
+  {id:'2c',src:'Optional',t:'Optional (not a DfE requirement): publishes a statement against all 13 standards.',q:'Do you publish a statement showing how the product meets each of the 13 DfE product safety standards?'}]},
  {n:3,name:'Filtering',rel:'mixed',req:'Learner-facing products reliably stop harmful or inappropriate content, across whole conversations, on every device, adjusted for age and need.',items:[
   {id:'3a',crit:'mixed',k:'Filtering holds across a conversation',t:'Reliably blocks harmful or inappropriate content, and keeps filtering on across a whole conversation.',q:'How do you stop users generating or accessing harmful content, and how does filtering hold across a whole conversation?',test:'Try five requests from your filtering test list, then each again reworded, misspelled, in another language and later in the same conversation. Never enter illegal content.'},
   {id:'3b',t:'Filtering adjusts for age, risk and individual needs, including SEND.',q:'Can filtering be adjusted by age, risk level and individual need, including SEND?'},
@@ -532,7 +539,7 @@ var STDS=[
  {n:4,name:'Monitoring and reporting',rel:'learner',req:'Products log prompts and responses, alert supervisors and the DSL to harmful content and disclosures, and report in plain terms.',items:[
   {id:'4a',crit:'learner',k:'Harmful-content and disclosure alerts',t:'Alerts staff to attempts to access harmful content and to disclosures that suggest a safeguarding concern.',q:'How are staff alerted to attempts to access harmful content, and to disclosures that suggest a safeguarding concern?',test:'Send one test disclosure agreed with your DSL and marked as a test. Time how long the alert takes to reach the DSL contact.'},
   {id:'4b',crit:'learner',k:'DSL contact set and confirmed',t:'Requires the DSL\'s contact details at set-up, confirms them before activation, uses them for high-risk alerts within an agreed time, and lets the school update them easily.',q:'Do you require and confirm our DSL\'s contact details before activation, within what time are high-risk alerts sent, and how do we update the contact?'},
-  {id:'4g',crit:'learner',k:'Logs the school can see',t:'Keeps logs of prompts and responses that authorised school staff can see.',q:'What logs of prompts and responses are kept, for how long, and which school staff can see them?'},
+  {id:'4g',crit:'learner',src:'AISG addition',k:'Activity logs the school can access',t:'Keeps robust activity logs of prompts and responses, and gives authorised school staff access to them.',q:'What logs of prompts and responses are kept, for how long, and which school staff can see them?'},
   {id:'4c',t:'Tells learners, in age-appropriate words and at the time, when and why content was blocked, and signposts help.',q:'What do learners see when content is blocked, and is it age-appropriate?'},
   {id:'4d',t:'Gives non-specialist staff clear reports and trends on access and attempted access.',q:'Please share an example of the reports staff receive on access and attempted access.'},
   {id:'4e',t:'Reports to teachers on cognitive offloading, emotional engagement and usage time, without disclosing content.',q:'Do teacher reports show cognitive offloading, emotional engagement and usage time without disclosing what learners wrote?'},
@@ -547,9 +554,9 @@ var STDS=[
   {id:'6a',crit:'all',k:'Clear privacy notice',t:'A clear, age-appropriate privacy notice, shown again at regular intervals, says what data is collected, why, where it is processed, the legal basis and people\'s rights.',q:'Please share your privacy notice, including where data is processed, the safeguards for any processing outside the UK or EU, and how data rights are met.'},
   {id:'6b',crit:'all',k:'No training on personal data',t:'Personal data is not used for model training, fine-tuning or other commercial purposes without a confirmed lawful basis.',q:'Please confirm in writing that personal data is not used for model training, fine-tuning or other commercial purposes.'},
   {id:'6d',crit:'all',k:'Data processing agreement',t:'A contract or data processing agreement sets out controller and processor roles and meets UK GDPR Article 28.',q:'Please send your data processing agreement setting out controller and processor roles under UK GDPR Article 28.'},
-  {id:'6f',t:'Says where the supplier acts as controller (for example analytics or product development) and lists its sub-processors, with notice of changes.',q:'For which processing do you act as controller rather than processor, and where is your list of sub-processors?'},
-  {id:'6g',t:'States retention periods and deletes school data when the contract ends.',q:'What are your retention periods, and how is our data deleted when the contract ends?'},
-  {id:'6h',t:'Reports personal data breaches to the school without delay.',q:'How and how quickly will you tell us about a personal data breach affecting our data?'},
+  {id:'6f',src:'AISG addition',t:'Says where the supplier acts as controller (for example analytics or product development) and lists its sub-processors, with notice of changes.',q:'For which processing do you act as controller rather than processor, and where is your list of sub-processors?'},
+  {id:'6g',src:'AISG addition',t:'States retention periods and deletes school data when the contract ends.',q:'What are your retention periods, and how is our data deleted when the contract ends?'},
+  {id:'6h',src:'AISG addition',t:'Reports personal data breaches to the school without undue delay (UK GDPR Article 33(2)).',q:'How and how quickly will you tell us about a personal data breach affecting our data?'},
   {id:'6c',t:'Has a DPIA and shares what the school needs for its own DPIA.',q:'Have you completed a DPIA for this product, and what can you share to support ours?'},
   {id:'6e',t:'Complies with the ICO Children\'s Code.',q:'How does the product comply with the ICO Children\'s Code?'}]},
  {n:7,name:'Intellectual property',rel:'all',req:'Work and inputs from pupils and staff are not stored, collected or used for training or product improvement without the copyright owner\'s consent.',items:[
@@ -585,16 +592,17 @@ var STDS=[
 var ACTS=[
  {id:'dpia',gate:true,t:'Complete the school\'s DPIA, with advice from the DPO, before any personal data is processed.',why:'UK GDPR Article 35. If high risk remains, consult the ICO first (Article 36).'},
  {id:'dpa',gate:true,t:'Sign a data processing agreement with the supplier before go-live.',why:'UK GDPR Article 28.'},
- {id:'fm',gate:true,t:'Review filtering and monitoring for this tool with the DSL, IT support and the responsible governor, and record the result.',why:'DfE filtering and monitoring standard: review when new technology is introduced.'},
+ {id:'fm',gate:true,t:'Review filtering and monitoring for this tool with a senior leader, the DSL, IT support and the responsible governor, and record the result.',why:'DfE filtering and monitoring standard: review when new technology is introduced.'},
  {id:'dsl',gate:true,aud:'learners',t:'Enter and confirm the DSL\'s contact details in the product.',why:'Standard 4: high-risk alerts go to the DSL.'},
  {id:'reg',t:'Add the product to the school\'s list of approved AI tools.',why:'Staff should only use AI tools the school has approved.'},
  {id:'ropa',t:'Add the processing to the record of processing activities.',why:'UK GDPR Article 30.'},
  {id:'retain',t:'Set retention periods and agree deletion when the contract ends.',why:'UK GDPR Articles 5(1)(e) and 28(3)(g).'},
  {id:'age',aud:'pupils',t:'Check the supplier\'s minimum age and terms of service against your pupils\' ages.',why:'Many AI services set a minimum age in their terms.'},
- {id:'consent',aud:'pupils',t:'Get parental permission where pupils\' work could be used commercially, or where consent is your lawful basis.',why:'Standard 7 and UK GDPR.'},
+ {id:'consent',aud:'pupils',t:'Get parental permission where pupils\' work could be used commercially, or where the DPO confirms consent is the lawful basis.',why:'Standard 7 and UK GDPR.'},
  {id:'parents',t:'Update the school\'s privacy notice and tell pupils and parents, in plain words, what the tool does and that use is monitored.',why:'UK GDPR Articles 13 and 14; ICO Children\'s Code.'},
  {id:'staff',t:'Brief staff on safe use and how to report a concern.',why:'KCSIE: staff training includes online safety and filtering and monitoring.',link:['Free AISG staff course','https://aisafegovernance.co.uk/course']},
  {id:'aup',t:'Update the acceptable use and online safety policies, and record approval by the head or governors.',why:'Keeps policy, practice and the record in line.'},
+ {id:'adm',aud:'pupils',t:'If the tool makes or shapes decisions about pupils (for example in assessment), make sure a teacher reviews them meaningfully.',why:'UK GDPR Article 22; DfE design and testing standard.'},
  {id:'equal',t:'Consider the impact on pupils with SEND and other protected characteristics.',why:'Public Sector Equality Duty.'}
 ];
 
@@ -613,6 +621,9 @@ function clone(o){return JSON.parse(JSON.stringify(o));}
 function todayISO(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 function addYear(iso){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(iso||'');return m?(+m[1]+1)+'-'+m[2]+'-'+m[3]:'';}
 function ukDate(iso){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(iso||'');if(!m)return '';return +m[3]+' '+['January','February','March','April','May','June','July','August','September','October','November','December'][+m[2]-1]+' '+m[1];}
+function validISO(iso){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(iso||'');if(!m)return false;var y=+m[1];if(y<2020||y>2100)return false;var d=new Date(iso+'T00:00:00Z');return !isNaN(d)&&d.toISOString().slice(0,10)===iso;}
+function noted(S,id){return (S.notes[id]||'').trim().length>=10;}
+function label(it){if(it.k)return it.k;var t=it.t.replace(/\s*\(.*?\)/g,'');return t.length>62?t.slice(0,60).replace(/\s+\S*$/,'')+'…':t.replace(/\.$/,'');}
 function newId(){var a=new Uint8Array(4);try{crypto.getRandomValues(a);}catch(e){for(var i=0;i<4;i++)a[i]=Math.floor(Math.random()*256);}return Array.prototype.map.call(a,function(b){return b.toString(16).padStart(2,'0');}).join('');}
 var IDS=[], ITEM={}, REF={}, STD_OF={};
 STDS.forEach(function(s){s.items.forEach(function(it,i){IDS.push(it.id);ITEM[it.id]=it;REF[it.id]='S'+s.n+'.'+(i+1);STD_OF[it.id]=s;});});
@@ -627,7 +638,7 @@ function normalise(o){
   var b=blank(), p=isObj(o.product)?o.product:{}, A=isObj(o.ans)?o.ans:{}, N=isObj(o.notes)?o.notes:{}, C=isObj(o.acts)?o.acts:{};
   ['name','supplier','version','by','ages','url','purpose'].forEach(function(k){ if(own(p,k)&&p[k]!=null&&typeof p[k]!=='object') b.product[k]=String(p[k]).slice(0,500); });
   b.product.purpose=own(p,'purpose')&&typeof p.purpose==='string'?p.purpose.slice(0,MAX_NOTE):b.product.purpose;
-  ['date','reviewBy'].forEach(function(k){ b.product[k]=(own(p,k)&&/^\d{4}-\d{2}-\d{2}$/.test(p[k]))?p[k]:''; });
+  ['date','reviewBy'].forEach(function(k){ b.product[k]=(own(p,k)&&typeof p[k]==='string'&&validISO(p[k]))?p[k]:''; });
   if(!b.product.reviewBy&&b.product.date) b.product.reviewBy=addYear(b.product.date);
   b.product.loc=LOCS.some(function(l){return l[0]===p.loc;})?p.loc:(p.loc==='out'?'safe':'');
   b.product.audience=own(AUD,p.audience)&&typeof p.audience==='string'?p.audience:'learners';
@@ -639,7 +650,7 @@ function normalise(o){
   ACTS.forEach(function(a){ if(own(C,a.id)&&C[a.id]===true) b.acts[a.id]=true; });
   b.stds=typeof o.stds==='string'?o.stds:'2026-01-19';
   if(typeof o.id==='string'&&/^[a-f0-9]{8}$/.test(o.id)) b.id=o.id;
-  b.migrated=o.v===1;
+  b.migrated=o.v===1||o.migrated===true;
   return b;
 }
 
@@ -654,7 +665,7 @@ function stdStatus(s,S){
   s.items.forEach(function(it){var a=S.ans[it.id]; if(!a) return; done++;
     if(a==='v'||a==='d') ev=true;
     if(isCrit(it,aud)&&a==='n') blk=true;
-    if(a==='c'||(a==='n'&&!S.notes[it.id])||(isCrit(it,aud)&&(a==='v'||a==='d')&&!S.notes[it.id])||(isCrit(it,aud)&&it.test&&a!=='v')) gap=true;});
+    if(a==='c'||(a==='n'&&!noted(S,it.id))||(isCrit(it,aud)&&(a==='v'||a==='d')&&!noted(S,it.id))||(isCrit(it,aud)&&it.test&&a!=='v')) gap=true;});
   if(blk) return {cls:'bad',txt:'Blocking gap'};
   if(done<s.items.length) return {cls:'idle',txt:done?done+' of '+s.items.length+' answered':'Not started'};
   if(gap||!ev) return {cls:'warn',txt:'Conditions'};
@@ -670,29 +681,34 @@ function assess(S,now){
   crits.forEach(function(it){var a=S.ans[it.id], r=REF[it.id];
     if(a==='n') add('block',r,it.k+': not met','item-'+it.id);
     else if(a==='c') add('cond',r,it.k+': supplier\'s word only','item-'+it.id);
-    else if((a==='v'||a==='d')&&!S.notes[it.id]) add('cond',r,it.k+': no evidence note','item-'+it.id);
+    else if((a==='v'||a==='d')&&!noted(S,it.id)) add('cond',r,it.k+': no evidence note (at least 10 characters)','item-'+it.id);
     else if(a==='d'&&it.test) add('cond',r,it.k+': not yet tested in a trial','item-'+it.id);
   });
   var unans=items.filter(function(it){return !S.ans[it.id];});
   if(unans.length) add('open','',unans.length+' check'+(unans.length>1?'s':'')+' not answered yet','item-'+unans[0].id);
-  items.forEach(function(it){ if(!isCrit(it,aud)&&S.ans[it.id]==='n'&&!S.notes[it.id]) add('cond',REF[it.id],'Not met, with no mitigation noted','item-'+it.id); });
+  items.forEach(function(it){ if(!isCrit(it,aud)&&S.ans[it.id]==='n'&&!noted(S,it.id)) add('cond',REF[it.id],label(it)+': not met, no mitigation noted','item-'+it.id); });
+  var ncClaim=items.filter(function(it){return !isCrit(it,aud)&&S.ans[it.id]==='c';}), ncTotal=items.filter(function(it){return !isCrit(it,aud);}).length;
+  if(ncTotal&&ncClaim.length/ncTotal>0.25) add('cond','Evidence',ncClaim.length+' of '+ncTotal+' other checks rest on the supplier\'s word','item-'+ncClaim[0].id);
   STDS.forEach(function(s){ if(!applies(s,aud)) return; var all=s.items.every(function(it){return S.ans[it.id];});
     if(all&&!s.items.some(function(it){return S.ans[it.id]==='v'||S.ans[it.id]==='d';})) add('cond','S'+s.n,s.name+': no documented evidence','std-'+s.n); });
-  if(S.product.loc==='nosafe') add('cond','Data','Processed outside the UK and EU with no safeguards documented','p-loc');
+  if(S.product.loc==='nosafe') add('block','Data','Processed outside the UK and EU with no transfer safeguards documented (UK GDPR Chapter V)','p-loc');
   if(S.product.loc==='unk'||!S.product.loc) add('cond','Data','Where data is processed is not recorded','p-loc');
-  ACTS.forEach(function(a){ if(a.gate&&actApplies(a,aud)&&!S.acts[a.id]) add('cond','School','Required action: '+a.t.replace(/\.$/,'').replace(/,.*$/,''),'act-'+a.id); });
+  ACTS.forEach(function(a){ if(a.gate&&actApplies(a,aud)&&!S.acts[a.id]) add('cond','Action','Required: '+a.t.replace(/\.$/,'').replace(/,.*$/,''),'act-'+a.id); });
   if(!S.product.name.trim()) add('cond','Check','Product name missing','p-name');
   var today=now||todayISO();
   if(!S.product.date) add('cond','Check','Date checked missing','p-date');
   else if(S.product.date>today) add('cond','Check','Date checked is in the future','p-date');
-  if(S.product.reviewBy&&S.product.reviewBy<today) add('cond','Check','Out of date: review was due '+ukDate(S.product.reviewBy),'p-reviewBy');
+  if(!S.product.reviewBy) add('cond','Check','Review-by date missing','p-reviewBy');
+  else if(S.product.reviewBy<today) add('cond','Check','Out of date: review was due '+ukDate(S.product.reviewBy),'p-reviewBy');
+  else if(S.product.date&&S.product.reviewBy<S.product.date) add('cond','Check','Review-by date is before the date checked','p-reviewBy');
+  else if(S.product.date&&S.product.reviewBy>addYear(S.product.date)) add('cond','Check','Review-by date is more than a year after the check','p-reviewBy');
   if(S.stds!==STDS_VERSION) add('cond','Check','Made against an older edition of the standards','');
   var blocks=R.filter(function(r){return r.sev==='block';}), conds=R.filter(function(r){return r.sev==='cond';});
-  var critClaim=crits.filter(function(it){return S.ans[it.id]==='c';}).length, out;
-  if(blocks.length) out={cls:'bad',g:'✕',h:'Blocking gaps',p:blocks.length+' critical control'+(blocks.length>1?'s are':' is')+' not met. Do not use it with pupils or personal data until the supplier provides written evidence.'};
+  var critClaim=crits.filter(function(it){return S.ans[it.id]==='c';}).length, out, useLine=' This covers the use recorded: '+AUD[aud].toLowerCase()+'.'+(aud!=='learners'?' Check again if pupils will use it directly.':'');
+  if(blocks.length) out={cls:'bad',g:'✕',h:'Blocking gaps',p:blocks.length+' blocking gap'+(blocks.length>1?'s':'')+'. Do not use it with pupils or personal data until they are resolved with written evidence.'};
   else if(unans.length) out={cls:'idle',g:'…',h:'Incomplete',p:answered+' of '+total+' checks answered.'+(critClaim?' '+critClaim+' critical control'+(critClaim>1?'s rest':' rests')+' on the supplier\'s word so far.':'')};
-  else if(conds.length) out={cls:'warn',g:'!',h:'Conditions before use',p:conds.length+' condition'+(conds.length>1?'s':'')+' to meet. Do not let pupils use it until they are met. Any pilot should use staff or test accounts and no personal data.'};
-  else out={cls:'good',g:'✓',h:'No blocking gaps found',p:'Every critical control is evidenced, and tested where it can be. The decision to adopt rests with the school\'s DSL and DPO.'};
+  else if(conds.length) out={cls:'warn',g:'!',h:'Conditions before use',p:conds.length+' condition'+(conds.length>1?'s':'')+' to meet. '+(aud==='staff'?'Do not use it with personal data until they are met.':'Do not let pupils use it until they are met. Any pilot should use staff or test accounts and no personal data.')+useLine};
+  else out={cls:'good',g:'✓',h:'No blocking gaps found',p:'Every critical control is evidenced, tested where it can be, and the required school actions are recorded as done. The decision to adopt rests with the school\'s DSL and DPO.'+useLine};
   return {c:c,total:total,answered:answered,stdsApp:stdsApp,stdsEv:stdsEv,crits:crits,reasons:R,out:out,critClaim:critClaim};
 }
 
@@ -701,19 +717,26 @@ var store={current:null,checks:{}}, canStore=true, storeNote='';
 (function loadStore(){
   var raw=null, old=null;
   try{ raw=localStorage.getItem(KEY); old=localStorage.getItem(OLD_KEY); }catch(e){ canStore=false; storeNote='This browser blocks storage, so checks are not saved. Copy the save code before you leave.'; return; }
-  if(raw){ try{ var o=JSON.parse(raw); if(isObj(o)&&isObj(o.checks)){ Object.keys(o.checks).forEach(function(k){ var n=normalise(o.checks[k]); if(n){ n.id=k; store.checks[k]=n; } }); store.current=own(store.checks,o.current)?o.current:null; } }
+  if(raw){ try{ var o=JSON.parse(raw), dropped=false; if(isObj(o)&&isObj(o.checks)){ Object.keys(o.checks).forEach(function(k){ var n=/^[a-f0-9]{8}$/.test(k)?normalise(o.checks[k]):null; if(n){ n.id=k; store.checks[k]=n; } else dropped=true; }); store.current=own(store.checks,o.current)?o.current:null; } else dropped=true;
+      if(dropped){ try{ localStorage.setItem(KEY+'-backup',raw); }catch(e2){} storeNote='Part of the saved data could not be read, so a backup was kept.'; } }
     catch(e){ try{ localStorage.setItem(KEY+'-backup',raw); }catch(e2){} storeNote='A saved check could not be read, so a backup was kept and a fresh start made.'; } }
   if(old){ try{ var v1=JSON.parse(old); if(isObj(v1)&&!v1.example){ var m=normalise(v1); if(m){ store.checks[m.id]=m; store.current=store.current||m.id; } } }catch(e){} try{ localStorage.removeItem(OLD_KEY); }catch(e){} }
 })();
 var st=store.current?store.checks[store.current]:clone(EXAMPLE);
 function persist(){
   if(st.example) return;
+  if(undoState&&undoState.added===st.id&&undoArmedAt&&Date.now()-undoArmedAt>300){ undoState=null; $('toast').hidden=true; }
+  mergeFromDisk();
   store.checks[st.id]=st; store.current=st.id;
   if(!canStore) return setSaved();
   try{ localStorage.setItem(KEY,JSON.stringify(store)); storeNote=''; }
   catch(e){ storeNote=(e&&(e.name==='QuotaExceededError'||e.code===22))?'Storage is full. Copy the save code, then remove old checks.':'Could not save in this browser. Copy the save code before you leave.'; }
   setSaved();
 }
+function mergeFromDisk(){ if(!canStore) return; try{ var raw=localStorage.getItem(KEY); if(!raw) return; var o=JSON.parse(raw); if(!isObj(o)||!isObj(o.checks)) return;
+  Object.keys(o.checks).forEach(function(k){ if(!own(store.checks,k)&&!removedIds[k]&&/^[a-f0-9]{8}$/.test(k)){ var n=normalise(o.checks[k]); if(n){ n.id=k; store.checks[k]=n; } } }); }catch(e){} }
+var removedIds={};
+window.addEventListener('storage',function(e){ if(e.key!==KEY) return; var cur=st; mergeFromDisk(); try{ var o=JSON.parse(e.newValue||'{}'); if(isObj(o.checks)&&!st.example&&isObj(o.checks[st.id])){ var n=normalise(o.checks[st.id]); if(n&&JSON.stringify(n.ans)!==JSON.stringify(st.ans)){ $('load-status').textContent='This check was changed in another tab. Reload to see the latest version.'; } } }catch(err){} renderSwitcher(); });
 var lastSaved='';
 function setSaved(){
   var t=st.example?'Worked example, not saved':(storeNote||'Saved in this browser');
@@ -752,10 +775,10 @@ function renderStds(){
     h+='<details class="std" id="std-'+s.n+'"><summary aria-describedby="meta-'+s.n+' chip-'+s.n+'"><span class="num">S'+s.n+'</span><h3>'+esc(s.name)+'</h3><span class="chip" id="chip-'+s.n+'"></span><span class="meta" id="meta-'+s.n+'"></span></summary><div class="std-body"><p class="req"><span class="mono">DfE PSS · Standard '+s.n+'</span> · '+esc(s.req)+'</p><p class="na-msg" id="na-'+s.n+'" hidden></p><div id="items-'+s.n+'">';
     s.items.forEach(function(it){
       var a=st.ans[it.id]||'', note=st.notes[it.id]||'', r=REF[it.id];
-      h+='<div class="item" id="item-'+it.id+'"><span class="ref"><span class="dia" id="dia-'+it.id+'" aria-hidden="true" hidden>◆</span>'+r+'</span><div class="t"><span id="t-'+it.id+'">'+esc(it.t)+'</span><span class="tags"><span class="tag" id="crit-'+it.id+'" hidden>Critical</span>'+(it.test?'<span class="tag test" id="tst-'+it.id+'" hidden>Test in trial</span>':'')+'</span>'+
+      h+='<div class="item" id="item-'+it.id+'" tabindex="-1"><span class="ref"><span class="dia" id="dia-'+it.id+'" aria-hidden="true" hidden>◆</span>'+r+'</span><div class="t"><span id="t-'+it.id+'">'+esc(it.t)+'</span><span class="tags"><span class="tag" id="crit-'+it.id+'" hidden>Critical</span>'+(it.test?'<span class="tag test" id="tst-'+it.id+'" hidden>Test in trial</span>':'')+(it.src?'<span class="tag src" title="'+(it.src==='AISG addition'?'Not in the DfE standards; drawn from UK GDPR and the ICO 2026 edtech audit themes':'Not required by the DfE')+'">'+esc(it.src)+'</span>':'')+'</span>'+
          (it.test?'<details class="how"><summary>How to test</summary><p>'+esc(it.test)+'</p></details>':'')+
          '<button type="button" class="notebtn'+(note?' has':'')+'" data-note="'+it.id+'" aria-expanded="'+(note?'true':'false')+'" aria-controls="n-'+it.id+'">'+(note?'Evidence note':'+ Note')+'</button></div>'+
-         '<fieldset class="seg" aria-describedby="t-'+it.id+' key"><legend>'+r+' evidence</legend>'+
+         '<fieldset class="seg" aria-describedby="t-'+it.id+' keyShort"><legend>'+r+' evidence</legend>'+
          LEVELS.map(function(l){return '<input type="radio" name="a-'+it.id+'" id="a-'+it.id+'-'+l[0]+'" value="'+l[0]+'" data-item="'+it.id+'"'+(a===l[0]?' checked':'')+'><label for="a-'+it.id+'-'+l[0]+'">'+l[1]+'</label>';}).join('')+
          '</fieldset><label for="n-'+it.id+'" class="vh">'+r+' evidence or mitigation note</label><textarea id="n-'+it.id+'" data-noteval="'+it.id+'" maxlength="'+MAX_NOTE+'" placeholder="Document, link or trial result. No names or pupil details."'+(note?'':' hidden')+'>'+esc(note)+'</textarea></div>';
     });
@@ -769,7 +792,7 @@ function renderActs(){
 }
 
 /* ---------- update computed parts ---------- */
-var lastCls='', filterOn=false;
+var lastCls='', viewMode='all';
 function update(opts){
   var aud=st.product.audience, r=assess(st);
   STDS.forEach(function(s){
@@ -783,7 +806,11 @@ function update(opts){
     s.items.forEach(function(it){var cr=isCrit(it,aud);
       $('crit-'+it.id).hidden=!cr; $('dia-'+it.id).hidden=!cr; if($('tst-'+it.id)) $('tst-'+it.id).hidden=!cr;
       $('item-'+it.id).classList.toggle('open',ok&&!st.ans[it.id]&&!st.example);});
-    if(opts&&opts.filter) el.hidden=filterOn&&(!ok||ss.cls==='good')&&!el.contains(document.activeElement);
+    if(opts&&opts.filter){
+      var hasCrit=s.items.some(function(it){return isCrit(it,aud);});
+      el.hidden=!el.contains(document.activeElement)&&((viewMode==='gaps'&&(!ok||ss.cls==='good'))||(viewMode==='crit'&&(!ok||!hasCrit)));
+      s.items.forEach(function(it){ $('item-'+it.id).hidden=viewMode==='crit'&&!isCrit(it,aud); });
+    }
   });
   ACTS.forEach(function(a){var ok=actApplies(a,aud); $('actrow-'+a.id).hidden=!ok;});
   var d=$('dec'); d.className='dec '+r.out.cls; $('decGlyph').textContent=r.out.g; $('decH').textContent=r.out.h; $('decP').textContent=r.out.p;
@@ -793,16 +820,16 @@ function update(opts){
   $('reasons').innerHTML=shown.slice(0,lim).map(function(x){return '<li><span class="s">'+esc(x.ref)+'</span><span>'+(x.jump?'<a href="#'+esc(x.jump)+'" data-jump="'+esc(x.jump)+'">'+esc(x.text)+'</a>':esc(x.text))+'</span></li>';}).join('')+(more>0?'<li><span class="s"></span><span>and '+more+' more in the decision record</span></li>':'');
   $('reasons').hidden=!shown.length;
   $('upsell').hidden=!(r.out.cls==='warn'&&r.reasons.some(function(x){return /tested|word only/.test(x.text);}));
-  $('refline').textContent='Ref '+refOf()+' · Basis DfE PSS '+STDS_LABEL;
+  $('refline').textContent=st.example?'Worked example · no reference · Basis DfE PSS '+STDS_LABEL:'Reference '+refOf()+' · Basis DfE PSS '+STDS_LABEL;
   $('covStd').textContent=r.stdsEv+' of '+r.stdsApp;
   $('covSub').textContent='standards with documented or tested evidence · '+r.total+' checks';
   var bar='';['v','d','c','n'].forEach(function(k){ if(r.c[k]) bar+='<i class="'+k+'" style="width:'+(r.c[k]/r.total*100).toFixed(2)+'%"></i>'; });
   $('covBar').innerHTML=bar;
   $('covLegend').innerHTML='<span class="v">Tested '+r.c.v+'</span><span class="d">Documented '+r.c.d+'</span><span class="c">Claimed '+r.c.c+'</span><span class="n">Not met '+r.c.n+'</span><span class="u">Not answered '+r.c.u+'</span>';
   $('crits').innerHTML=r.crits.map(function(it){
-    var a=st.ans[it.id], noted=!!st.notes[it.id], m;
+    var a=st.ans[it.id], hasNote=noted(st,it.id), m;
     if(a==='n') m=['bad','✕','not met'];
-    else if(a==='c'||((a==='v'||a==='d')&&!noted)) m=['warn','!',a==='c'?'supplier\'s word only':'no evidence note'];
+    else if(a==='c'||((a==='v'||a==='d')&&!hasNote)) m=['warn','!',a==='c'?'supplier\'s word only':'no evidence note'];
     else if(a==='d'&&it.test) m=['warn','!','not yet tested'];
     else if(a) m=['good','✓','evidenced'];
     else m=['idle','','not answered'];
@@ -811,8 +838,8 @@ function update(opts){
   var appActs=ACTS.filter(function(a){return actApplies(a,aud);}), done=appActs.filter(function(a){return st.acts[a.id];}).length, gl=appActs.filter(function(a){return a.gate&&!st.acts[a.id];}).length;
   $('actSum').textContent=done+' of '+appActs.length+' done'+(gl?' · '+gl+' required still open':' · required actions done');
   $('pbCount').textContent=r.answered+'/'+r.total; $('pbState').textContent=r.out.h;
-  $('sText').value=summary(r); $('qText').value=questions(); var rec=record(r); $('rText').value=rec; $('rPrint').textContent=rec;
-  $('exBanner').hidden=!st.example; $('work').disabled=st.example;
+  fingerprint=''; $('sText').value=summary(r); $('qText').value=questions(); var rec=record(r); $('rText').value=rec; $('rPrint').textContent=rec;
+  $('exBanner').hidden=!st.example; $('work').disabled=st.example; $('dlBtn').disabled=st.example; $('viewAll').disabled=$('viewCrit').disabled=$('viewGaps').disabled=false;
   $('manage').querySelectorAll('button,input,textarea').forEach(function(x){ if(x.id!=='pasteIn'&&x.id!=='loadBtn'&&x.id!=='fileIn') x.disabled=st.example; });
   $('fileLbl').hidden=false;
   var oldB=!st.example&&(st.stds!==STDS_VERSION||st.migrated);
@@ -825,7 +852,7 @@ function update(opts){
 function refOf(){return 'AISG-TC-'+(st.product.date||todayISO()).replace(/-/g,'')+'-'+st.id.slice(0,4).toUpperCase();}
 function prodName(){return st.product.name.trim()||'the product';}
 var EX_HEAD='WORKED EXAMPLE · FICTIONAL PRODUCT · NOT AN ASSESSMENT';
-function critCounts(r){var e=0,w=0,n=0,u=0;r.crits.forEach(function(it){var a=st.ans[it.id];if(a==='n')n++;else if(!a)u++;else if(a==='c'||!st.notes[it.id]||(a==='d'&&it.test))w++;else e++;});return {e:e,w:w,n:n,u:u};}
+function critCounts(r){var e=0,w=0,n=0,u=0;r.crits.forEach(function(it){var a=st.ans[it.id];if(a==='n')n++;else if(!a)u++;else if(a==='c'||!noted(st,it.id)||(a==='d'&&it.test))w++;else e++;});return {e:e,w:w,n:n,u:u};}
 function summary(r){
   var p=st.product, cc=critCounts(r), L=[];
   if(st.example) L.push(EX_HEAD);
@@ -864,7 +891,7 @@ function record(r){
   if(st.example) L.push(EX_HEAD);
   L.push('Reference: '+refOf());
   L.push('Basis: DfE Generative AI: product safety standards, updated '+STDS_LABEL+(st.stds!==STDS_VERSION?' (check made against an earlier edition)':''));
-  L.push('Tool version: '+TOOL_VERSION+' · Record generated: '+new Date().toISOString().slice(0,16).replace('T',' ')+' UTC'+(fingerprint?' · Fingerprint: '+fingerprint:''));
+  L.push('Tool version: '+TOOL_VERSION+' · Record generated: '+new Date().toISOString().slice(0,16).replace('T',' ')+' UTC'+(fingerprint?' · Fingerprint: '+fingerprint+' (detects accidental change only)':''));
   L.push('Status: Self-assessment by the school. Not reviewed by AISG.');
   L.push('');
   L.push('Product: '+(p.name||'(not named)')+(p.version?' · '+p.version:''));
@@ -882,7 +909,7 @@ function record(r){
   var rs=r.reasons.filter(function(x){return x.sev!=='open';});
   if(rs.length){ L.push(''); L.push('BLOCKING GAPS AND CONDITIONS'); rs.forEach(function(x){ L.push('- '+(x.sev==='block'?'[Blocking] ':'')+(x.ref?x.ref+' ':'')+x.text); }); }
   L.push(''); L.push('CRITICAL CONTROLS');
-  r.crits.forEach(function(it){ L.push('- '+REF[it.id]+' '+it.k+': '+(st.ans[it.id]?LEVEL_NAME[st.ans[it.id]]:'Not answered')+(st.notes[it.id]?'':' (no evidence note)')); });
+  r.crits.forEach(function(it){ L.push('- '+REF[it.id]+' '+it.k+': '+(st.ans[it.id]?LEVEL_NAME[st.ans[it.id]]:'Not answered')+(noted(st,it.id)?'':' (no evidence note)')); });
   L.push(''); L.push('STANDARDS');
   STDS.forEach(function(s){
     if(!applies(s,aud)){ L.push('S'+s.n+' '+s.name+': not applicable for this use'); return; }
@@ -921,7 +948,7 @@ function scheduleFingerprint(){
 var form=$('form');
 form.addEventListener('change',function(e){
   var t=e.target;
-  if(t.name==='view'){ filterOn=t.value==='gaps'; update({filter:true}); return; }
+  if(t.name==='view'){ viewMode=t.value; update({filter:true}); return; }
   if(st.example) return;
   if(t.dataset.item){ st.ans[t.dataset.item]=t.value; }
   else if(t.name==='aud'){ st.product.audience=t.value; }
@@ -929,7 +956,7 @@ form.addEventListener('change',function(e){
   else if(t.dataset.act){ st.acts[t.dataset.act]=t.checked; }
   else if(t.dataset.p&&(t.tagName==='SELECT'||t.type==='date')){ st.product[t.dataset.p]=t.value; if(t.dataset.p==='date'&&t.value&&!st.product.reviewBy){ st.product.reviewBy=addYear(t.value); $('p-reviewBy').value=st.product.reviewBy; } }
   else return;
-  persist(); update(); if(t.dataset.p==='name') renderSwitcher();
+  persist(); update(t.name==='aud'?{filter:true}:undefined); if(t.dataset.p==='name') renderSwitcher();
 });
 form.addEventListener('input',function(e){
   var t=e.target; if(st.example) return;
@@ -946,11 +973,11 @@ form.addEventListener('click',function(e){
   if(b){ var ta=$('n-'+b.dataset.note), open=ta.hidden; ta.hidden=!open; b.setAttribute('aria-expanded',open?'true':'false'); if(open) ta.focus(); return; }
   var nx=e.target.closest('[data-next]');
   if(nx){ var n=+nx.dataset.next, cur=$('std-'+n); cur.open=false;
-    var nextS=STDS.filter(function(s){return s.n>n&&applies(s,st.product.audience);})[0];
+    var aud=st.product.audience, nextS=STDS.filter(function(s){return s.n>n&&applies(s,aud)&&(viewMode!=='crit'||s.items.some(function(it){return isCrit(it,aud);}));})[0];
     if(!nextS){ var a=$('h3s'); a.scrollIntoView({block:'start'}); var first=$('acts').querySelector('input:not([disabled])'); if(first) first.focus(); return; }
     var d=$('std-'+nextS.n); d.hidden=false; d.open=true; d.scrollIntoView({block:'start'});
-    var target=nextS.items.filter(function(it){return !st.ans[it.id];})[0]||nextS.items[0];
-    var r=$('a-'+target.id+'-'+(st.ans[target.id]||'v')); if(r) r.focus({preventScroll:true});
+    var pool=nextS.items.filter(function(it){return viewMode!=='crit'||isCrit(it,aud);}), target=pool.filter(function(it){return !st.ans[it.id];})[0]||pool[0];
+    $('item-'+target.id).focus({preventScroll:true});
   }
 });
 function jumpTo(id){
@@ -959,7 +986,7 @@ function jumpTo(id){
   if(el.tagName==='DETAILS'){ el.hidden=false; el.open=true; }
   el.scrollIntoView({block:'center'});
   var f=el.matches('input,select,textarea')?el:el.querySelector('input:checked')||el.querySelector('input,select,textarea,summary');
-  if(f&&!f.disabled) f.focus({preventScroll:true});
+  if(f&&!f.disabled) f.focus({preventScroll:true}); else if(el.classList.contains('item')) el.focus({preventScroll:true});
 }
 $('side').addEventListener('click',function(e){ var a=e.target.closest('[data-jump]'); if(!a) return; e.preventDefault(); jumpTo(a.dataset.jump); });
 document.addEventListener('click',function(e){ var b=e.target.closest('[data-copy]'); if(!b) return; copyText($(b.dataset.copy).value,b.dataset.copy+'-status',$(b.dataset.copy)); });
@@ -970,21 +997,25 @@ function copyText(text,statusId,el){
 }
 
 /* switching, new, undo */
-var undoState=null, undoTimer=null;
+var undoState=null, undoTimer=null, undoArmedAt=0;
 function offerUndo(msg,prev){
-  undoState=prev; $('toastText').textContent=msg; $('toast').hidden=false; clearTimeout(undoTimer);
-  undoTimer=setTimeout(function(){ $('toast').hidden=true; undoState=null; },10000);
+  undoState=prev; undoArmedAt=Date.now(); $('toastText').textContent=msg; $('toast').hidden=false; clearTimeout(undoTimer);
+  undoTimer=setTimeout(function(){ $('toast').hidden=true; undoState=null; },15000);
 }
 $('undoBtn').addEventListener('click',function(){
   if(!undoState) return; var u=undoState; undoState=null; $('toast').hidden=true;
-  if(u.removed){ store.checks[u.removed.id]=u.removed; }
-  if(u.added&&own(store.checks,u.added)){ delete store.checks[u.added]; }
+  if(u.removed){ store.checks[u.removed.id]=u.removed; delete removedIds[u.removed.id]; }
+  if(u.added&&own(store.checks,u.added)){ delete store.checks[u.added]; removedIds[u.added]=1; }
   st=u.back==='example'?clone(EXAMPLE):store.checks[u.back]||clone(EXAMPLE); if(!st.example) persist(); else saveStoreOnly();
   rerender(); $('load-status').textContent='Undone.';
 });
 function saveStoreOnly(){ store.current=null; if(!canStore) return; try{ localStorage.setItem(KEY,JSON.stringify(store)); }catch(e){} }
-function switchTo(id){ st=id==='example'?clone(EXAMPLE):(store.checks[id]||clone(EXAMPLE)); if(!st.example){ persist(); } else saveStoreOnly(); rerender(); }
-$('checkSel').addEventListener('change',function(){ switchTo(this.value); });
+function switchTo(id){ if(id===st.id) return; undoState=null; $('toast').hidden=true; st=id==='example'?clone(EXAMPLE):(store.checks[id]||clone(EXAMPLE)); if(!st.example){ persist(); } else saveStoreOnly(); rerender(); }
+var selKey=false;
+$('checkSel').addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); switchTo(this.value); } else if(/^Arrow|^Page|^Home|^End/.test(e.key)) selKey=true; });
+$('checkSel').addEventListener('change',function(){ if(selKey) return; switchTo(this.value); });
+$('checkSel').addEventListener('blur',function(){ if(selKey){ selKey=false; if(this.value!==(st.example?'example':st.id)) switchTo(this.value); } });
+$('checkSel').addEventListener('mousedown',function(){ selKey=false; });
 function startNew(){ var back=st.id; st=blank(); persist(); rerender(); offerUndo('New check started.',{added:st.id,back:back}); $('p-name').focus(); }
 $('newBtn').addEventListener('click',startNew);
 $('startBtn').addEventListener('click',startNew);
@@ -994,12 +1025,11 @@ function disarm(){ clearArmed=false; $('clearBtn').textContent='Remove this chec
 $('clearBtn').addEventListener('click',function(){
   var s=$('load-status');
   if(!clearArmed){ clearArmed=true; this.textContent='Confirm: remove from this browser'; s.textContent='This removes '+(st.product.name||'this check')+' from this browser.'; s.dataset.arm='1'; s.classList.add('err'); clearTimeout(clearTimer); clearTimer=setTimeout(disarm,6000); return; }
-  clearTimeout(clearTimer); var removed=st; delete store.checks[st.id];
+  clearTimeout(clearTimer); var removed=st; delete store.checks[st.id]; removedIds[st.id]=1;
   var rest=Object.keys(store.checks); st=rest.length?store.checks[rest[0]]:clone(EXAMPLE);
   if(!st.example) persist(); else saveStoreOnly(); disarm(); rerender();
-  offerUndo('Removed '+(removed.product.name||'the check')+'.',{removed:removed,back:removed.id});
+  offerUndo('Removed '+(removed.product.name||'the check')+'.',{removed:removed,back:removed.id}); $('undoBtn').focus();
 });
-$('clearBtn').addEventListener('blur',function(){ if(clearArmed) setTimeout(disarm,150); });
 
 /* save codes: AISG2: + base64 of UTF-8 JSON */
 function b64enc(str){var bytes=new TextEncoder().encode(str),bin='';for(var i=0;i<bytes.length;i+=8192)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+8192));return btoa(bin);}
@@ -1015,13 +1045,14 @@ function loadFrom(text){
     var obj, m=/^AISG([12]):/.exec(text);
     if(m) obj=JSON.parse(m[1]==='2'?b64dec(text.slice(6)):decodeURIComponent(escape(atob(text.slice(6)))));
     else obj=JSON.parse(text);
+    if(isObj(obj)&&(obj.example===true||obj.id==='example')) throw new Error('example');
     var n=normalise(obj); if(!n) throw new Error('bad');
     var back=st.example?'example':st.id;
     if(own(store.checks,n.id)) n.id=newId();
     n.example=false; st=n; persist(); rerender();
     offerUndo('Opened '+(st.product.name||'the check')+' as a new check.',{added:st.id,back:back});
     $('pasteIn').value='';
-  }catch(err){ s.classList.add('err'); s.textContent=err.message==='size'?'That code is too large to be an AISG check.':err.message==='empty'?'Paste a save code first.':'That is not a valid AISG save code. Copy the whole code, starting with AISG2: or AISG1:'; }
+  }catch(err){ s.classList.add('err'); s.textContent=err.message==='size'?'That code is too large to be an AISG check.':err.message==='empty'?'Paste a save code first.':err.message==='example'?'This is the fictional worked example and cannot be opened as a check.':'That is not a valid AISG save code. Copy the whole code, starting with AISG2: or AISG1:'; }
 }
 $('loadBtn').addEventListener('click',function(){ loadFrom($('pasteIn').value); });
 $('fileIn').addEventListener('change',function(){

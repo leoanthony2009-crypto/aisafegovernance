@@ -103,6 +103,41 @@ async def main():
             await pg.set_viewport_size({'width': 1280, 'height': 1600}); await pg.goto(PAGE); await pg.wait_for_timeout(300)
             await pg.evaluate("document.getElementById('std-12').open=true; document.getElementById('std-12').scrollIntoView()")
             await pg.screenshot(path=SHOTS + '/v2-desk-s12.png')
+        # 15 round 2 regressions (pure logic via window.AISG)
+        await pg.goto(PAGE); await pg.wait_for_timeout(300)
+        r2 = await pg.evaluate("""() => {
+          const A=window.AISG, full=()=>{ const s=A.blank(); s.product.name='X'; s.product.loc='uk';
+            A.STDS.forEach(st=>st.items.forEach(it=>{ s.ans[it.id]=it.test?'v':'d'; s.notes[it.id]='Evidence ref '+it.id; }));
+            ['dpia','dpa','fm','dsl'].forEach(k=>s.acts[k]=true); return s; };
+          const out={};
+          out.full=A.assess(full()).out.h;
+          let s=full(); s.product.loc='nosafe'; out.nosafe=A.assess(s).out.h;
+          s=full(); s.product.reviewBy=''; out.noReview=A.assess(s).out.h;
+          s=full(); s.product.reviewBy='2099-01-01'; out.farReview=A.assess(s).out.h;
+          s=full(); let n=0; A.STDS.forEach(st=>st.items.forEach(it=>{ if(!it.crit && n<12){ s.ans[it.id]='c'; n++; } })); out.manyClaimed=A.assess(s).out.h;
+          s=full(); s.notes['3a']='ok'; out.shortNote=A.assess(s).out.h;
+          out.badDate=A.normalise({product:{date:'2026-13-45',reviewBy:'9999-99-99'},ans:{}}).product.date;
+          return out; }""")
+        check('round2: full evidence still clears', r2['full'] == 'No blocking gaps found', r2)
+        check('round2: transfer without safeguards blocks', r2['nosafe'] == 'Blocking gaps', r2)
+        check('round2: missing or far review date is a condition', r2['noReview'] == 'Conditions before use' and r2['farReview'] == 'Conditions before use', r2)
+        check('round2: many claimed checks is a condition', r2['manyClaimed'] == 'Conditions before use', r2)
+        check('round2: one-word critical note does not count', r2['shortNote'] == 'Conditions before use', r2)
+        check('round2: impossible dates rejected', r2['badDate'] == '', r2)
+        ex = 'AISG2:' + base64.b64encode(json.dumps(await pg.evaluate("window.AISG.example()")).encode()).decode()
+        await pg.fill('#pasteIn', ex); await pg.click('#loadBtn')
+        check('round2: worked example cannot be opened as a check', 'fictional worked example' in await pg.text_content('#load-status'))
+        await pg.select_option('#checkSel', 'example'); await pg.wait_for_timeout(100)
+        check('round2: download disabled on example', await pg.evaluate("document.getElementById('dlBtn').disabled"))
+        await pg.click('#startBtn'); await pg.fill('#p-name', 'Only check'); await pg.wait_for_timeout(400)
+        await pg.click('#clearBtn'); await pg.click('#clearBtn'); await pg.wait_for_timeout(100)
+        check('round2: undo visible and enabled after removing last check', await pg.evaluate("!document.getElementById('toast').hidden && !document.getElementById('undoBtn').disabled"))
+        await pg.click('#undoBtn'); await pg.wait_for_timeout(100)
+        check('round2: undo restores the removed check', await pg.input_value('#p-name') == 'Only check')
+        await pg.click('label.choice:has(#viewCrit)'); await pg.wait_for_timeout(100)
+        vis = await pg.evaluate("[document.getElementById('item-1a').hidden, document.getElementById('item-3a').hidden, document.getElementById('std-1').hidden]")
+        check('round2: critical-only view hides non-critical checks', vis == [True, False, True], vis)
+        await pg.click('label.choice:has(#viewAll)')
         # 14 framed: print/download hidden
         import tempfile, os
         wrap = os.path.join(tempfile.mkdtemp(), 'frame.html')
