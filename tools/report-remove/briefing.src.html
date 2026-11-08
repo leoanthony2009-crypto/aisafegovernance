@@ -39,12 +39,15 @@ a{color:var(--blue);text-decoration-thickness:1px;text-underline-offset:2px}
 .gw-actions{margin-left:auto;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
 .gw-actions a{color:#fff;font-size:13.5px}
 .gw-actions a[aria-current]{text-decoration:none;color:#A9BAC7}
+.gw-actions a.btn.cta{background:transparent;color:#fff;border:1px solid #fff;font-weight:600;text-decoration:none;font-size:13.5px}
+.gw-actions a.btn.cta:hover{background:rgba(255,255,255,.12)}
 
 .wrap{max-width:880px;margin:0 auto;padding:24px 20px 56px}
 
 /* editing bar */
 .toolbar{display:flex;gap:10px;align-items:center;margin:0 0 16px;flex-wrap:wrap}
 .toolbar .quiet{flex:1 1 240px;min-width:180px;font-size:12.5px;color:var(--muted)}
+.toolbar a.btn{text-decoration:none}
 .btn{background:var(--blue);color:#fff;border:1px solid var(--blue);padding:8px 16px;font-size:13.5px;cursor:pointer;
   font-family:var(--sans);font-weight:500;border-radius:2px;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px}
 .btn:hover{background:#1D4C65}
@@ -55,6 +58,8 @@ a{color:var(--blue);text-decoration-thickness:1px;text-underline-offset:2px}
 .editpanel .lead{flex:1 1 100%;color:var(--ink-2);margin:0}
 .editpanel label.chk{display:inline-flex;gap:8px;align-items:center;color:var(--ink-2);cursor:pointer}
 .editpanel label.chk input{width:16px;height:16px;margin:0;accent-color:var(--blue)}
+.editpanel label.sel{display:inline-flex;gap:8px;align-items:center;color:var(--ink-2)}
+.editpanel label.sel select{border:1px solid var(--line);background:var(--surface);min-height:40px;padding:0 12px;border-radius:2px;font:inherit;color:var(--ink)}
 .status{font-size:13px;color:var(--ink-2);padding:9px 14px;border-left:3px solid var(--line);background:var(--surface);margin:0 0 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
 .status:empty{display:none}
 .status[data-kind="ok"]{border-left-color:var(--green)}
@@ -70,11 +75,11 @@ a{color:var(--blue);text-decoration-thickness:1px;text-underline-offset:2px}
 .fm-top{display:flex;align-items:center;gap:16px;margin:0 0 14px;min-height:36px}
 .crest{flex:none;max-height:48px;max-width:120px;display:block}
 .school{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--ink);letter-spacing:.01em;line-height:1.2}
-.fm-kind{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);font-weight:700;margin:0 0 8px}
+.fm-kind{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);font-weight:700;margin:0 0 8px}
 .doc h1{font-size:24px;line-height:1.16;letter-spacing:-.012em;font-weight:600;color:var(--ink);margin:0 0 8px;text-wrap:balance}
 .fm-lead{font-family:var(--serif);font-size:14.5px;line-height:1.5;color:var(--slate);margin:0 0 16px;max-width:60ch}
-.fm-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 22px;border-top:1px solid var(--line-2);padding-top:12px}
-.fm-meta dt{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 2px}
+.fm-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px 22px;border-top:1px solid var(--line-2);padding-top:12px}
+.fm-meta dt{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 2px}
 .fm-meta dd{font-size:12.5px;color:var(--ink);font-weight:500;line-height:1.4}
 .fm-note{font-size:11.5px;color:var(--muted);margin:8px 0 0}
 
@@ -87,11 +92,11 @@ a{color:var(--blue);text-decoration-thickness:1px;text-underline-offset:2px}
 .doc p+p{margin-top:6px}
 
 /* care cards: one component, two states (NHS care card) */
-.care{display:grid;grid-template-columns:1fr 1.5fr;gap:14px;margin:0 0 4px}
+.care{display:grid;grid-template-columns:1.1fr 1.4fr;gap:14px;margin:0 0 4px}
 .cc{border:1px solid var(--ink)}
 .doc .cc h2.ch{background:var(--ink);color:#fff;padding:8px 12px;font-size:13.5px;font-weight:600;line-height:1.3;margin:0;border:0;letter-spacing:0;text-transform:none}
 .cc .cb{padding:10px 12px}
-.cc.red{border-color:var(--red)} .cc.red .ch{background:var(--red)}
+.cc.red{border-color:var(--red)} .doc .cc.red h2.ch{background:var(--red)}
 .cc .big{font-size:18px;font-weight:700;color:var(--ink);line-height:1.25;margin:0 0 6px}
 .cc .big a{color:inherit;text-decoration:none}
 .cc ul{margin:0}
@@ -122,24 +127,24 @@ a{color:var(--blue);text-decoration-thickness:1px;text-underline-offset:2px}
 
 /* tables */
 .doc table{width:100%;border-collapse:collapse;margin:0 0 4px;font-size:12.5px}
-.doc th,.doc td{border:1px solid var(--line-2);padding:7px 9px;text-align:left;vertical-align:top}
+.doc th,.doc td{border:0;border-top:1px solid var(--line-2);padding:7px 9px;text-align:left;vertical-align:top}
+.doc tbody tr:last-child td,.doc tbody tr:last-child th{border-bottom:1px solid var(--line-2)}
 .doc thead th{background:var(--bg);font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--slate)}
-.doc tbody th{font-weight:400;font-size:inherit;text-transform:none;letter-spacing:0;color:inherit;background:none}
+.doc tbody th{font-weight:600;font-size:inherit;text-transform:none;letter-spacing:0;color:var(--ink);background:none}
 .doc .w{width:31%} .doc .w b{color:var(--ink)}
-.imp{color:var(--amber);font-weight:700}
 tr.warn td,tr.warn th{background:var(--amber-bg)}
 .doc td ul{margin:0;padding-left:16px}
 
 /* Report Remove two-column */
 .rr{display:grid;grid-template-columns:1.1fr 1fr;gap:22px}
 .rr>div+div{border-left:1px solid var(--line);padding-left:22px}
-.rrshort{font-family:var(--serif);font-size:13.5px;line-height:1.55;max-width:none}
+.rrshort{font-size:13px;line-height:1.55;max-width:none}
 .rr .url{font-family:var(--mono);font-size:12px}
 .notel{border:1px solid var(--line-2);background:var(--bg);padding:8px 11px;margin:10px 0 12px;font-size:12px;color:var(--ink-2)}
 .notel b{color:var(--ink)}
 
 /* contacts: structured list */
-.contacts{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line-2);border-right:0;border-bottom:0}
+.contacts{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line-2);border-right:0;border-bottom:0}
 .contacts>div{border-right:1px solid var(--line-2);border-bottom:1px solid var(--line-2);padding:7px 10px;min-width:0}
 .contacts dt{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--slate);font-weight:600;margin:0 0 2px}
 .contacts dd{font-size:12.5px;line-height:1.45;overflow-wrap:anywhere}
@@ -160,6 +165,7 @@ tr.warn td,tr.warn th{background:var(--amber-bg)}
 /* editable fields */
 .f{border-bottom:1px dashed transparent}
 .editing .f{border-bottom-color:var(--edit);cursor:text}
+.editing .f[data-req]{border-bottom:2px solid var(--edit)}
 .editing .g{outline:1px dashed var(--amber-line);outline-offset:3px;cursor:text}
 .editing .f:hover,.editing .g:hover{outline:1px dashed var(--edit);outline-offset:3px}
 .editing [contenteditable]:focus{outline:2px solid var(--edit);outline-offset:3px;border-bottom-color:transparent}
@@ -193,7 +199,7 @@ tr.warn td,tr.warn th{background:var(--amber-bg)}
 }
 
 @media print{
-  @page{size:A4 portrait;margin:8mm 10mm}
+  @page{size:A4 portrait;margin:7mm 10mm}
   html,body{background:#fff!important}
   .doc,.doc *{font-family:"Segoe UI",Arial,"Helvetica Neue",Helvetica,sans-serif}
   .say{font-style:italic}
@@ -202,50 +208,63 @@ tr.warn td,tr.warn th{background:var(--amber-bg)}
   .wrap{max-width:none;padding:0;margin:0}
   .doc{border:none;padding:0;color:#000}
   .doc+.doc{margin-top:0;break-before:page}
-  .fm{padding-bottom:5pt;margin-bottom:6pt;border-bottom-width:1.5pt;border-color:#000}
+  .fm{padding-bottom:4pt;margin-bottom:5pt;border-bottom-width:1.5pt;border-color:#000}
   .fm-top{margin-bottom:3pt;min-height:0} .crest{max-height:34pt;max-width:90pt}
   .school{font-size:13pt;color:#000}
-  .fm-kind{font-size:7.5pt;margin-bottom:4pt;color:#000}
-  .doc h1{font-size:16pt;margin-bottom:3pt;color:#000}
+  .fm-kind{font-size:8pt;margin-bottom:4pt;color:#000}
+  .doc h1{font-size:14.5pt;margin-bottom:2pt;color:#000}
   .fm-note{font-size:7.8pt;margin:3pt 0 0;color:#333}
-  .fm-meta{gap:4pt 12pt;padding-top:4pt;border-color:#999;grid-template-columns:1.4fr 1.2fr .8fr .8fr}
-  .fm-meta dt{font-size:7pt;color:#333} .fm-meta dd{font-size:9pt;color:#000}
-  .doc h2{font-size:8pt;letter-spacing:.1em;color:#000;border-bottom:.6pt solid #000;margin:5pt 0 3pt;padding-bottom:1.5pt;break-after:avoid}
+  .fm-meta{gap:4pt 12pt;padding-top:4pt;border-color:#999;grid-template-columns:1.5fr 1.2fr .75fr .9fr .75fr}
+  .fm-meta dt{font-size:7.6pt;color:#333} .fm-meta dd{font-size:9pt;color:#000}
+  .fm-meta .fill{min-width:8em}
+  .cc .big .fill{min-width:6em} .contacts .fill{min-width:6em}
+  .doc h2{font-size:8pt;letter-spacing:.1em;color:#000;border-bottom:.6pt solid #000;margin:4.5pt 0 3pt;padding-bottom:1.5pt;break-after:avoid}
   .doc h2 .kn{color:#333}
   .doc h3{font-size:9.2pt;color:#000;margin-bottom:1.5pt}
-  .doc p,.doc li{font-size:8.4pt;line-height:1.3;color:#000}
-  .steps p,.steps li{font-size:8.2pt}
+  .doc p,.doc li{font-size:8.8pt;line-height:1.3;color:#000}
+  .steps p,.steps li{font-size:8.6pt;line-height:1.27}
   .doc li{margin-bottom:1pt} .doc p+p{margin-top:2pt}
   .care{gap:8pt;margin:0}
-  .cc{border:.8pt solid #000} .cc.red{border-color:var(--red)}
-  .doc .cc h2.ch{padding:3pt 7pt;font-size:9pt;margin:0;border:0;letter-spacing:0} .cc .cb{padding:4pt 7pt}
+  .cc{border:.8pt solid #000} .cc.red{border-color:var(--red);border-left:3pt solid #000}
+  .doc .cc h2.ch{padding:3pt 7pt;font-size:9pt;margin:0;border:0;letter-spacing:0} .cc .cb{padding:3.5pt 7pt}
   .cc .big{font-size:12pt;margin-bottom:2pt;color:#000}
   .cc .then{margin-top:4pt;padding-top:3pt;color:#000}
-  .steps>li{padding-right:9pt} .steps>li+li{padding-left:9pt;border-color:#999}
+  .steps{display:block}
+  .steps>li{position:relative;padding:2.5pt 0 2.5pt 22pt;border:0;border-top:.5pt solid #999}
+  .steps>li:first-child{border-top:0;padding-top:0}
+  .steps>li:first-child .n{top:0}
+  .steps h3{display:block;font-size:9.4pt;margin:0 0 1pt}
+  .steps .n{position:absolute;left:0;top:3pt;font-size:13pt;line-height:1}
+  .steps p,.steps li,.steps ul{margin:0} .steps p+p,.steps ul+p,.steps ul+ul,.steps p+ul{margin-top:1pt}
+  .say{display:flex;flex-wrap:wrap;gap:0 9pt;border:0;padding:0;margin-bottom:2pt}
+  .say li{margin:0}
+  .dd li{display:inline;margin:0} .dd li+li::before{content:' '}
+  .doc .w{width:24%}
   .steps .n{font-size:13pt;color:#000} .steps h3{margin-bottom:2pt}
   .say{margin-bottom:3pt;border-color:#999;color:#000;padding-left:7pt}
   .dd{margin-bottom:3pt}
   .after{margin-top:4pt;padding-left:8pt;border-color:#999}
   .after .cl{font-size:7pt;color:#333;margin-bottom:2pt}
-  .doc table{font-size:8.2pt;margin:0}
-  .doc th,.doc td{border:.5pt solid #777;padding:2pt 4pt}
+  .doc table{font-size:8.4pt;margin:0}
+  .doc th,.doc td{border:0;border-top:.5pt solid #777;padding:2pt 4pt}
+  .doc tbody tr:last-child td,.doc tbody tr:last-child th{border-bottom:.5pt solid #777}
   .doc thead th{background:#EEE;font-size:7.4pt;color:#000}
-  tr.warn td,tr.warn th{background:#F3EBD6}
+  tr.warn td,tr.warn th{background:#EEE}
   .rr{gap:12pt} .rr>div+div{padding-left:12pt;border-color:#999}
-  .rrshort{font-size:8.8pt;line-height:1.36}
+  .rrshort{font-size:9pt;line-height:1.34}
   .rr .url{font-size:8.2pt}
   .notel{background:none;border:.5pt solid #777;padding:3pt 5pt;margin-top:4pt;font-size:8pt;color:#000}
-  .foot{margin-top:5pt;padding-top:3pt;font-size:7.2pt;color:#333;border-color:#999;line-height:1.35}
+  .foot{margin-top:5pt;padding-top:3pt;font-size:7.6pt;color:#333;border-color:#999;line-height:1.35}
   .foot a{color:#333}
   a{color:inherit;text-decoration:none}
   .fill{border-bottom-color:#000}
   .f,.g{border:0!important;outline:none!important}
   .care,.steps,.after,.rr{break-inside:avoid}
   .back .cols{gap:0 18pt}
-  .runhead{font-size:7.5pt;color:#333;margin-bottom:6pt}
+  .runhead{font-size:8pt;color:#333;margin-bottom:6pt}
   .back h3{margin-top:7pt}
   .contacts{border-color:#777} .contacts>div{border-color:#777;padding:3pt 5pt}
-  .contacts dt{font-size:7.2pt;color:#000} .contacts dd{font-size:8.2pt;line-height:1.3}
+  .contacts dt{font-size:7.8pt;color:#000} .contacts dd{font-size:8.8pt;line-height:1.3}
   html.a3 .doc{zoom:1.41}
 }
 </style>
@@ -254,14 +273,15 @@ tr.warn td,tr.warn th{background:var(--amber-bg)}
 <a class="skip" href="#sheet">Skip to the sheet</a>
 <header class="gw-head" role="banner">
   <a class="gw-brand" href="/" aria-label="AISG home"><span class="gw-wm">AISG</span><span class="gw-we">AI Safeguarding &amp; Governance</span></a>
-  <nav class="gw-actions" aria-label="Primary"><a href="/">Resources</a><a href="/staff-report-remove-briefing.html" aria-current="page">Report Remove briefing</a><a href="/tool-check">AI tool check</a></nav>
+  <nav class="gw-actions" aria-label="Primary"><a href="/caafe.html">CAAF-E</a><a href="/staff-report-remove-briefing.html" aria-current="page">Report Remove briefing</a><a href="/tool-check">AI tool check</a><a href="/methodology">Methodology</a><a href="/about">About &amp; contact</a><a class="btn cta" href="/review">Open the Evidence Review &#8594;</a></nav>
 </header>
 
 <main class="wrap">
   <div class="toolbar noprint" role="region" aria-label="Sheet tools" id="toolbar" hidden>
-    <p class="quiet"><strong>Staff quick reference.</strong> Two sides of A4: the front for all staff, the back for the DSL. Add your school's details, then print it for the staffroom and the supply folder.</p>
+    <a class="btn ghost" href="/">&#8592; Back to resources</a>
     <button type="button" class="btn ghost" id="editBtn" aria-pressed="false" aria-controls="editpanel">Edit for your school</button>
     <button type="button" class="btn" id="printBtn">Print or save as PDF</button>
+    <span class="quiet">Two sides of A4: the front for all staff, the back for the DSL. Add your school's details, then print it for the staffroom and the supply folder.</span>
   </div>
   <div class="editpanel noprint" id="editpanel" hidden>
     <p class="lead">Select any underlined text and type. Your changes stay in this browser only; nothing is sent anywhere. Text in [brackets] prints as a line to fill in by hand.</p>
@@ -270,7 +290,7 @@ tr.warn td,tr.warn th{background:var(--amber-bg)}
     <input type="file" id="logoFile" accept="image/png,image/jpeg,image/webp" hidden>
     <button type="button" class="btn ghost" id="saveBtn">Save a copy to share</button>
     <button type="button" class="btn ghost" id="resetBtn">Reset</button>
-    <label class="chk">Paper <select id="paper" class="btn ghost" style="min-height:36px;padding:4px 8px"><option value="a4">A4</option><option value="a3">A3 for display</option></select></label>
+    <label class="sel"><span>Paper size</span><select id="paper"><option value="a4">A4</option><option value="a3">A3 for display</option></select></label>
     <label class="chk"><input type="checkbox" id="gToggle"> Also edit the guidance text <span class="quiet">(agree any change with the DSL)</span></label>
   </div>
   <noscript><p class="hint">The editing tools need JavaScript. The sheet itself reads and prints without it.</p></noscript>
@@ -282,22 +302,26 @@ tr.warn td,tr.warn th{background:var(--amber-bg)}
         <img class="crest" alt="" hidden>
         <p class="school"><span class="f" data-f="school" data-req>[School name]</span></p>
       </div>
-      <p class="fm-kind">Staff quick reference &#183; for all staff, supply staff and volunteers</p>
+      <p class="fm-kind">Staff quick reference &#183; side 1 of 2 &#183; for all staff, supply staff and volunteers</p>
       <h1>Nude, semi-nude or sexual image of a pupil: what to do</h1>
       <dl class="fm-meta">
-        <div><dt>DSL (designated safeguarding lead)</dt><dd><span class="f" data-f="dsl-name" data-req>[DSL name]</span> &#183; <span class="f tel" data-f="dsl-phone" data-req>[phone or office number]</span></dd></div>
+        <div><dt>DSL (safeguarding lead)</dt><dd><span class="f" data-f="dsl-name" data-req>[DSL name]</span> &#183; <span class="f tel" data-f="dsl-phone" data-req>[phone or office number]</span></dd></div>
         <div><dt>Deputy DSL</dt><dd><span class="f" data-f="dep-name">[name]</span> &#183; <span class="f tel" data-f="dep-phone">[phone]</span></dd></div>
         <div><dt>Adopted</dt><dd><span class="f" data-f="adopted">[month year]</span></dd></div>
+        <div><dt>Recorded on</dt><dd><span class="f" data-f="system">[safeguarding system]</span></dd></div>
         <div><dt>Next review</dt><dd><span class="f" data-f="review">[month year]</span></dd></div>
       </dl>
-      <p class="fm-note">The DSL&rsquo;s own page is on the back.</p>
     </header>
 
     <section class="care" aria-label="Urgent action">
       <div class="cc red">
         <h2 class="ch"><span class="vh">Immediate action required: </span>Call 999 if</h2>
         <div class="cb">
-          <p class="g" data-g="999">the child says they will hurt themselves, or you think they might; an adult is on their way to meet them; or someone is threatening to harm them now.</p>
+          <ul class="g" data-g="999">
+            <li>the child says they will hurt themselves, or is in immediate danger</li>
+            <li>an online contact is on their way to meet them</li>
+            <li>someone is threatening to harm them now</li>
+          </ul>
           <p class="then">Then tell the DSL.</p>
         </div>
       </div>
@@ -313,47 +337,49 @@ tr.warn td,tr.warn th{background:var(--amber-bg)}
     <h2>What to do <span class="kn">Four steps, in this order</span></h2>
     <ol class="steps" aria-label="Four steps">
       <li>
-        <h3><span class="n" aria-hidden="true">1</span><span class="vh">Step 1. </span>Listen and reassure</h3>
-        <ul class="say g" data-g="say"><li>&ldquo;Thank you for telling me.&rdquo;</li><li>&ldquo;You are not in trouble.&rdquo;</li><li>&ldquo;This is not your fault.&rdquo;</li><li>&ldquo;I have to tell the DSL. They will help you.&rdquo;</li></ul>
+        <h3><span class="n" aria-hidden="true">1</span><span class="vh">Step 1. </span><span class="t">Listen and reassure</span></h3>
+        <ul class="say g" data-g="say"><li>&ldquo;Thank you for telling me.&rdquo;</li><li>&ldquo;You are not in trouble.&rdquo;</li><li>&ldquo;This is not your fault.&rdquo;</li><li>&ldquo;I have to tell <span class="f" data-f="dsl-name">[DSL name]</span>. That is their job, and they will help you.&rdquo;</li></ul>
         <p class="g" data-g="s1">Do not promise to keep it secret, and do not blame anyone.</p>
       </li>
       <li>
-        <h3><span class="n" aria-hidden="true">2</span><span class="vh">Step 2. </span>Do not look or copy</h3>
+        <h3><span class="n" aria-hidden="true">2</span><span class="vh">Step 2. </span><span class="t">Do not look or copy</span></h3>
         <ul class="dd yes g" data-g="s2do">
           <li><b>Do</b> look away if you are shown an image, and keep any device you are handed safe for the DSL, unopened.</li>
         </ul>
         <ul class="dd no g" data-g="s2dont">
-          <li><b>Do not</b> ask to see it, forward, save or screenshot it, or open, share or delete it on your own device.</li>
+          <li><b>Do not</b> ask to see it, forward, save or screenshot it. If one reaches your own phone, do not open, share or delete it; tell the DSL at once.</li>
           <li><b>Do not</b> question the child in detail, confront anyone or contact parents.</li>
         </ul>
       </li>
       <li>
-        <h3><span class="n" aria-hidden="true">3</span><span class="vh">Step 3. </span>Note what you heard</h3>
+        <h3><span class="n" aria-hidden="true">3</span><span class="vh">Step 3. </span><span class="t">Note what you heard</span></h3>
         <p class="g" data-g="s3">The child's own words, any usernames, the app or website, and the time. Do not look at the device to get these.</p>
         <p class="g" data-g="s3b"><b>Never a copy of the image.</b></p>
       </li>
       <li>
-        <h3><span class="n" aria-hidden="true">4</span><span class="vh">Step 4. </span>Tell the DSL now</h3>
-        <p class="g" data-g="s4">Record it the same day on <span class="f" data-f="system">[our safeguarding system]</span>; no login? Give the DSL a signed, dated note.</p>
-        <p class="g" data-g="s4b">Seen the image by accident? Tell the DSL and ask for support. Do not discuss it with other staff, pupils or parents.</p>
-        <p class="g" data-g="after">The DSL takes it from here; you may be asked to write down what you heard. Affected by it? Tell the DSL or <span class="f" data-f="wellbeing">[staff wellbeing contact]</span>.</p>
+        <h3><span class="n" aria-hidden="true">4</span><span class="vh">Step 4. </span><span class="t">Tell the DSL now</span></h3>
+        <p class="g" data-g="s4">Record it the same day on the system named at the top. If you have no login, give the DSL a signed, dated note.</p>
+        <p class="g" data-g="s4b">If you saw the image by accident, tell the DSL and ask for support. Do not discuss it with other staff, pupils or parents.</p>
+        <p class="g" data-g="after">If it has affected you, tell the DSL or <span class="f" data-f="wellbeing">[staff wellbeing contact]</span>.</p>
       </li>
     </ol>
-    <h2>Report these too <span class="kn">Same four steps, with these differences</span></h2>
+    <h2>Report these too</h2>
     <table>
       <thead><tr><th scope="col">Situation</th><th scope="col">What to do</th></tr></thead>
       <tbody>
-        <tr class="warn"><th scope="row" class="w"><b><span class="imp">Important:</span> threats or demands for money</b> (sextortion)</th>
-          <td class="g" data-g="t1">Tell the child to stop replying and block, and not to pay or send anything more; paying rarely stops the threats. Do not delete messages or accounts yet, and do not collect or screenshot anything yourself. Go to the DSL before the child goes home. Risk of suicide or self-harm: call 999.</td></tr>
-        <tr><th scope="row" class="w"><b>AI-made or altered images</b>, even &ldquo;as a joke&rdquo;; a pupil who <b>received or forwarded</b> one; a <b>threat</b> to share one</th>
-          <td class="g" data-g="t2">Same four steps, for every child involved. An AI image counts exactly as a real one: making or sharing a sexual image of anyone under 18 is a criminal offence. A threatened image can often be stopped before it is posted; the DSL knows how.</td></tr>
-        <tr><th scope="row" class="w"><b>The image involves a member of staff or a volunteer</b></th>
-          <td class="g" data-g="t4">Tell the headteacher, not the person; the headteacher involves the LADO and the police. About the headteacher: tell the chair of governors. If you cannot do either: the LADO (see Contacts) or the NSPCC whistleblowing helpline, <a class="num" href="tel:08000280285">0800 028 0285</a>.</td></tr>
+        <tr class="warn"><th scope="row" class="w">Important: threats or demands for money (sextortion)</th>
+          <td class="g" data-g="t1">Tell the child to stop replying and block, and not to pay or send anything more. Do not delete messages or accounts yet; do not collect or screenshot anything yourself. Go to the DSL before the child goes home. Risk of suicide or self-harm: call 999.</td></tr>
+        <tr><th scope="row" class="w">AI-made or altered images. A pupil who received or forwarded one. A threat to share one.</th>
+          <td class="g" data-g="t2">Same four steps, for every child involved. In law these count like real images: making, keeping or sharing an indecent image of anyone under 18 is an offence, even &ldquo;as a joke&rdquo;, so do not confront the pupil who made it. A threat to post an image can often be stopped; the DSL knows how.</td></tr>
+        <tr><th scope="row" class="w">An adult who works here made, has or shared the image</th>
+          <td class="g" data-g="t4">Tell the headteacher, not the person; the headteacher involves the LADO within one working day, and the police. About the headteacher: tell the chair of governors. If you cannot do either: the LADO (see Contacts) or the NSPCC Whistleblowing Advice Line, <a class="num" href="tel:08000280285">0800 028 0285</a>.</td></tr>
+        <tr><th scope="row" class="w">The image is of a member of staff, including an AI fake</th>
+          <td class="g" data-g="t5">Tell the headteacher, who contacts the police and the Professionals Online Safety Helpline. Follow the four steps for any pupil involved.</td></tr>
       </tbody>
     </table>
 
-    <h2>Report Remove <span class="kn">A pupil can ask for an image to be taken down</span></h2>
-    <p class="g rrshort" data-g="rr0">A free Childline and Internet Watch Foundation service for under-18s in the UK, at <a class="url" href="https://www.childline.org.uk/remove">childline.org.uk/remove</a>, for nude or sexual images of them that are online, including AI fakes. <b>Tell the DSL first:</b> the DSL decides with the pupil whether and when to use it, and who supports them. The pupil makes the report themselves. <b>Never</b> view, upload or report the image for them. Removal is not guaranteed, and it is not the whole response. The DSL&rsquo;s page has the detail, and the routes for anyone it cannot help.</p>
+    <h2>Report Remove</h2>
+    <p class="g rrshort" data-g="rr0">A pupil under 18 can ask Childline and the Internet Watch Foundation to take down an image of them that is online, including an AI fake, at <a class="url" href="https://www.childline.org.uk/remove">childline.org.uk/remove</a>. <b>Tell the DSL first;</b> the DSL decides with the pupil whether and when. The pupil makes the report themselves and you <b>never</b> view, upload or report the image for them. Removal is not guaranteed and is not the whole response. The DSL&rsquo;s page has the detail.</p>
 
     <h2>Contacts</h2>
     <dl class="contacts">
@@ -361,16 +387,14 @@ tr.warn td,tr.warn th{background:var(--amber-bg)}
       <div><dt>Children&rsquo;s social care</dt><dd>Day <span class="f tel" data-f="csc-day">[local number]</span><br>Out of hours <span class="f tel" data-f="csc-ooh">[local number]</span></dd></div>
       <div><dt>LADO</dt><dd><span class="f tel" data-f="lado">[local number]</span><br>Concerns about adults who work with children.</dd></div>
       <div><dt>Childline, for the pupil</dt><dd class="g" data-g="c-cl"><a class="num" href="tel:08001111">0800 1111</a>, free and confidential, any time.</dd></div>
-      <div><dt>Advice for adults</dt><dd class="g" data-g="c-adv">NSPCC <a class="num" href="tel:08088005000">0808 800 5000</a> (Mon&ndash;Fri 10am&ndash;4pm) or help@nspcc.org.uk. Staff, including images of staff: helpline@saferinternet.org.uk.</dd></div>
-      <div><dt>CEOP</dt><dd class="g" data-g="c-ceop">ceop.police.uk, for grooming or online sexual abuse by an adult, if not already reported to the police or social care. Not for image removal or emergencies.</dd></div>
     </dl>
 
     <p class="foot"><span class="g" data-g="foot">Based on UKCIS <em>Sharing nudes and semi-nudes</em> (March 2024) and KCSIE 2026. Supports, and does not replace, our child protection policy and the DSL's judgement. Links and numbers checked November 2026.</span> AISG-RR 2.0 &#183; review yearly &#183; &#169; 2026 Wendell Gopaul, <a href="https://aisafegovernance.co.uk/">aisafegovernance.co.uk</a>; schools may copy and adapt. <span id="prov"></span></p>
   </article>
 
   <article class="doc back" aria-label="Back: for the DSL">
-    <p class="runhead"><span><span class="f" data-f="school">[School name]</span></span><span>Nude or sexual image of a pupil &#183; DSL page</span></p>
-    <h2>For the DSL <span class="kn">Back of sheet. Decide from what you are told; do not view imagery to decide.</span></h2>
+    <p class="runhead"><span><span class="f" data-f="school">[School name]</span></span><span>Nude or sexual image of a pupil &#183; the DSL&rsquo;s page &#183; side 2 of 2</span></p>
+    <h2>For the DSL <span class="kn">Decide from what you are told. Do not view imagery to decide.</span></h2>
     <div class="cols">
       <div>
         <h3>Refer immediately to the police and/or children's social care if any of these applies</h3>
@@ -384,29 +408,35 @@ tr.warn td,tr.warn th{background:var(--amber-bg)}
         <p class="g" data-g="d2">If none applies, decide the response using the UKCIS advice, with the headteacher where appropriate, and record the reasons. If in doubt, seek advice from children's social care or the LADO.</p>
         <h3>Parents and carers</h3>
         <p class="g" data-g="d3">Inform and involve them at an early stage, unless that would put the child at risk. A decision not to inform them is made with children's social care or the police, and recorded.</p>
+        <h3>Record and follow up</h3>
+        <ul class="g" data-g="d6">
+          <li>Record what was reported, the decision, the reasons and who was told, on the safeguarding system, the same day.</li>
+          <li>Support any member of staff who saw the imagery. Remind staff that the incident is not discussed with colleagues, pupils or parents.</li>
+          <li>Review the case, and this sheet, at the review date on the front.</li>
+        </ul>
+        <h3>Advice and reporting routes</h3>
+        <ul class="g" data-g="d7">
+          <li>NSPCC helpline for adults: <a class="num" href="tel:08088005000">0808 800 5000</a> (Mon&ndash;Fri 10am&ndash;4pm) or help@nspcc.org.uk.</li>
+          <li>Professionals Online Safety Helpline, for staff and for images of staff: helpline@saferinternet.org.uk (Mon&ndash;Fri 10am&ndash;4pm).</li>
+          <li>CEOP, ceop.police.uk: grooming or online sexual abuse by an adult, if not already reported to the police or social care. Not for image removal or emergencies.</li>
+        </ul>
       </div>
       <div>
         <h3>Devices and imagery</h3>
         <ul class="g" data-g="d4">
           <li>Do not view imagery to make the decision. If viewing is unavoidable, it is done by the DSL or headteacher, with another member of staff present, never on a personal device, and recorded with the reasons.</li>
-          <li>Searching a device is a decision for the DSL or headteacher under the DfE searching guidance, and is recorded.</li>
+          <li>Searching a device is a decision for the headteacher, or a member of staff the headteacher has authorised, under the DfE <em>Searching, screening and confiscation</em> guidance: good reason, a second member of staff present, recorded. Do not examine or delete anything if the police may want the device.</li>
           <li>If the police are, or may become, involved: do not delete anything, disconnect the device from Wi-Fi and data, switch it off and keep it secure for them.</li>
-          <li>If the imagery is only on the child's own device and no referral is needed, the child may be asked to delete it; confirm and record.</li>
+          <li>If no referral is needed, every pupil holding the imagery is asked to delete it from all devices and accounts by a set time and to confirm; remind them that possession is illegal, and record. If they refuse, the police may become involved.</li>
         </ul>
         <h3>Report Remove</h3>
         <p class="g" data-g="d5">The pupil goes to <a class="url" href="https://www.childline.org.uk/remove">childline.org.uk/remove</a>, creates a Childline account and reports the image to the IWF. From age 13 they can prove their age with ID (passport, provisional licence or CitizenCard), which lets the IWF remove from more sites; under-13s skip that step. Updates arrive in their Childline locker. It cannot reach encrypted apps such as WhatsApp, or copies saved on a device.</p>
         <ul class="g" data-g="d5b">
           <li>Decide with the pupil whether and when to use it, and who supports them. A younger child needs an adult alongside; the adult never looks at the image.</li>
-          <li>The account, report and locker are the pupil&rsquo;s own. Staff never view, upload or report the image for them, and never use a school device or account to do so.</li>
+          <li>The account, report and locker are the pupil&rsquo;s own. Staff never view, upload or report the image for them, and the image is never moved onto a school or staff device. A pupil with no device of their own can sign in on a school computer, with the adult beside them and not looking at the screen while the image is uploaded.</li>
           <li>Record that it was discussed and what was decided. Removal is not the safeguarding response; the referral decision above still stands.</li>
         </ul>
-        <p class="notel g" data-g="d5c"><b>Not eligible?</b> Over 18, a staff member, or an image threatened but not yet posted: <b>Take It Down</b>, takeitdown.ncmec.org (under 18 when taken, any country, no account). Adults: Revenge Porn Helpline <a class="num" href="tel:03456000459">0345 6000 459</a> or stopncii.org.</p>
-        <h3>Record and follow up</h3>
-        <ul class="g" data-g="d6">
-          <li>Record what was reported, the decision, the reasons and who was told, on <span class="f" data-f="system">[our safeguarding system]</span>, the same day.</li>
-          <li>Support any member of staff who saw the imagery. Remind staff that the incident is not discussed with colleagues, pupils or parents.</li>
-          <li>Review the case and this sheet at the next safeguarding review; next review <span class="f" data-f="review">[month year]</span>.</li>
-        </ul>
+        <p class="notel g" data-g="d5c">For anyone Report Remove cannot help (over 18, a staff member, or an image threatened but not yet posted): <b>Take It Down</b>, takeitdown.ncmec.org (under 18 when taken, any country, no account). Adults: Revenge Porn Helpline <a class="num" href="tel:03456000459">0345 6000 459</a> or stopncii.org.</p>
       </div>
     </div>
     <p class="foot">UKCIS <em>Sharing nudes and semi-nudes</em> (March 2024), sections 2.3, 2.6, 2.10 and 2.12; KCSIE 2026, part 1 and part 4. Form AISG-RR 2.0 &#183; &#169; 2026 Wendell Gopaul, aisafegovernance.co.uk.</p>

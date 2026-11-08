@@ -5,7 +5,7 @@
      Guidance text (.g blocks) is editable only behind a toggle; each edit is stored with a hash of the
      published text it replaced, so a later revision of the sheet is never silently overwritten. */
   var KEY='aisg-rr-briefing-v2', LOGOKEY='aisg-rr-briefing-logo-v2', OLDKEY='aisg-sqr-any-v1';
-  var LIMIT={school:60,'dsl-name':40,'dsl-phone':40,'dep-name':40,'dep-phone':40,adopted:20,review:20,system:40,wellbeing:50,'csc-day':40,'csc-ooh':40,lado:40};
+  var LIMIT={school:60,'dsl-name':40,'dsl-phone':40,'dep-name':40,'dep-phone':40,adopted:20,review:20,system:30,wellbeing:50,'csc-day':40,'csc-ooh':40,lado:40};
   var REQ=['school','dsl-name','dsl-phone'];
   var KEEP={STRONG:'b',B:'b',EM:'em',I:'em',LI:'li',UL:'ul',OL:'ol',BR:'br'};
   function $(id){ return document.getElementById(id); }
@@ -282,4 +282,5 @@
   $('toolbar').hidden=false;
   if(dropped.length) say('This sheet has been revised since this browser last edited it. Your school details were kept; '+dropped.length+' edited guidance block'+(dropped.length>1?'s were':' was')+' reset to the new text. Review the sheet before printing.','warn');
   else if(hasEdits()&&state.editedAt) say('This browser holds school details added on '+state.editedAt+'. Check the DSL details before printing.','warn',[{label:'Reset',fn:function(){ $('resetBtn').click(); }}]);
+  else if(missing().length) say('Not yet set up for a school. Add the school name and DSL contact before printing; the blanks print as lines to write on.','warn',[{label:'Edit for your school',fn:function(){ setEditing(true); focusField('school'); }}]);
 })();

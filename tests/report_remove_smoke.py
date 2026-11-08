@@ -45,7 +45,7 @@ async def main():
         check('starts in read mode', not await pg.evaluate("document.querySelector('main').classList.contains('editing')"))
         check('nothing editable on load', await pg.evaluate("document.querySelectorAll('[contenteditable]').length") == 0)
         check('999 is a live tel link', await pg.evaluate("getComputedStyle(document.querySelector('a[href=\"tel:999\"]')).pointerEvents") != 'none')
-        check('no status noise on first visit', (await pg.inner_text('#status')).strip() == '')
+        check('first visit says the sheet is not yet set up', 'Not yet set up' in await pg.inner_text('#status'))
         # phone: no horizontal scroll
         await pg.set_viewport_size({'width': 360, 'height': 700})
         check('no horizontal overflow at 360px', await pg.evaluate("document.documentElement.scrollWidth") <= 360)
